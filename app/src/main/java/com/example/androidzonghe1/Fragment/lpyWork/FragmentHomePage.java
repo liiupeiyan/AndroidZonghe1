@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -38,7 +39,7 @@ public class FragmentHomePage extends Fragment {
     private TabLayout tab_layout;
     private Banner banner;
     private ImageView ivMessage;
-    private EditText et_search;
+    private Button et_search;
     private final int REQUEST_SEARCH_CODE = 100;
     private View view;
 

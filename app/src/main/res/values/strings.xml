@@ -6,5 +6,7 @@
     <string name="Search_locate_content">输入城市名或拼音查询</string>
     <string name="Single_premium"><u>单人专享</u></string>
     <string name="Carpooling_to_ferry"><u>拼车接送</u></string>
+    <string name="child_address"><u>请输入孩子的接送地址</u></string>
+    <string name="usual_address"><u>石家庄一中</u></string>
     <!--    <string name="appbar_scrolling_view_behavior">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>-->
 </resources>
