@@ -2,6 +2,7 @@ package com.example.androidzonghe1.adapter.xtWork;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,7 +98,22 @@ public class RecycleAdapterFragmentMy extends RecyclerView.Adapter<RecyclerView.
                         new EasyDialog(mContext, R.layout.lianxikefu) {
                             @Override
                             public void onBindViewHolder(DialogViewHolder holder) {
-
+                                Button btnCancel = holder.getView(R.id.btn_cancel);
+                                Button btnRingUp = holder.getView(R.id.btn_ring_up);
+                                btnCancel.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        dismiss();
+                                    }
+                                });
+                                btnRingUp.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:198998931058"));
+                                        mContext.startActivity(callIntent);
+                                        dismiss();
+                                    }
+                                });
                             }
                         }.backgroundLight(0.2)
                                 .setCanceledOnTouchOutside(false)
