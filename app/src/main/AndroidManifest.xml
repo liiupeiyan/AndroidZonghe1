@@ -30,19 +30,19 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="iAngGeHOk7mYUBU0nGIpTfhwZ5le7Wqj" />
         <activity android:name=".MainActivity">
-
-        </activity>
-        <activity android:name=".others.lsbWork.MyAppIntro2" />
-        <activity android:name=".activity.lsbWork.KidsActivity" />
-        <activity android:name=".activity.lsbWork.WalletActivity" />
-        <activity android:name=".activity.lsbWork.ContactorActivity" />
-        <activity android:name=".activity.lsbWork.SearchActivity" />
-        <activity android:name=".activity.yjWork.ActivityLoginPage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".others.lsbWork.MyAppIntro2" />
+        <activity android:name=".activity.lsbWork.KidsActivity" />
+        <activity android:name=".activity.lsbWork.WalletActivity" />
+        <activity android:name=".activity.lsbWork.ContactorActivity"/>
+        <activity android:name=".activity.lsbWork.SearchActivity" />
+        <activity android:name=".activity.yjWork.ActivityLoginPage">
+
         </activity>
         <activity android:name=".activity.yjWork.LoginActivity"></activity>
         <activity android:name=".activity.yjWork.PolicyActivity" />
