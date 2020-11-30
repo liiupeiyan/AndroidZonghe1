@@ -43,6 +43,7 @@ public class KidsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.e("KidsActivity", "imgBack onClick");
+                finish();
             }
         });
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -53,7 +54,6 @@ public class KidsActivity extends AppCompatActivity {
             public void onItemClick(RecyclerView parent, View view, int position, String data) {
                 Log.e("ContactorActivity", "item onClick position:" + position);
                 Intent request = new Intent();
-
                 startActivityForResult(request, 1);
             }
         });

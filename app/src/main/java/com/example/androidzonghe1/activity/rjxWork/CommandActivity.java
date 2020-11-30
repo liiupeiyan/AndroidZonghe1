@@ -18,10 +18,10 @@ public class CommandActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //获取ActionBar
-        ActionBar actionBar = getSupportActionBar();
-        //隐藏ActionBar
-        actionBar.hide();
+//        //获取ActionBar
+//        ActionBar actionBar = getSupportActionBar();
+//        //隐藏ActionBar
+//        actionBar.hide();
         setContentView(R.layout.activity_command);
 
         TextView rule = findViewById(R.id.rule);

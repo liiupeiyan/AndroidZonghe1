@@ -1,9 +1,12 @@
 package com.example.androidzonghe1.Fragment.lpyWork;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,7 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidzonghe1.ConfigUtil;
+import com.example.androidzonghe1.Fragment.yyWork.ThirdFragment;
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.lsbWork.ContactorActivity;
+import com.example.androidzonghe1.activity.lsbWork.KidsActivity;
+import com.example.androidzonghe1.activity.rjxWork.CommandActivity;
+import com.example.androidzonghe1.activity.rjxWork.TicketActivity;
+import com.example.androidzonghe1.activity.xtWork.AcitivityChangeName;
 import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterDayTrip;
 import com.example.androidzonghe1.adapter.xtWork.RecycleAdapterFragmentMy;
 import com.example.androidzonghe1.entity.lpyWork.RecycleviewTitle;
@@ -25,6 +34,13 @@ public class FragmentMy extends Fragment {
     private View view;
     private RecyclerView recyclerView;
     private RecycleAdapterFragmentMy adapter;
+    private LinearLayout llName;
+    private LinearLayout llMyChild;
+    private LinearLayout llContact;
+    private LinearLayout llAwardCommend;
+    private LinearLayout llNewRead;
+    private LinearLayout llNewGetTicket;
+
 
     @Nullable
     @Override
@@ -32,6 +48,7 @@ public class FragmentMy extends Fragment {
         view = inflater.inflate(R.layout.fragment_my, container, false);
 
         findViews();
+        setOnClickedListener();
         return view;
     }
 
@@ -54,5 +71,56 @@ public class FragmentMy extends Fragment {
         adapter = new RecycleAdapterFragmentMy(ConfigUtil.mys);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
+        llMyChild = view.findViewById(R.id.ll_fragment_my_child);
+        llName = view.findViewById(R.id.ll_fragment_name);
+        llAwardCommend = view.findViewById(R.id.ll_fragment_award_recommend);
+        llContact = view.findViewById(R.id.ll_fragment_my_contact);
+        llNewRead = view.findViewById(R.id.ll_fragment_new_read);
+        llNewGetTicket = view.findViewById(R.id.ll_fragment_new_get_ticket);
+    }
+
+    public void setOnClickedListener(){
+        MyListener myListener = new MyListener();
+        llName.setOnClickListener(myListener);
+        llMyChild.setOnClickListener(myListener);
+        llContact.setOnClickListener(myListener);
+        llAwardCommend.setOnClickListener(myListener);
+        llNewRead.setOnClickListener(myListener);
+        llNewGetTicket.setOnClickListener(myListener);
+
+    }
+
+    class MyListener implements View.OnClickListener{
+        @Override
+        public void onClick(View view) {
+            Intent intent ;
+            switch (view.getId()){
+                case R.id.ll_fragment_name:
+                    Log.e("fragmetn","intent");
+                    intent = new Intent(getContext(), AcitivityChangeName.class);
+                    startActivity(intent);
+                    break;
+                case R.id.ll_fragment_my_child:
+                    intent = new Intent(getContext(), KidsActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.ll_fragment_my_contact:
+                    intent = new Intent(getContext(),ContactorActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.ll_fragment_award_recommend:
+                    intent = new Intent(getContext(), CommandActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.ll_fragment_new_read:
+                    intent = new Intent(getContext(), ThirdFragment.class);
+                    startActivity(intent);
+                    break;
+                case R.id.ll_fragment_new_get_ticket:
+                    intent = new Intent(getContext(),TicketActivity.class);
+                    startActivity(intent);
+                    break;
+            }
+        }
     }
 }

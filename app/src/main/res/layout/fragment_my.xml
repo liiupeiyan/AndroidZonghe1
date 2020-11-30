@@ -6,7 +6,10 @@
     android:background="@color/white"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout
+        android:id="@+id/ll_fragment_name"
         android:gravity="center"
+        android:clickable="true"
+        android:focusable="true"
         android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
         android:layout_height="80dp"
@@ -32,7 +35,7 @@
             <ImageView
                 android:id="@+id/my_information"
                 android:onClick="onclicked"
-                android:src="@drawable/right"
+                android:src="@drawable/right_xt"
                 android:layout_gravity="right"
                 android:layout_width="50dp"
                 android:layout_height="50dp"/>
@@ -44,45 +47,54 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:orientation="horizontal">
+
         <LinearLayout
-            android:background="@drawable/biankuang"
+            android:id="@+id/ll_fragment_my_child"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
             android:layout_weight="1"
-            android:gravity="center"
+            android:background="@drawable/biankuang"
             android:clickable="true"
             android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:gravity="center"
             android:onClick="onClicked"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="70dp" >
+            android:orientation="horizontal">
+
             <ImageView
-                android:src="@drawable/boy"
                 android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:scaleType="fitXY"
-                android:layout_height="30dp"/>
+                android:src="@drawable/boy" />
+
             <TextView
-                android:layout_marginLeft="10dp"
-                android:text="我的孩子"
-                android:textColor="@color/black"
-                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center"/>
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="我的孩子"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
             <LinearLayout
-                android:gravity="right"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="right"
                 android:orientation="horizontal">
+
                 <ImageView
-                    android:src="@drawable/right_xt"
                     android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:scaleType="fitXY"
-                    android:layout_height="30dp"/>
+                    android:src="@drawable/right_xt" />
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/ll_fragment_my_contact"
             android:background="@drawable/biankuang"
             android:layout_marginLeft="10dp"
+            android:clickable="true"
+            android:focusable="true"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal"
@@ -116,14 +128,18 @@
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
+        android:layout_marginBottom="23dp"
         android:background="@drawable/biankuang"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
+            android:id="@+id/ll_fragment_award_recommend"
             android:background="@drawable/biankuang"
             android:gravity="center"
             android:layout_margin="20dp"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             android:orientation="vertical"
             android:layout_width="80dp"
             android:layout_height="80dp">
@@ -146,9 +162,12 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_fragment_new_read"
             android:background="@drawable/biankuang"
             android:gravity="center"
             android:layout_margin="20dp"
+            android:clickable="true"
+            android:focusable="true"
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_width="80dp"
@@ -174,7 +193,10 @@
             android:background="@drawable/biankuang"
             android:gravity="center"
             android:layout_margin="20dp"
+            android:clickable="true"
+            android:focusable="true"
             android:layout_weight="1"
+            android:id="@+id/ll_fragment_new_get_ticket"
             android:orientation="vertical"
             android:layout_width="80dp"
             android:layout_height="80dp">

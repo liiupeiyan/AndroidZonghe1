@@ -19,10 +19,10 @@ public class TicketActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //获取ActionBar
-        ActionBar actionBar = getSupportActionBar();
-        //隐藏ActionBar
-        actionBar.hide();
+//        //获取ActionBar
+//        ActionBar actionBar = getSupportActionBar();
+//        //隐藏ActionBar
+//        actionBar.hide();
         setContentView(R.layout.activity_ticket);
         TextView rule = findViewById(R.id.rule);
         rule.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);//下划线

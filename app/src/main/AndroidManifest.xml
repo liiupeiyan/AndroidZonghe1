@@ -71,6 +71,10 @@
         </activity>
         <activity android:name=".activity.rjxWork.TicketActivity"/>
         <activity android:name=".activity.rjxWork.YiqingActivity"/>
+        <activity android:name=".activity.xtWork.AcitivityChangeName"/>
+        <activity android:name=".activity.xtWork.AcitivySetting"/>
+        <activity android:name=".activity.xtWork.ActivityContactCustomService"/>
+        <activity android:name=".activity.xtWork.ActivityPensonInfoProtect"/>
     </application>
 
 </manifest>

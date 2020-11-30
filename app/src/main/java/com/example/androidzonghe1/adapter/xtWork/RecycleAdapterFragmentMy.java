@@ -14,6 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.lsbWork.WalletActivity;
+import com.example.androidzonghe1.activity.xtWork.AcitivySetting;
+import com.example.androidzonghe1.activity.xtWork.ActivityContactCustomService;
+import com.example.androidzonghe1.activity.xtWork.ActivityQuestion;
 import com.example.androidzonghe1.activity.yjWork.LoginActivity;
 import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterMyMessage;
 import com.example.androidzonghe1.entity.xtWork.RvFragmentMy;
@@ -79,7 +83,7 @@ public class RecycleAdapterFragmentMy extends RecyclerView.Adapter<RecyclerView.
                     @Override
                     public void onClick(View view) {
                         Log.e("这里是点击每一行item的响应事件",""+position);
-                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        Intent intent = new Intent(mContext, WalletActivity.class);
                         mContext.startActivity(intent);
                     }
                 });
@@ -89,7 +93,7 @@ public class RecycleAdapterFragmentMy extends RecyclerView.Adapter<RecyclerView.
                     @Override
                     public void onClick(View view) {
                         Log.e("这里是点击每一行item的响应事件",""+position);
-                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        Intent intent = new Intent(mContext, ActivityContactCustomService.class);
                         mContext.startActivity(intent);
                     }
                 });
@@ -99,7 +103,7 @@ public class RecycleAdapterFragmentMy extends RecyclerView.Adapter<RecyclerView.
                     @Override
                     public void onClick(View view) {
                         Log.e("这里是点击每一行item的响应事件",""+position);
-                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        Intent intent = new Intent(mContext, AcitivySetting.class);
                         mContext.startActivity(intent);
                     }
                 });
@@ -109,7 +113,7 @@ public class RecycleAdapterFragmentMy extends RecyclerView.Adapter<RecyclerView.
                     @Override
                     public void onClick(View view) {
                         Log.e("这里是点击每一行item的响应事件",""+position);
-                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        Intent intent = new Intent(mContext, ActivityQuestion.class);
                         mContext.startActivity(intent);
                     }
                 });
