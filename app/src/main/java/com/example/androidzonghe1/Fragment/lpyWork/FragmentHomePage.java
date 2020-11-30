@@ -126,7 +126,7 @@ public class FragmentHomePage extends Fragment {
         tab_layout.addTab(tab_layout.newTab().setText("接送员").setIcon(R.drawable.driver));
         //给tabLayout设置ViewPage，如果设置关联了Viewpage，那么ViewpagAdapter中getPageTitle返回的就是Tab上标题(上面疑问的回答)
         //为ViewPager 和Tablelayout进行绑定，从而实现滑动标签切换Fragment的目的
-        tab_layout.setupWithViewPager(myViewPager);
+//        tab_layout.setupWithViewPager(myViewPager);
     }
 
     //轮播图的使用
