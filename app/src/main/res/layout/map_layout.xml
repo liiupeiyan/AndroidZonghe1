@@ -58,9 +58,9 @@
             android:orientation="vertical"
             android:layout_weight="1">
 
-            <EditText
+            <Button
                 android:textColorHint="@color/dark_gray"
-                android:id="@+id/et_end"
+                android:id="@+id/btn_end"
                 android:gravity="center|left"
                 android:hint="请输入终点"
                 android:background="@null"
@@ -82,9 +82,9 @@
             android:paddingLeft="10dp"
             android:layout_weight="1">
 
-            <EditText
+            <Button
                 android:textColorHint="@color/dark_gray"
-                android:id="@+id/et_start"
+                android:id="@+id/btn_start"
                 android:gravity="center|left"
                 android:hint="请输入孩子上车地点"
                 android:drawableLeft="@drawable/p2"

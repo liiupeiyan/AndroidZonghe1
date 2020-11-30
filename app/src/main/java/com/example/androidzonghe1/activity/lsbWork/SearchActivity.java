@@ -192,14 +192,22 @@ public class SearchActivity extends AppCompatActivity {
     public void location(){
         LocationClientOption locationClientOption = new LocationClientOption();
         locationClientOption.setOpenGps(true);
-        locationClientOption.setIsNeedAddress(true);//设置是否需要获取地址
         locationClientOption.setCoorType("bd0911");
+        locationClientOption.setIsNeedAddress(true);//设置是否需要获取地址
+        locationClientOption.setNeedNewVersionRgc(true);
+        locationClientOption.setNeedDeviceDirect(true);
+        locationClientOption.setIsNeedLocationDescribe(true);
+        locationClientOption.setIsNeedAltitude(true);
+        locationClientOption.setIsNeedLocationPoiList(true);
         locationClientOption.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
         locationClient.setLocOption(locationClientOption);
         locationClient.registerLocationListener(new BDAbstractLocationListener() {
             @Override
             public void onReceiveLocation(BDLocation bdLocation) {
                 location = bdLocation.getCity();
+                Log.e("SearchActivity", "location:" + location);
+                Log.e("SearchActivity", "Longitude:" + bdLocation.getLongitude());
+                Log.e("SearchActivity", "Latitude:" + bdLocation.getLatitude());
                 cityFragment.setTvLocation(location);
             }
         });
