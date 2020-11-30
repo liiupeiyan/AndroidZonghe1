@@ -10,14 +10,6 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
-    signingConfigs {
-        debug {
-            storeFile file('E:\\1Android\\workSpace\\key\\keystore.jks')
-            storePassword '179749'
-            keyAlias 'key0'
-            keyPassword '179749'
-        }
-    }
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
@@ -62,7 +54,7 @@ dependencies {
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     //百度地图
-    implementation files('libs\\BaiduLBS_Android.jar')
+    implementation files('libs/BaiduLBS_Android.jar')
     //轮播图
     compile 'com.youth.banner:banner:2.1.0'
     //轮播图
@@ -70,7 +62,8 @@ dependencies {
     //下拉刷新
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-12'
     //布局
-    compile 'com.android.support:design:26.1.0'
+    //noinspection GradleCompatible
+    implementation 'com.android.support:design:26.1.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
