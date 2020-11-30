@@ -64,12 +64,6 @@
         </activity>
         <activity android:name=".activity.yyWork.ActivityNewRead"/>
         <activity android:name=".activity.rjxWork.CommandActivity"/>
-        <activity android:name=".activity.rjxWork.ContactorActivity"/>
-        <activity android:name=".activity.rjxWork.RJXMainActivity">
-
-        </activity>
-        <activity android:name=".activity.rjxWork.MapActivity"/>
-        <activity android:name=".activity.rjxWork.MyChildActivity"/>
         <activity android:name=".activity.rjxWork.ServiceActivity">
 
         </activity>
