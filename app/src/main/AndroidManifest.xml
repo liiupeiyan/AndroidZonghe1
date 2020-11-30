@@ -52,7 +52,7 @@
         <activity android:name=".activity.yjWork.MyOrderActivity"/>
         <activity android:name=".activity.yjWork.MyTripActivity"/>
         <activity android:name=".activity.yjWork.CalendarActivity"/>
-        ;
+
         <activity android:name=".activity.yyWork.CarPoolActivity" />
         <activity android:name=".activity.yyWork.DisActivity" />
         <activity android:name=".activity.yyWork.DisinfectActivity" />
@@ -78,10 +78,12 @@
         <activity android:name=".activity.rjxWork.YiqingActivity"/>
         <activity android:name=".activity.xtWork.AcitivityChangeName"/>
         <activity android:name=".activity.xtWork.AcitivySetting"/>
-
         <activity android:name=".activity.xtWork.ActivityContactCustomService"/>
         <activity android:name=".activity.xtWork.ActivityPensonInfoProtect"/>
+        <activity android:name=".activity.xtWork.ActivityPersonInfo"/>
         <activity android:name=".activity.xtWork.ActivityQuestion"/>
+        <activity android:name=".activity.xtWork.ActivityServiceAgreement"/>
+        <activity android:name=".activity.xtWork.ActivityUserAgrement"/>
     </application>
 
 </manifest>
