@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:text="众志成城 同心战疫"
+                android:textSize="21sp"
+                android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/pic0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/radio"
+            android:layout_alignParentBottom="true"
+            android:padding="15dp">
+            <ImageView
+                android:id="@+id/pic6"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:src="@drawable/pic6"
+                android:background="@drawable/radio"/>
+            <ImageView
+                android:id="@+id/pic5"
+                android:layout_width="wrap_content"
+                android:layout_height="192dp"
+                android:src="@drawable/pic5"
+                android:layout_below="@id/pic6"
+                android:background="@drawable/radio"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:text="叮咚专业接送信息平台服务协议"/>
+        <TextView
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="
+“接送服务”是指接送员代替被接送儿童家长接送儿童.上下学，去往其它目的地或照管) 儿童的一种有偿劳务服务。
+“接送员”是指已注册成为小伴用户的提供接送服务的个人。接送员是自愿提供接送服务的第三方个人，不是小伴科技或被接送儿童家长的雇员。
+“被接送儿童”是指在接送服务中，由接送员帮助接送的儿童。
+“被接送儿童家长”是指已注册成为用户的被接送儿童的家长。
+“接送信息服务”是指小伴科技通过小伴平台提供的用于促成被接送)儿童家长和接送员形成接送服务的信息中介服务及促进接送人和被接送) 儿童家长进行沟通的包括语音、视频、位置在内的信息服务。接送信息服务只是信息中介服务，不等同.于接送服务所指的劳务服务。
+“接送信息服务用户”是指提供及使用接送信息服务的小伴用户，包括接送员和被接送儿童家长。
+"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,138 @@
+package com.example.androidzonghe1.adapter.xtWork;
+
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.yjWork.LoginActivity;
+import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterMyMessage;
+import com.example.androidzonghe1.entity.xtWork.RvFragmentMy;
+
+import java.util.List;
+
+public class RecycleAdapterFragmentMy extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private List<RvFragmentMy> mys;
+
+    private View view;
+    private Context mContext;
+
+    private LayoutInflater layoutInflater;
+    public RecycleAdapterFragmentMy(List<RvFragmentMy> mys) {
+        this.mys= mys;
+    }
+
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (mContext == null){
+            mContext = parent.getContext();
+        }
+        if (layoutInflater == null){
+            layoutInflater = LayoutInflater.from(mContext);
+        }
+        view = layoutInflater.inflate(R.layout.item_fragment_my_rv,null);
+        return new RecycleAdapterFragmentMy.Myholder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        ((Myholder)holder).name.setText(mys.get(position).getItemName());
+        Glide.with(mContext)
+                .load(mys.get(position).getIconRes())
+                .into(((Myholder)holder).imgIcon);
+        Glide.with(mContext)
+                .load(mys.get(position).getImgRes())
+                .into(((Myholder)holder).imgRes);
+        switch(position){//每一个item的点击事件用intent跳转
+            case 0:
+                holder.itemView.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+                        Log.e("这里是点击每一行item的响应事件",""+position);
+                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        mContext.startActivity(intent);
+                    }
+                });
+                break;
+            case 1:
+                holder.itemView.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+                        Log.e("这里是点击每一行item的响应事件",""+position);
+                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        mContext.startActivity(intent);
+                    }
+                });
+                break;
+            case 2:
+                holder.itemView.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+                        Log.e("这里是点击每一行item的响应事件",""+position);
+                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        mContext.startActivity(intent);
+                    }
+                });
+                break;
+            case 3:
+                holder.itemView.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+                        Log.e("这里是点击每一行item的响应事件",""+position);
+                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        mContext.startActivity(intent);
+                    }
+                });
+                break;
+            case 4:
+                holder.itemView.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+                        Log.e("这里是点击每一行item的响应事件",""+position);
+                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        mContext.startActivity(intent);
+                    }
+                });
+                break;
+            case 5:
+                holder.itemView.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+                        Log.e("这里是点击每一行item的响应事件",""+position);
+                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        mContext.startActivity(intent);
+                    }
+                });
+                break;
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return mys.size();
+    }
+
+    public class Myholder extends RecyclerView.ViewHolder {
+        private ImageView imgRes;
+        private TextView name;
+        private ImageView imgIcon;
+        public Myholder(View itemView) {
+            super(itemView);
+            name = itemView.findViewById(R.id.tv_fragment_my_title);
+            imgRes = itemView.findViewById(R.id.iv_fragment_my_img_res);
+            imgIcon = itemView.findViewById(R.id.iv_fragment_my_img_icon);
+        }
+    }
+
+
+}

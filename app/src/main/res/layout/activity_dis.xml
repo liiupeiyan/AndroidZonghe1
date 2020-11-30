@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="15dp">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            app:navigationIcon="@drawable/back1"
+            app:titleTextColor="@color/black"
+            app:title="众志成城  同心战疫"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="《疫情期间叮咚接送健康服务手册》"
+            android:textColor="@android:color/black"
+            android:textSize="22sp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="叮咚科技"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textColor="@android:color/holo_blue_dark"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="11月28日"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textColor="@android:color/darker_gray"/>
+        </LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:src="@drawable/pic8"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:text="       为迎接学生返校出行，保证所有选择小伴接送服务的孩子和陪同家长的健康出行，小伴接送制定了一系列的安全保障和防护措施，推出《疫情期间小伴接送健康服务手册》，并将在所有已开通服务的城市进行严格执行，具体内容如下："
+            android:textSize="16sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 1、接送员疫情期间流动情况调查  "
+            android:textColor="@android:color/white"
+            android:background="@android:color/holo_red_light"
+            android:textSize="17sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:text="   自2月中旬开始，小伴接送平台已对新学期即将提供接送服务的接送员进行了疫情期间流动情况调查，调查的内容包括：是否为确诊或疑似病例人员；是否去过或者接触过武汉或湖北省人员；是否接触过确诊或疑似人员；根据各个城市卫健委发布的确诊病例的社区名称、火车列次、航班信息等，核查所有接送员是否有在其中居住或者乘车，如有是否已在家自我隔离观察14天，每天测量体温，观察是否有发烧和咳嗽情况等。小伴接送平台会通过排查，核实所有接送员符合健康服务手册，确保接送安全。   "
+            android:textSize="16sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 2、接送员健康情况核查  "
+            android:textColor="@android:color/white"
+            android:background="@android:color/holo_red_light"
+            android:textSize="17sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:text="   在服务开始前，小伴接送平台的运营人员将对所有接送员进行线下的一对一的体温测量并记录，如果出现发烧、咳嗽等症状情况人员一律不能进行接送。   "
+            android:textSize="16sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 3、接送员每日健康打卡  "
+            android:textColor="@android:color/white"
+            android:background="@android:color/holo_red_light"
+            android:textSize="17sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:text="   服务中所有接送员必须每日自测体温，确保无发烧、咳嗽等症状，并且没有接触过任何有类似症状人员。每日在小伴接送员App上完成“健康打卡”，方可开始接送。   "
+            android:textSize="16sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 4、服务中心必须做到“两戴”、“两消毒”和“一禁止”  "
+            android:textColor="@android:color/white"
+            android:background="@android:color/holo_red_light"
+            android:textSize="17sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:text="   “两戴”：接送员和所有乘客必须全程佩戴医用外科口罩或N95口罩；
+    “两消毒”：接送员每天必须对车内用75%酒精或消毒液进行至少2次的清洗和消毒，并保持车厢内空气流通和清新；
+    “一禁止”：接送员禁止与小朋友和陪同家长有任何身体接触。
+
+    特殊时期，让我们更好的守护您孩子上下学之路。   "
+            android:textSize="16sp"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:src="@drawable/pic7"
+                android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+</ScrollView>

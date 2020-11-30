@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:titleTextColor="@color/black"
+            android:background="@android:color/white"
+            app:navigationIcon="@drawable/back1"
+            app:title="众志成城   齐心抗疫"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/iv0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/pic0"/>
+            <LinearLayout
+                android:layout_below="@id/iv0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:background="@android:color/white"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="5dp">
+                <ImageView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/pic6"
+                    android:onClick="onClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="215dp"
+                    android:src="@drawable/pic6"/>
+                <ImageView
+                    android:id="@+id/pic5"
+                    android:onClick="onClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="208dp"
+                    android:src="@drawable/pic5"
+                    android:layout_below="@id/pic6"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

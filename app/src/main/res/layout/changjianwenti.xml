@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:text="叮咚平台专业接送服务"/>
+        <TextView
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:text="1.叮咚平台提供哪些服务？"/>
+        <TextView
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="家长提供学校和居住小区信息后，小伴平台可以帮助家长找到通过包括无犯罪记录、征信记录及驾驶记录在内的15项安全审核的合格的固定接送员，并带领家长提前面试接送员。家长和接送员达成一致后，才开始由接送员提供接送服务。为减少家长费用，小伴会帮助家长形成2-3个孩子的接送小组，分担接送员费用。家长通过叮咚接送可以随时查看接送员实时位置，并通过视频音频监控接送状态。"/>
+        <TextView
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:text="2.专业接送服务是如何定价的？"/>
+        <TextView
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="专业接送服务按月预估本月接送费用，月初支付。然后按每日是否实际接送来计费。月内无服务日不计费，多交的费用进入余额，可以下月使用。服务费根据学校和居住地的行驶距离确定。单人接送和多人小组接送的费用不等。具体参见显示价格
+"/>
+        <TextView
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:text="3.家长如何支付服务费用？"/>
+        <TextView
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="叮咚平台代接送员收取费用后再转付给接送员。家长在叮咚平台通过微信或支付宝，按月支付。接送员禁止向家长直接收取任何费用。
+"/>
+        <TextView
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:text="4.怎样预定服务？"/>
+        <TextView
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="可以在叮咚提交预定需求，或者直接拨打叮咚客服热线：88888888进行预约。
+"/>
+        <TextView
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:text="5.如何确保被接送孩子的安全？"/>
+        <TextView
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="孩子安全是小伴最重要的目标和职责，并在产品设计中得到了充分的考虑，叮咚平台采用以下安全机制确保孩子安全： 
+1)	叮咚平台上接送孩子如果需要车辆，全部采用车况良好的中级轿车或商务车，确保孩子上下学途中的舒适与安全。 
+2)	叮咚平台会对接送员进行深度背景调查：包括无犯罪记录、征信记录及驾驶记录在内的15项安全认证，确保接送员是值得信赖的接送陪伴。 
+3)	每日接送进行时，小伴平台提供多项实时安全保障机制：接送员手机定位、实时路径跟踪、实时车内视频和音频监控、电话客服随时联系等来确保孩子的安全快乐出行。家长通过叮咚可以随时看到车内情况。 
+4)	叮咚平台严格执行无身体接触政策。除非被接送儿童有过马路需要帮助或其它紧急情况等，禁止接送员和被接送儿童有任何身体接触。
+" />
+        <TextView
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:text="6.孩子乘车时系安全带吗？"/>
+        <TextView
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="我们要求所有孩子坐车时都要系车上配备的安全带。叮咚平台另外提供辅助儿童安全带，用来调整原车安全带受力位置，可防止勒到儿童脖子。
+"/>
+        <TextView
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:text="7.孩子可以坐车前排座椅吗？"/>
+        <TextView
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="为了保证孩子的安全，14岁以下的孩子禁止坐车辆前排座椅。"/>
+        <TextView
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:text="8.家长可以跟车陪护吗？"/>
+        <TextView
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="叮咚平台欢迎家长跟车陪护。前排座椅没有乘客时，可以安排给家长。但陪护不包括上午的返程及下午的去程。
+" />
+        <TextView
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:text="9.如果在接送途中出现交通事故怎么办？"/>
+        <TextView
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="叮咚会尽全力避免接送过程中的事故发生，旦如接送途中车辆出现事故或者故障，我们会及时安排后备运力去接送孩子，以确保准时到达。
+"/>
+        <TextView
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:text="10.如果停止接送服务，如何退款？"/>
+        <TextView
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="如用户决定停止接送服务，需提前5个工作日告知。通知期内照常计费。活动价格不享有退款资格。退款金额会在5-10个工作日内到账。
+"/>
+
+
+
+
+
+
+
+    </LinearLayout>
+
+
+</ScrollView>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:text="叮咚个人信息保护及隐私政策"/>
+        <TextView
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+           android:text="叮咚平台非常重视用户隐私的保护。本隐私政策适用于叮咚手机客户端和叮咚接送员手机客户端产品及服务。请您务必认真阅读本政策，在确认充分了解并同意后使用叮咚。如果您的监护人不同意本隐私政策的任何内容，您应该立即停止使用。当您开始使用叮咚平台,即表示您的监护人已经同意我们按照本政策来收集、保存、使用、共享、保护您的个人信息。"/></LinearLayout>
+</LinearLayout>

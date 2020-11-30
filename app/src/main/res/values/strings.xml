@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AndroidZonghe1</string>
+    <string name="underline"><u>下划线测试</u></string>
+    <string name="insert"><u>添加</u></string>
+    <string name="relation"><u>选择和孩子的关系</u></string>
+    <string name="Search_locate_content">输入城市名或拼音查询</string>
+    <!--    <string name="appbar_scrolling_view_behavior">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>-->
+</resources>

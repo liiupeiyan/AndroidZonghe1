@@ -1,0 +1,86 @@
+plugins {
+    id 'com.android.application'
+}
+// 添加插件
+apply plugin: 'com.mob.sdk'
+
+android {
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+    signingConfigs {
+        debug {
+            storeFile file('E:\\1Android\\workSpace\\key\\keystore.jks')
+            storePassword '179749'
+            keyAlias 'key0'
+            keyPassword '179749'
+        }
+    }
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        applicationId "com.example.androidzonghe1"
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    //https://github.com/hdodenhof/CircleImageView圆形图片
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //https://github.com/vinc3m1/RoundedImageView圆形图片
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    //滚轮
+    implementation 'com.github.zyyoona7:wheelview:1.0.7'
+    //左滑出控件
+    implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
+    //gson
+    implementation 'com.google.code.gson:gson:2.8.6'
+    //EasyDialog
+    implementation 'com.github.xianningqis:EasyDialog:0.0.1'
+    //欢迎界面
+    implementation 'com.github.paolorotolo:appintro:4.1.0'
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    //百度地图
+    implementation files('libs\\BaiduLBS_Android.jar')
+    //轮播图
+    compile 'com.youth.banner:banner:2.1.0'
+    //轮播图
+    implementation 'com.panxw.imageindicator:library:1.0.2'
+    //下拉刷新
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-12'
+    //布局
+    compile 'com.android.support:design:26.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
+// 在MobSDK的扩展中注册SMSSDK的相关信息
+MobSDK {
+    appKey "31978222d138e"
+    appSecret "57c28147a3e92c62d8d9503db0b00537"
+    SMSSDK {}
+}

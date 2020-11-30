@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.androidzonghe1">
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />    <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        android:usesCleartextTraffic="true">
+
+        <activity android:name=".activity.lpyWork.MyTheActivity" />
+        <activity android:name=".activity.lpyWork.ActivityMyMessage" />
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="iAngGeHOk7mYUBU0nGIpTfhwZ5le7Wqj" />
+        <activity android:name=".MainActivity">
+
+        </activity>
+        <activity android:name=".others.lsbWork.MyAppIntro2" />
+        <activity android:name=".activity.lsbWork.KidsActivity" />
+        <activity android:name=".activity.lsbWork.WalletActivity" />
+        <activity android:name=".activity.lsbWork.ContactorActivity" />
+        <activity android:name=".activity.lsbWork.SearchActivity" />
+        <activity android:name=".activity.yjWork.ActivityLoginPage">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.yjWork.LoginActivity"></activity>
+        <activity android:name=".activity.yjWork.PolicyActivity" />
+        <activity android:name=".activity.yjWork.RegisterActivity" />
+        <activity android:name=".activity.yjWork.ServiceAgreementActivity" />
+        <activity android:name=".activity.yjWork.UserAgreementActivity" />
+        <activity android:name=".activity.yyWork.CarPoolActivity" />
+        <activity android:name=".activity.yyWork.DisActivity" />
+        <activity android:name=".activity.yyWork.DisinfectActivity" />
+        <activity android:name=".activity.yyWork.FuncActivity" />
+        <activity android:name=".activity.yyWork.PreventActivity" />
+        <activity android:name=".activity.yyWork.SendActivity" />
+        <activity android:name=".activity.yyWork.YYMainAcitivity">
+
+        </activity>
+        <activity android:name=".activity.rjxWork.CommandActivity"/>
+        <activity android:name=".activity.rjxWork.ContactorActivity"/>
+        <activity android:name=".activity.rjxWork.RJXMainActivity">
+
+        </activity>
+        <activity android:name=".activity.rjxWork.MapActivity"/>
+        <activity android:name=".activity.rjxWork.MyChildActivity"/>
+        <activity android:name=".activity.rjxWork.SearchActivity"/>
+        <activity android:name=".activity.rjxWork.ServiceActivity">
+
+        </activity>
+        <activity android:name=".activity.rjxWork.TicketActivity"/>
+        <activity android:name=".activity.rjxWork.YiqingActivity"/>
+    </application>
+
+</manifest>

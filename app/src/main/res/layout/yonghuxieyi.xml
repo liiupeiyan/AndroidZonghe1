@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:text="叮咚用户协议"/>
+        <TextView
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="本协议约定叮咚科技与用户之间关于软件服务的权力义务。用户是指注册、登录、使用本服务的个人。本协议可由叮咚科技随时更新，更新后的协议条款一旦公布即代替原来的协议条款，叮咚科技将不再另行通知。用户可在本软件查阅最新版本协议条款。即视为用户已经接受修改后的协议。如果用户不接受修改后的条款，请立即停止使用叮咚科技提供的服务。"/>
+    </LinearLayout>
+</LinearLayout>

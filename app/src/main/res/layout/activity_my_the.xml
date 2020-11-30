@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tabs"
+        android:background="@color/white"
+        android:paddingTop="5dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:gravity="center"
+            android:id="@+id/home_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/home_page"
+            android:background="@color/white"
+            android:textColor="@color/dark_gray"
+            android:layout_gravity="center_horizontal"
+            android:onClick="tabClicked"
+            android:textSize="14sp"
+            android:text="首页"/>
+
+        <Button
+            android:gravity="center"
+            android:id="@+id/launch_route"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/launch_route"
+            android:background="@color/white"
+            android:textColor="@color/dark_gray"
+            android:textSize="14sp"
+            android:layout_gravity="center_horizontal"
+            android:onClick="tabClicked"
+            android:text="发起路线"/>
+
+        <Button
+            android:gravity="center"
+            android:id="@+id/my"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/my"
+            android:background="@color/white"
+            android:textColor="@color/dark_gray"
+            android:textSize="14sp"
+            android:layout_gravity="center_horizontal"
+            android:onClick="tabClicked"
+            android:text="我的"/>
+
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/tab_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tabs"/>
+</RelativeLayout>
