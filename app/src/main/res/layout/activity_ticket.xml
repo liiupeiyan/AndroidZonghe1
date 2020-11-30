@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
+                android:id="@+id/iv_a_ticket_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/back"/>
@@ -116,6 +117,30 @@
                 android:text="您再得100元代金券"/>
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <View
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/black"/>
+                <TextView
+                    android:layout_weight="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="邀请好友既得奖励"/>
+                <View
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/black"/>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -156,12 +181,13 @@
                     android:layout_height="wrap_content"
                     android:text="立即邀请"
                     android:textColor="@color/black"
-                    android:background="@drawable/invite"
+                    android:background="@drawable/invite_rjx"
                     android:layout_alignParentRight="true"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp"
                     android:text="打开“推荐有奖”中查看"
                     android:layout_below="@id/btn"
                     android:layout_alignParentRight="true"/>

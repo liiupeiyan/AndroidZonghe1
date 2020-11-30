@@ -4,6 +4,7 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
@@ -33,6 +34,13 @@ public class TicketActivity extends AppCompatActivity {
         TextView y2 = findViewById(R.id.y2);
         share.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         y2.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+        ImageView ivBack = findViewById(R.id.iv_a_ticket_back);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         rule.setOnClickListener(new View.OnClickListener() {
             @Override

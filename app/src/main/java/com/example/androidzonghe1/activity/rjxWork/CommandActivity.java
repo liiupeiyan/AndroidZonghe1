@@ -3,6 +3,7 @@ package com.example.androidzonghe1.activity.rjxWork;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
@@ -15,6 +16,8 @@ import com.example.androidzonghe1.R;
 
 public class CommandActivity extends AppCompatActivity {
 
+    private ImageView ivBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +27,15 @@ public class CommandActivity extends AppCompatActivity {
 //        actionBar.hide();
         setContentView(R.layout.activity_command);
 
+
         TextView rule = findViewById(R.id.rule);
+        ivBack = findViewById(R.id.iv_a_command_back);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         rule.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);//下划线
         rule.setOnClickListener(new View.OnClickListener() {
             @Override
