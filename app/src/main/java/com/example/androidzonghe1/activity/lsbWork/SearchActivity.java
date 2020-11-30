@@ -217,8 +217,8 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        siteFragment.onStart();
-        cityFragment.onStart();
+//        siteFragment.onStart();
+//        cityFragment.onStart();
         if (!locationClient.isStarted()){
             locationClient.start();
         }
@@ -233,22 +233,22 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        cityFragment.onResume();
-        siteFragment.onResume();
+//        cityFragment.onResume();
+//        siteFragment.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        cityFragment.onPause();
-        siteFragment.onPause();
+//        cityFragment.onPause();
+//        siteFragment.onPause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        cityFragment.onDestroy();
-        siteFragment.onDestroy();
+//        cityFragment.onDestroy();
+//        siteFragment.onDestroy();
     }
 
 }

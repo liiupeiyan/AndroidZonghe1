@@ -45,7 +45,7 @@ public class FragmentHomePage extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_home_page,container,false);
+        view = inflater.inflate(R.layout.fragment_home_page ,container, false);
         findViews();
         InitUiAndDatas();
         useBanner();

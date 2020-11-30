@@ -11,65 +11,87 @@
         android:layout_below="@id/map_view"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
+        android:layout_height="match_parent">
+        <RadioGroup
+            android:id="@+id/rg_method"
             android:padding="10dp"
             android:orientation="horizontal"
-            android:gravity="center_horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/btn_multiple"
+            android:layout_height="80dp">
+            <RadioButton
+                android:id="@+id/rb_multiple"
+                android:button="@null"
                 android:text="拼车接送"
                 android:textColor="@color/black"
-                android:background="@color/cardview_light_background"
-                android:layout_marginRight="35dp"
+                android:background="@drawable/map_layout_btn_bg"
                 android:textSize="20sp"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:id="@+id/btn_single"
-                android:text="单人专享"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+            <RadioButton
+                android:id="@+id/rb_single"
+                android:button="@null"
+                android:text="@string/Single_premium"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:background="@color/cardview_light_background"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
+                android:background="@null"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+        </RadioGroup>
         <LinearLayout
             android:gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:src="@drawable/p1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
             <EditText
                 android:textColorHint="@color/dark_gray"
-                android:id="@+id/edt_end"
-                android:gravity="center_horizontal"
+                android:id="@+id/et_end"
+                android:gravity="center|left"
                 android:hint="请输入终点"
                 android:background="@null"
+                android:drawablePadding="20dp"
+                android:drawableLeft="@drawable/p1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000000"/>
         </LinearLayout>
         <LinearLayout
             android:layout_marginTop="5dp"
             android:gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:src="@drawable/p2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:layout_weight="1">
+
             <EditText
                 android:textColorHint="@color/dark_gray"
-                android:id="@+id/edt_start"
-                android:gravity="center_horizontal"
+                android:id="@+id/et_start"
+                android:gravity="center|left"
                 android:hint="请输入孩子上车地点"
+                android:drawableLeft="@drawable/p2"
                 android:background="@null"
+                android:drawablePadding="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"/>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

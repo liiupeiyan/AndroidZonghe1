@@ -1,12 +1,20 @@
 package com.example.androidzonghe1.Fragment.lpyWork;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,21 +24,94 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.platform.comapi.basestruct.GeoPoint;
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.lsbWork.SearchActivity;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
 public class FragmentLaunchRoute extends Fragment {
-    private GeoCoder mSearch;
+
     private MapView mapView;
+    RadioGroup rgMethod;
+    RadioButton rbMultiple;
+    RadioButton rbSingle;
+    EditText etEnd;
+    EditText etStart;
+
+    final int END_CODE = 1;
+    final int START_CODE = 2;
+
+    String method = "multiple";
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case END_CODE:
+
+                    break;
+                case START_CODE:
+
+                    break;
+            }
+        }
+    };
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.map_layout,
-                container,
-                false);
+        View view = inflater.inflate(R.layout.map_layout, container, false);
         mapView = view.findViewById(R.id.map_view);
+
+        //获取控件引用
+        rgMethod = view.findViewById(R.id.rg_method);
+        rbMultiple = view.findViewById(R.id.rb_multiple);
+        rbSingle = view.findViewById(R.id.rb_single);
+        etEnd = view.findViewById(R.id.et_end);
+        etStart = view.findViewById(R.id.et_start);
+
+        rgMethod.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.rb_multiple:
+                        rbMultiple.setText("拼车接送");
+                        rbMultiple.setBackgroundResource(R.drawable.map_layout_btn_bg);
+                        rbSingle.setText(Html.fromHtml("<u>"+"单人接送"+"</u>"));
+                        rbSingle.setBackgroundColor(getResources().getColor(R.color.white));
+                        method = "multiple";
+                        break;
+                    case R.id.rb_single:
+                        rbMultiple.setText(Html.fromHtml("<u>"+"拼车接送"+"</u>"));
+                        rbMultiple.setBackgroundColor(getResources().getColor(R.color.white));
+                        rbSingle.setText("单人专享");
+                        rbSingle.setBackgroundResource(R.drawable.map_layout_btn_bg);
+                        method = "single";
+                        break;
+                }
+            }
+        });
+
+        etEnd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                Intent intentEnd = new Intent(getContext(), SearchActivity.class);
+                startActivityForResult(intentEnd, END_CODE);
+            }
+        });
+
+        etStart.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                Intent intentEnd = new Intent(getContext(), SearchActivity.class);
+                startActivityForResult(intentEnd, END_CODE);
+            }
+        });
+
+
+
 //        //    第一步，创建地理编码检索实例；
 //        mSearch = GeoCoder.newInstance();
 //        //    第二步，创建地理编码检索监听者；
@@ -69,28 +150,40 @@ public class FragmentLaunchRoute extends Fragment {
 //        getGeoPointBystr("上海市杨浦区四平路1239号");
         return view;
     }
-    public GeoPoint getGeoPointBystr(String str) {
-        GeoPoint gpGeoPoint = null;
-        if (str!=null) {
-            Geocoder gc = new Geocoder(getContext(), Locale.CHINA);
-            List<Address> addressList = null;
-            try {
-                addressList = gc.getFromLocationName(str, 5);
-                if (addressList.size()>0) {
-//                    Address address_temp = addressList.get(0);
-                    //计算经纬度
-                    double latitude=addressList.get(0).getLatitude()*1E6;
-                    double longitude=addressList.get(0).getLongitude()*1E6;
-                    Log.e("a","经度："+latitude);
-                    Log.e("b","纬度："+longitude);
-                    //生产GeoPoint
-                    gpGeoPoint = new GeoPoint((int)latitude, (int)longitude);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//    public GeoPoint getGeoPointBystr(String str) {
+//        GeoPoint gpGeoPoint = null;
+//        if (str!=null) {
+//            Geocoder gc = new Geocoder(getContext(), Locale.CHINA);
+//            List<Address> addressList = null;
+//            try {
+//                addressList = gc.getFromLocationName(str, 5);
+//                if (addressList.size()>0) {
+////                    Address address_temp = addressList.get(0);
+//                    //计算经纬度
+//                    double latitude=addressList.get(0).getLatitude()*1E6;
+//                    double longitude=addressList.get(0).getLongitude()*1E6;
+//                    Log.e("a","经度："+latitude);
+//                    Log.e("b","纬度："+longitude);
+//                    //生产GeoPoint
+//                    gpGeoPoint = new GeoPoint((int)latitude, (int)longitude);
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return gpGeoPoint;
+//    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case END_CODE:
+                break;
+            case START_CODE:
+                break;
         }
-        return gpGeoPoint;
     }
 
     @Override
