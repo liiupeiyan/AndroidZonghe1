@@ -10,7 +10,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/radius"
+        android:background="@drawable/view_gift_card_radius"
         android:gravity="center">
 
         <ImageView

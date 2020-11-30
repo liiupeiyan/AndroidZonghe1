@@ -21,7 +21,6 @@ public class RJXMainActivity extends AppCompatActivity {
     private MapView mapView = null;
     private SuggestionSearch mSuggestionSearch ;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

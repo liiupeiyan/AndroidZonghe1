@@ -47,6 +47,7 @@ public class ContactorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.e("COntactorActivity", "imgBack onClick");
+                finish();
             }
         });
 

@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
@@ -17,10 +16,8 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:background="@null"
-            android:textColor="@color/black"
             android:hint="请输入城市"
             android:text="石家庄˅"
-            android:textColorHint="@color/dark_gray"
             android:gravity="center"
             android:textCursorDrawable="@android:color/holo_red_light" />
 
@@ -35,10 +32,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:textColor="@color/black"
             android:background="@null"
             android:hint="您孩子的学校"
-            android:textColorHint="@color/dark_gray"
             android:textCursorDrawable="@android:color/holo_red_light" />
 
         <View
@@ -52,7 +47,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="#ffffff"
-            android:textColor="@color/black"
             android:onClick="onClicked"
             android:text="取消" />
     </LinearLayout>

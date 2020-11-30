@@ -53,7 +53,7 @@ public class KidsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(RecyclerView parent, View view, int position, String data) {
                 Log.e("ContactorActivity", "item onClick position:" + position);
-                Intent request = new Intent();
+                Intent request = new Intent(getApplicationContext(), SearchActivity.class);
                 startActivityForResult(request, 1);
             }
         });
@@ -63,5 +63,10 @@ public class KidsActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case 1:
+
+                break;
+        }
     }
 }
