@@ -39,7 +39,7 @@
         <activity android:name=".others.lsbWork.MyAppIntro2" />
         <activity android:name=".activity.lsbWork.KidsActivity" />
         <activity android:name=".activity.lsbWork.WalletActivity" />
-        <activity android:name=".activity.lsbWork.ContactorActivity" />
+        <activity android:name=".activity.lsbWork.ContactorActivity"/>
         <activity android:name=".activity.lsbWork.SearchActivity" />
         <activity android:name=".activity.yjWork.ActivityLoginPage">
 
