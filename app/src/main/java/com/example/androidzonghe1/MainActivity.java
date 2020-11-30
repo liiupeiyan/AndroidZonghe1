@@ -75,7 +75,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        }, 2000);
+        }, 0);
+        /**
+         * 先设置为0，---> 2000
+         */
     }
 
 }
