@@ -13,14 +13,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.ZoomControls;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.platform.comapi.basestruct.GeoPoint;
@@ -37,9 +46,9 @@ public class FragmentLaunchRoute extends Fragment {
     RadioGroup rgMethod;
     RadioButton rbMultiple;
     RadioButton rbSingle;
-    EditText etEnd;
-    EditText etStart;
-
+    Button btnEnd;
+    Button btnStart;
+    BaiduMap baiduMap;
     final int END_CODE = 1;
     final int START_CODE = 2;
 
@@ -65,13 +74,27 @@ public class FragmentLaunchRoute extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.map_layout, container, false);
         mapView = view.findViewById(R.id.map_view);
+        baiduMap = mapView.getMap();
 
         //获取控件引用
         rgMethod = view.findViewById(R.id.rg_method);
         rbMultiple = view.findViewById(R.id.rb_multiple);
         rbSingle = view.findViewById(R.id.rb_single);
-        etEnd = view.findViewById(R.id.et_end);
-        etStart = view.findViewById(R.id.et_start);
+        btnEnd = view.findViewById(R.id.btn_end);
+        btnStart = view.findViewById(R.id.btn_start);
+
+
+        //隐藏百度图标
+        View logo = mapView.getChildAt(1);
+        if (logo != null && (logo instanceof ImageView || logo instanceof ZoomControls)){
+            logo.setVisibility(View.INVISIBLE);
+        }
+        //设置指南针不显示
+        baiduMap.setCompassEnable(false);
+        //设置不显示比例尺
+        mapView.showScaleControl(false);
+        //设置放大缩小不显示
+        mapView.showZoomControls(false);
 
         rgMethod.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -95,107 +118,68 @@ public class FragmentLaunchRoute extends Fragment {
             }
         });
 
-        etEnd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        btnEnd.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-//                Intent intentEnd = new Intent(getContext(), SearchActivity.class);
-//                startActivityForResult(intentEnd, END_CODE);
+            public void onClick(View v) {
+                Log.e("FragmentLaunchRoute", "btnEnd onClicked");
+                Intent intentEnd = new Intent(getContext(), SearchActivity.class);
+                startActivityForResult(intentEnd, END_CODE);
             }
         });
 
-        etStart.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-//                Intent intentEnd = new Intent(getContext(), SearchActivity.class);
-//                startActivityForResult(intentEnd, END_CODE);
+            public void onClick(View v) {
+                Log.e("FragmentLaunchRoute", "btnStart onClicked");
+                Intent intentEnd = new Intent(getContext(), SearchActivity.class);
+                startActivityForResult(intentEnd, START_CODE);
             }
         });
 
-
-
-//        //    第一步，创建地理编码检索实例；
-//        mSearch = GeoCoder.newInstance();
-//        //    第二步，创建地理编码检索监听者；
-//        OnGetGeoCoderResultListener listener = new OnGetGeoCoderResultListener() {
-//            @Override
-//            public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
-//                if (geoCodeResult == null || geoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
-//                    //没有检索到结果
-//                    Log.e("结果","nulllllll");
-//                }else {
-//                    //获取地理编码结果
-//                    Log.e("经度",geoCodeResult.getLocation().latitude+"");
-//                    Log.e("纬度",geoCodeResult.getLocation().longitude+"");
-//                }
-//            }
-//
-//            @Override
-//            public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
-//                if (reverseGeoCodeResult == null || reverseGeoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
-//                    //没有找到检索结果
-//                }
-//                //获取反向地理编码结果
-//            }
-//        };
-//        //    第三步，设置地理编码检索监听者；
-//        mSearch.setOnGetGeoCodeResultListener(listener);
-//        //    第四步，发起地理编码检索；
-//        mSearch.geocode(new GeoCodeOption().city("北京市").address("海淀区上地十街10号"));
-//        //    第五步，释放地理编码检索实例；
-//        mSearch.destroy();
-//        Map<String,Double> map=LngAndLatUtil.getLngAndLat("北京故宫");
-//        Log.e("经纬度：","(经度："+map.get("lng")+",纬度："+map.get("lat")+")");
-//        GeoPoint point = new GeoPoint(getGeoPointBystr("北京天安门").getLatitudeE6(),getGeoPointBystr("北京天安门").getLongitudeE6());
-//        Log.e("经纬度","(经度："+point.getLatitudeE6()+",纬度："+point.getLongitudeE6()+")");
-
-//        getGeoPointBystr("上海市杨浦区四平路1239号");
         return view;
     }
-//    public GeoPoint getGeoPointBystr(String str) {
-//        GeoPoint gpGeoPoint = null;
-//        if (str!=null) {
-//            Geocoder gc = new Geocoder(getContext(), Locale.CHINA);
-//            List<Address> addressList = null;
-//            try {
-//                addressList = gc.getFromLocationName(str, 5);
-//                if (addressList.size()>0) {
-////                    Address address_temp = addressList.get(0);
-//                    //计算经纬度
-//                    double latitude=addressList.get(0).getLatitude()*1E6;
-//                    double longitude=addressList.get(0).getLongitude()*1E6;
-//                    Log.e("a","经度："+latitude);
-//                    Log.e("b","纬度："+longitude);
-//                    //生产GeoPoint
-//                    gpGeoPoint = new GeoPoint((int)latitude, (int)longitude);
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        return gpGeoPoint;
-//    }
 
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.e("FragmentLaunchRoute", "requestCode:" + requestCode + "\tresultCode:" + resultCode);
         switch (requestCode){
             case END_CODE:
-                if (resultCode == 0){
+                if (resultCode == 1){
                     SuggestionResult.SuggestionInfo suggestionInfo = data.getExtras().getParcelable("suggestionInfo");
                     Log.e("FragmentLaunchRoute", "suggestionInfo" + suggestionInfo.toString());
+                    addMarkerOverlay(END_CODE, suggestionInfo);
                 }
                 break;
             case START_CODE:
-                if (resultCode == 0){
+                if (resultCode == 1){
                     SuggestionResult.SuggestionInfo suggestionInfo = data.getExtras().getParcelable("suggestionInfo");
                     Log.e("FragmentLaunchRoute", "suggestionInfo" + suggestionInfo.toString());
+                    addMarkerOverlay(START_CODE, suggestionInfo);
                 }
                 break;
         }
     }
 
-//    public void addOver
+    //添加覆盖物
+    public void addMarkerOverlay(int code, SuggestionResult.SuggestionInfo info){
+        BitmapDescriptor icon = null;
+        switch (code){
+            case END_CODE:
+                icon = BitmapDescriptorFactory.fromResource(R.drawable.p1);
+                break;
+            case START_CODE:
+                icon = BitmapDescriptorFactory.fromResource(R.drawable.p2);
+                break;
+        }
+        LatLng point = new LatLng(info.getPt().latitude, info.getPt().longitude);
+        MarkerOptions options = new MarkerOptions()
+                .position(point)
+                .icon(icon);
+        Marker marker = (Marker) baiduMap.addOverlay(options);
+        marker.setTitle(info.getKey());
+    }
 
     @Override
     public void onDestroy() {
