@@ -20,6 +20,8 @@ import com.example.androidzonghe1.activity.lsbWork.WalletActivity;
 import com.example.androidzonghe1.activity.xtWork.AcitivySetting;
 import com.example.androidzonghe1.activity.xtWork.ActivityQuestion;
 import com.example.androidzonghe1.activity.yjWork.LoginActivity;
+import com.example.androidzonghe1.activity.yjWork.MyOrderActivity;
+import com.example.androidzonghe1.activity.yjWork.MyTripActivity;
 import com.example.androidzonghe1.entity.xtWork.RvFragmentMy;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.lanren.easydialog.AnimatorHelper;
@@ -65,7 +67,7 @@ public class RecycleAdapterFragmentMy extends RecyclerView.Adapter<RecyclerView.
                     @Override
                     public void onClick(View view) {
                         Log.e("这里是点击每一行item的响应事件",""+position);
-                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        Intent intent = new Intent(mContext, MyTripActivity.class);
                         mContext.startActivity(intent);
                     }
                 });
@@ -75,7 +77,7 @@ public class RecycleAdapterFragmentMy extends RecyclerView.Adapter<RecyclerView.
                     @Override
                     public void onClick(View view) {
                         Log.e("这里是点击每一行item的响应事件",""+position);
-                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        Intent intent = new Intent(mContext, MyOrderActivity.class);
                         mContext.startActivity(intent);
                     }
                 });
