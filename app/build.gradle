@@ -67,7 +67,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    testImplementation 'junit:junit:4.+'
+    testImplementation 'junit:junit:'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
@@ -77,3 +77,6 @@ MobSDK {
     appSecret "57c28147a3e92c62d8d9503db0b00537"
     SMSSDK {}
 }
+/**
+ *
+ */
