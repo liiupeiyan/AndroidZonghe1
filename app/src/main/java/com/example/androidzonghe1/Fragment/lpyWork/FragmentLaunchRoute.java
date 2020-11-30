@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.platform.comapi.basestruct.GeoPoint;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.lsbWork.SearchActivity;
@@ -97,16 +98,16 @@ public class FragmentLaunchRoute extends Fragment {
         etEnd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Intent intentEnd = new Intent(getContext(), SearchActivity.class);
-                startActivityForResult(intentEnd, END_CODE);
+//                Intent intentEnd = new Intent(getContext(), SearchActivity.class);
+//                startActivityForResult(intentEnd, END_CODE);
             }
         });
 
         etStart.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Intent intentEnd = new Intent(getContext(), SearchActivity.class);
-                startActivityForResult(intentEnd, END_CODE);
+//                Intent intentEnd = new Intent(getContext(), SearchActivity.class);
+//                startActivityForResult(intentEnd, END_CODE);
             }
         });
 
@@ -180,11 +181,21 @@ public class FragmentLaunchRoute extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case END_CODE:
+                if (resultCode == 0){
+                    SuggestionResult.SuggestionInfo suggestionInfo = data.getExtras().getParcelable("suggestionInfo");
+                    Log.e("FragmentLaunchRoute", "suggestionInfo" + suggestionInfo.toString());
+                }
                 break;
             case START_CODE:
+                if (resultCode == 0){
+                    SuggestionResult.SuggestionInfo suggestionInfo = data.getExtras().getParcelable("suggestionInfo");
+                    Log.e("FragmentLaunchRoute", "suggestionInfo" + suggestionInfo.toString());
+                }
                 break;
         }
     }
+
+//    public void addOver
 
     @Override
     public void onDestroy() {

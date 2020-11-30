@@ -43,7 +43,7 @@ public class SiteFragment extends Fragment {
                 Bundle b = new Bundle();
                 b.putParcelable("suggestionInfo", data);
                 response.putExtras(b);
-                getActivity().setResult(1, response);
+                getActivity().setResult(0, response);
                 getActivity().finish();
             });
             listView.setAdapter(siteAdapter);
