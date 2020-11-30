@@ -73,6 +73,7 @@
             </com.google.android.material.tabs.TabLayout>
         </com.google.android.material.appbar.AppBarLayout>
 <!--        <view-->
+
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="5dp"/>-->
         <RelativeLayout

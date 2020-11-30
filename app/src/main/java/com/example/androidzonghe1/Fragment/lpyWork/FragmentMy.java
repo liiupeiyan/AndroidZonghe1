@@ -22,6 +22,8 @@ import com.example.androidzonghe1.activity.lsbWork.KidsActivity;
 import com.example.androidzonghe1.activity.rjxWork.CommandActivity;
 import com.example.androidzonghe1.activity.rjxWork.TicketActivity;
 import com.example.androidzonghe1.activity.xtWork.AcitivityChangeName;
+import com.example.androidzonghe1.activity.xtWork.ActivityPersonInfo;
+import com.example.androidzonghe1.activity.yyWork.ActivityNewRead;
 import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterDayTrip;
 import com.example.androidzonghe1.adapter.xtWork.RecycleAdapterFragmentMy;
 import com.example.androidzonghe1.entity.lpyWork.RecycleviewTitle;
@@ -97,7 +99,7 @@ public class FragmentMy extends Fragment {
             switch (view.getId()){
                 case R.id.ll_fragment_name:
                     Log.e("fragmetn","intent");
-                    intent = new Intent(getContext(), AcitivityChangeName.class);
+                    intent = new Intent(getContext(), ActivityPersonInfo.class);
                     startActivity(intent);
                     break;
                 case R.id.ll_fragment_my_child:
@@ -113,7 +115,7 @@ public class FragmentMy extends Fragment {
                     startActivity(intent);
                     break;
                 case R.id.ll_fragment_new_read:
-                    intent = new Intent(getContext(), ThirdFragment.class);
+                    intent = new Intent(getContext(), ActivityNewRead.class);
                     startActivity(intent);
                     break;
                 case R.id.ll_fragment_new_get_ticket:

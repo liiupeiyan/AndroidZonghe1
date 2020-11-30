@@ -13,5 +13,6 @@ public class ActivityPersonInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gerenxinxi_layout);
 
+
     }
 }
