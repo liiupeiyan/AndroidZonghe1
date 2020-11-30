@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:layout_gravity="center"
     android:orientation="vertical">
@@ -13,7 +14,8 @@
         android:background="@drawable/view_gift_card_radius"
         android:gravity="center">
 
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
+            app:riv_corner_radius="15dp"
             android:layout_width="300dp"
             android:layout_height="150dp"
             android:src="@drawable/gift" />
