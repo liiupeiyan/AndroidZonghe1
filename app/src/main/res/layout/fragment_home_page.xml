@@ -6,24 +6,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:gravity="center_vertical"
-        android:background="@color/green"
+        android:background="@color/white"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="horizontal">
-        <TextView
+        <ImageView
             android:layout_weight="1"
-            android:background="@color/green"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="hello world"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/contacticon" />
 
         <EditText
             android:id="@+id/main_header_search"
-            android:layout_width="292dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
             android:layout_weight="8"
+            android:background="@drawable/radius_et_search"
             android:hint="搜索学校" />
 
         <ImageView
@@ -63,13 +64,17 @@
                 android:id="@+id/tab_layout_home_page"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#30469b"
+                android:background="@color/white"
                 app:tabGravity="center"
                 app:tabMode="fixed"
-                app:tabSelectedTextColor="#ffffff"
+                app:tabSelectedTextColor="@color/black"
                 app:tabTextColor="#ff0000">
             </com.google.android.material.tabs.TabLayout>
         </com.google.android.material.appbar.AppBarLayout>
+        <view
+
+            android:layout_width="match_parent"
+            android:layout_height="5dp"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
