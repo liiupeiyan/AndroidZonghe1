@@ -23,18 +23,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.MyLocationConfiguration;
+import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.platform.comapi.basestruct.GeoPoint;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.lsbWork.SearchActivity;
+import com.google.gson.JsonObject;
 
 import java.io.IOException;
 import java.util.List;
@@ -51,6 +60,7 @@ public class FragmentLaunchRoute extends Fragment {
     BaiduMap baiduMap;
     final int END_CODE = 1;
     final int START_CODE = 2;
+    private LocationClient locationClient;
 
     String method = "multiple";
 
@@ -136,6 +146,9 @@ public class FragmentLaunchRoute extends Fragment {
             }
         });
 
+        //定位功能
+        locationClient = new LocationClient(getContext().getApplicationContext());
+
         return view;
     }
 
@@ -146,17 +159,30 @@ public class FragmentLaunchRoute extends Fragment {
         Log.e("FragmentLaunchRoute", "requestCode:" + requestCode + "\tresultCode:" + resultCode);
         switch (requestCode){
             case END_CODE:
-                if (resultCode == 1){
+                if (resultCode == 0){
                     SuggestionResult.SuggestionInfo suggestionInfo = data.getExtras().getParcelable("suggestionInfo");
                     Log.e("FragmentLaunchRoute", "suggestionInfo" + suggestionInfo.toString());
+                    btnEnd.setText(suggestionInfo.key);
                     addMarkerOverlay(END_CODE, suggestionInfo);
+                    String pt = suggestionInfo.pt.toString();
+                    setPosition(suggestionInfo.getPt().latitude,suggestionInfo.getPt().longitude);
+                    MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(16.0f);
+                    baiduMap.setMapStatus(msu);
+                    baiduMap.setMaxAndMinZoomLevel(19,13);
+                } else if (requestCode == -1){//未选中任何地点
+
                 }
                 break;
             case START_CODE:
-                if (resultCode == 1){
+                if (resultCode == 0){
                     SuggestionResult.SuggestionInfo suggestionInfo = data.getExtras().getParcelable("suggestionInfo");
                     Log.e("FragmentLaunchRoute", "suggestionInfo" + suggestionInfo.toString());
+                    btnStart.setText(suggestionInfo.key);
                     addMarkerOverlay(START_CODE, suggestionInfo);
+                    String pt = suggestionInfo.pt.toString();
+                    setPosition(suggestionInfo.getPt().latitude,suggestionInfo.getPt().longitude);
+                } else if(requestCode == -1){//未选中任何地点
+
                 }
                 break;
         }
@@ -198,4 +224,67 @@ public class FragmentLaunchRoute extends Fragment {
         super.onPause();
         mapView.onPause();
     }
+
+    //定位自身位置并添加覆盖物
+    public void setPosition(double latitude,double longitude){
+        locationClient.stop();//停止定位
+        //关闭定位图层
+        baiduMap.setMyLocationEnabled(false);
+        //开启图层定位
+        baiduMap.setMyLocationEnabled(true);
+        //判断若果定位服务被关闭，启动定位
+        if(!locationClient.isStarted()){
+            locationClient.start();
+        }
+        //3.创建LocationClient
+        LocationClientOption option = new LocationClientOption();
+        //配置定位参数
+        //设置打开GPS
+        option.setOpenGps(true);
+        //设置坐标系类型
+        option.setCoorType("bd09ll");
+        //设置定位模式，使用低功耗定位模式
+        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
+        //4.将定位参数应用到定位客户端
+        locationClient.setLocOption(option);
+        //5.设置定位成功的监听器（实现异步定位操作，定位成功后会自动回调抽象方法）
+        locationClient.registerLocationListener(new BDAbstractLocationListener() {
+            @Override
+            public void onReceiveLocation(BDLocation bdLocation) {
+//                //定位成功后自动执行，定位成功后位置信息保存在BDLocation对象中
+                double latitude = 38.001082;//纬度
+                double longitude = 114.53209;//经度
+//                Log.e("定位错误码：",bdLocation.getLocType()+"");
+//                Log.e("定位成功","纬度："+latitude +
+//                        "经度："+longitude);
+
+
+                //移动地图界面显示到当前位置
+                LatLng point = new LatLng(latitude,longitude);
+
+                MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(point);
+                //移动地图界面
+                baiduMap.animateMapStatus(update);
+                //添加定位图层
+                //1.配置定位图层
+                MyLocationConfiguration configuration = new MyLocationConfiguration(
+                        MyLocationConfiguration.LocationMode.COMPASS,//定位图层
+                        true,
+                        BitmapDescriptorFactory.fromResource(R.drawable.position_lpy));//默认小图标
+                //在地图显示定位图层
+                baiduMap.setMyLocationConfiguration(configuration);
+                baiduMap.setMyLocationEnabled(true);
+                //2.配置定位数
+                MyLocationData data = new MyLocationData.Builder()
+                        .latitude(latitude)
+                        .longitude(longitude)
+                        .build();
+                //将定位数据设置到地图
+                baiduMap.setMyLocationData(data);
+            }
+        });
+        //6.启动定位
+        locationClient.start();
+    }
+
 }

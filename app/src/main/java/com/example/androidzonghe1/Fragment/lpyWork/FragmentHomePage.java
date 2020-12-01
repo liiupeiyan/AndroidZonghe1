@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
+import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.lpyWork.ActivityMyMessage;
@@ -41,6 +44,7 @@ public class FragmentHomePage extends Fragment {
     private Banner banner;
     private ImageView ivMessage;
     private LinearLayout et_search;
+    private TextView tvSchoolName;
     private final int REQUEST_SEARCH_CODE = 100;
     private View view;
 
@@ -96,6 +100,7 @@ public class FragmentHomePage extends Fragment {
         banner = view.findViewById(R.id.banner);
         ivMessage = view.findViewById(R.id.mian_header_message);
         et_search = view.findViewById(R.id.main_header_search);
+        tvSchoolName = view.findViewById(R.id.home_page_school_name);
     }
 
 
@@ -151,5 +156,19 @@ public class FragmentHomePage extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == -1){//未选中任何地点
+            Toast.makeText(getContext(),"未选中任何地点",Toast.LENGTH_SHORT).show();
+            tvSchoolName.setText("选择学校");
+            tvSchoolName.setTextSize(16);
+        } else {
+            if(requestCode == REQUEST_SEARCH_CODE && resultCode == 0){
+                SuggestionResult.SuggestionInfo info = data.getExtras().getParcelable("suggestionInfo");
+                Log.e("suggestionInfo",info.toString());
+                String schoolName =  info.key;
+                tvSchoolName.setText(schoolName);
+                tvSchoolName.setTextSize(18);
+            }
+        }
+
     }
 }
