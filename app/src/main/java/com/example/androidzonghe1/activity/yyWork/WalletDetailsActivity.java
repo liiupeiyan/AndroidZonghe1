@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.androidzonghe1.R;
@@ -21,12 +22,20 @@ public class WalletDetailsActivity extends AppCompatActivity {
     private ListView listView;
     private List<Order> wallets = new ArrayList<>();
     private WalletDetailsAdapter adapter;
+    ImageView imgBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet_details);
         listView = findViewById(R.id.wallet_list);
+        imgBack = findViewById(R.id.img_back);
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         Order order = new Order("河北天客隆",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis())),299.08, 10.40);
         Order order1 = new Order("手机话费",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis())),269.08, 10.40);
         Order order2 = new Order("美团订单",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis())),239.08, 10.40);
@@ -36,6 +45,7 @@ public class WalletDetailsActivity extends AppCompatActivity {
         wallets.add(order2);
         wallets.add(order3);
         adapter = new WalletDetailsAdapter(R.layout.wallet_item_list,this,wallets);
+        listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

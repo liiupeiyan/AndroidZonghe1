@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.androidzonghe1.R;
@@ -19,6 +21,7 @@ public class WalletActivity extends AppCompatActivity {
     private TextView oNo;
     private TextView oBalance;
     private TextView oDriver;
+    ImageView imgBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,12 @@ public class WalletActivity extends AppCompatActivity {
         oSpend.setText(spend+"");
         oBalance.setText(balance+"");
         oTime.setText(time);
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void getViews() {
@@ -44,5 +53,6 @@ public class WalletActivity extends AppCompatActivity {
         oNo = findViewById(R.id.order_no);
         oBalance = findViewById(R.id.bala);
         oDriver = findViewById(R.id.driver);
+        imgBack = findViewById(R.id.img_back);
     }
 }
