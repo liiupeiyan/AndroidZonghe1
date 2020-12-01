@@ -36,6 +36,8 @@ android {
 }
 
 dependencies {
+    //okhttp3
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
     //https://github.com/hdodenhof/CircleImageView圆形图片
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 

@@ -22,9 +22,11 @@
             android:src="@drawable/left_more" />
 
         <LinearLayout
+            android:id="@+id/main_header_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
+            android:clickable="true"
             android:layout_weight="8"
             android:background="@drawable/radius_et_search"
             android:gravity="center_vertical"
