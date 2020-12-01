@@ -41,9 +41,10 @@
         <activity android:name=".activity.lsbWork.WalletActivity" />
         <activity android:name=".activity.lsbWork.ContactorActivity"/>
         <activity android:name=".activity.lsbWork.SearchActivity" />
-        <activity android:name=".activity.yjWork.ActivityLoginPage"/>
-        <activity android:name=".activity.yyWork.WalletDetailsActivity"/>
-        <activity android:name=".activity.yjWork.LoginActivity"/>
+        <activity android:name=".activity.yjWork.ActivityLoginPage">
+
+        </activity>
+        <activity android:name=".activity.yjWork.LoginActivity"></activity>
         <activity android:name=".activity.yjWork.PolicyActivity" />
         <activity android:name=".activity.yjWork.RegisterActivity" />
         <activity android:name=".activity.yjWork.ServiceAgreementActivity" />
@@ -51,17 +52,27 @@
         <activity android:name=".activity.yjWork.MyOrderActivity"/>
         <activity android:name=".activity.yjWork.MyTripActivity"/>
         <activity android:name=".activity.yjWork.CalendarActivity"/>
+
         <activity android:name=".activity.yyWork.CarPoolActivity" />
         <activity android:name=".activity.yyWork.DisActivity" />
         <activity android:name=".activity.yyWork.DisinfectActivity" />
         <activity android:name=".activity.yyWork.FuncActivity" />
         <activity android:name=".activity.yyWork.PreventActivity" />
         <activity android:name=".activity.yyWork.SendActivity" />
-        <activity android:name=".activity.yyWork.UsageRulesActivity"/>
+        <activity android:name=".activity.yyWork.YYMainAcitivity">
+
+        </activity>
         <activity android:name=".activity.yyWork.ActivityNewRead"/>
         <activity android:name=".activity.rjxWork.CommandActivity"/>
-        <activity android:name=".activity.rjxWork.ServiceActivity"/>
-        <activity android:name=".activity.yyWork.WalletActivity"/>
+        <activity android:name=".activity.rjxWork.ContactorActivity"/>
+        <activity android:name=".activity.rjxWork.RJXMainActivity">
+
+        </activity>
+        <activity android:name=".activity.rjxWork.MapActivity"/>
+        <activity android:name=".activity.rjxWork.MyChildActivity"/>
+        <activity android:name=".activity.rjxWork.ServiceActivity">
+
+        </activity>
         <activity android:name=".activity.rjxWork.TicketActivity"/>
         <activity android:name=".activity.rjxWork.YiqingActivity"/>
         <activity android:name=".activity.xtWork.AcitivityChangeName"/>
