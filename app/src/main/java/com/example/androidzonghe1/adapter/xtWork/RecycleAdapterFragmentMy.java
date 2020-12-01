@@ -66,7 +66,7 @@ public class RecycleAdapterFragmentMy extends RecyclerView.Adapter<RecyclerView.
                 holder.itemView.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view) {
-                        Log.e("这里是点击每一行item的响应事件",""+position);
+                        Log.e("RecyclerAdapterFragment",""+position);
                         Intent intent = new Intent(mContext, MyTripActivity.class);
                         mContext.startActivity(intent);
                     }
@@ -76,7 +76,7 @@ public class RecycleAdapterFragmentMy extends RecyclerView.Adapter<RecyclerView.
                 holder.itemView.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view) {
-                        Log.e("这里是点击每一行item的响应事件",""+position);
+                        Log.e("RecyclerAdapterFragment",""+position);
                         Intent intent = new Intent(mContext, MyOrderActivity.class);
                         mContext.startActivity(intent);
                     }
@@ -86,7 +86,7 @@ public class RecycleAdapterFragmentMy extends RecyclerView.Adapter<RecyclerView.
                 holder.itemView.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view) {
-                        Log.e("这里是点击每一行item的响应事件",""+position);
+                        Log.e("RecyclerAdapterFragment",""+position);
                         Intent intent = new Intent(mContext, WalletActivity.class);
                         mContext.startActivity(intent);
                     }
@@ -130,7 +130,7 @@ public class RecycleAdapterFragmentMy extends RecyclerView.Adapter<RecyclerView.
                 holder.itemView.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view) {
-                        Log.e("这里是点击每一行item的响应事件",""+position);
+                        Log.e("RecyclerAdapterFragment",""+position + "\t" + mys.get(position).getItemName());
                         Intent intent = new Intent(mContext, AcitivySetting.class);
                         mContext.startActivity(intent);
                     }
@@ -140,7 +140,7 @@ public class RecycleAdapterFragmentMy extends RecyclerView.Adapter<RecyclerView.
                 holder.itemView.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view) {
-                        Log.e("这里是点击每一行item的响应事件",""+position);
+                        Log.e("RecyclerAdapterFragment",""+position + "\t" + mys.get(position).getItemName());
                         Intent intent = new Intent(mContext, ActivityQuestion.class);
                         mContext.startActivity(intent);
                     }

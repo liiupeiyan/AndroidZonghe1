@@ -59,8 +59,17 @@
         <activity android:name=".activity.yyWork.FuncActivity" />
         <activity android:name=".activity.yyWork.PreventActivity" />
         <activity android:name=".activity.yyWork.SendActivity" />
+        <activity android:name=".activity.yyWork.YYMainAcitivity">
+
+        </activity>
         <activity android:name=".activity.yyWork.ActivityNewRead"/>
         <activity android:name=".activity.rjxWork.CommandActivity"/>
+        <activity android:name=".activity.rjxWork.ContactorActivity"/>
+        <activity android:name=".activity.rjxWork.RJXMainActivity">
+
+        </activity>
+        <activity android:name=".activity.rjxWork.MapActivity"/>
+        <activity android:name=".activity.rjxWork.MyChildActivity"/>
         <activity android:name=".activity.rjxWork.ServiceActivity">
 
         </activity>

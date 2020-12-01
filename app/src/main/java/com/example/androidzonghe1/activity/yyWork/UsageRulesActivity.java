@@ -1,23 +1,21 @@
-package com.example.androidzonghe1.activity.xtWork;
+package com.example.androidzonghe1.activity.yyWork;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import com.example.androidzonghe1.R;
 
-public class ActivityQuestion extends AppCompatActivity {
-
-    Toolbar toolbar;
+public class UsageRulesActivity extends AppCompatActivity {
+    private Toolbar toolbar;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.changjianwenti);
+        setContentView(R.layout.activity_usage_rules);
         toolbar = findViewById(R.id.toolBar);
 
         if (getActionBar() != null){
@@ -28,7 +26,7 @@ public class ActivityQuestion extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("ActivityQuestion", "toolbar back onClicked");
+                Log.e("UsageRulesActivity", "toolbar back onClicked");
                 finish();
             }
         });

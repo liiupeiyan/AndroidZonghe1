@@ -1,5 +1,6 @@
 package com.example.androidzonghe1.activity.lsbWork;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.yyWork.UsageRulesActivity;
+import com.example.androidzonghe1.activity.yyWork.WalletDetailsActivity;
 import com.example.androidzonghe1.adapter.lsbWork.TicketAdapter;
 
 public class WalletActivity extends AppCompatActivity implements View.OnClickListener {
@@ -62,10 +65,13 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.btn_detail:
                 Log.e("WalletActivity", "btnDetail onClick");
+                Intent detailIntent = new Intent(getApplicationContext(), WalletDetailsActivity.class);
+                startActivity(detailIntent);
                 break;
             case R.id.btn_use_role:
                 Log.e("WalletActivity", "btnUseRole onClick");
-
+                Intent useRoleIntent = new Intent(getApplicationContext(), UsageRulesActivity.class);
+                startActivity(useRoleIntent);
                 break;
             case R.id.btn_withdraw_money:
                 Log.e("WalletActivity", "btnWithdrawMoney onClick");
