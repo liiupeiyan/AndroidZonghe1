@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        app:title="代金券使用规则"
+        app:titleTextColor="@color/black"
+        app:navigationIcon="@drawable/back1"/>
+    <TextView
+        android:padding="10dp"
+        android:text="代金券使用规则"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="25sp"/>
+    <TextView
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textSize="18sp"
+        android:text="每张代金券具有一定的使用条件和期限，代金券使用一般性规则如下:"/>
+    <TextView
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:text="1、代金券有使用期限限制，过了有效期不能使用;"
+        android:textColor="@color/black" />
+    <TextView
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:text="2、代金券只能抵扣订单金额，优惠金额超出订单金额部分不能再次使用，不能兑换现金;"
+        android:textColor="@color/black" />
+    <TextView
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:text="3、每个订单只能使用一张代金券;"
+        android:textColor="@color/black" />
+    <TextView
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:text="4、使用代金券支付的订单，如果在服务开始前申请结束并退款，代金券抵扣金额不能退还，只能退还实际支付金额;如果在服务过程中申请提前结;"
+        android:textColor="@color/black" />
+    <TextView
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:text="5、代金券抵扣金额不能开具发票;"
+        android:textColor="@color/black" />
+</LinearLayout>
