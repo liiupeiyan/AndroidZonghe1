@@ -56,7 +56,7 @@ dependencies {
     //百度地图
     implementation files('libs/BaiduLBS_Android.jar')
     //轮播图
-    compile 'com.youth.banner:banner:2.1.0'
+    implementation 'com.youth.banner:banner:2.1.0'
     //轮播图
     implementation 'com.panxw.imageindicator:library:1.0.2'
     //下拉刷新
