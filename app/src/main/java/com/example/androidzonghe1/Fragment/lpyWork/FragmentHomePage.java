@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,7 +40,7 @@ public class FragmentHomePage extends Fragment {
     private TabLayout tab_layout;
     private Banner banner;
     private ImageView ivMessage;
-    private Button et_search;
+    private LinearLayout et_search;
     private final int REQUEST_SEARCH_CODE = 100;
     private View view;
 
