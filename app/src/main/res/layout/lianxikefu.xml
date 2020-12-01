@@ -1,54 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:background="@drawable/view_gift_card_radius"
-    android:layout_gravity="center"
     android:layout_width="300dp"
-    android:layout_height="wrap_content">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:background="@drawable/view_gift_card_radius"
+    android:orientation="vertical">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        app:riv_corner_radius="15dp"
         android:src="@drawable/kefu"/>
+
     <TextView
-        android:textColor="@android:color/black"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:text="叮咚接送客服很高兴为您服务"
-        android:textSize="16sp"/>
-    <TextView
-        android:textColor="@android:color/black"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="8888888888"
-        android:textSize="25sp"/>
-    <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:text="叮咚接送客服很高兴为您服务"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textColor="#000000"/>
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="198998931058"
+        android:gravity="center"
+        android:textSize="26sp"
+        android:textColor="#000000"/>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="80dp"
         android:orientation="horizontal">
         <Button
-            android:background="@drawable/anniu"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_cancel"
+            android:layout_width="80dp"
             android:layout_height="40dp"
-            android:textSize="26sp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/lianxikefu_cancel_radius"
             android:text="取消"/>
-        <LinearLayout
-            android:gravity="right"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <Button
-                android:background="@drawable/anniu"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:textSize="26sp"
-                android:text="打电话"/>
-
-        </LinearLayout>
-
+        <Button
+            android:id="@+id/btn_ring_up"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginLeft="80dp"
+            android:background="@drawable/lianxikefu_ring_up_radius"
+            android:text="打电话"/>
     </LinearLayout>
 
 </LinearLayout>

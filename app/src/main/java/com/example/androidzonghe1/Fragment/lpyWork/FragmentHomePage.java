@@ -9,8 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,7 +40,7 @@ public class FragmentHomePage extends Fragment {
     private TabLayout tab_layout;
     private Banner banner;
     private ImageView ivMessage;
-    private EditText et_search;
+    private LinearLayout et_search;
     private final int REQUEST_SEARCH_CODE = 100;
     private View view;
 
@@ -126,7 +128,7 @@ public class FragmentHomePage extends Fragment {
         tab_layout.addTab(tab_layout.newTab().setText("接送员").setIcon(R.drawable.driver));
         //给tabLayout设置ViewPage，如果设置关联了Viewpage，那么ViewpagAdapter中getPageTitle返回的就是Tab上标题(上面疑问的回答)
         //为ViewPager 和Tablelayout进行绑定，从而实现滑动标签切换Fragment的目的
-//        tab_layout.setupWithViewPager(myViewPager);
+        tab_layout.setupWithViewPager(myViewPager);
     }
 
     //轮播图的使用

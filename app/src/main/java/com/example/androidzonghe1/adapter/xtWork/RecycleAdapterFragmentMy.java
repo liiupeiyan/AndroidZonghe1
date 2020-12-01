@@ -2,6 +2,7 @@ package com.example.androidzonghe1.adapter.xtWork;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,8 @@ import com.example.androidzonghe1.activity.lsbWork.WalletActivity;
 import com.example.androidzonghe1.activity.xtWork.AcitivySetting;
 import com.example.androidzonghe1.activity.xtWork.ActivityQuestion;
 import com.example.androidzonghe1.activity.yjWork.LoginActivity;
+import com.example.androidzonghe1.activity.yjWork.MyOrderActivity;
+import com.example.androidzonghe1.activity.yjWork.MyTripActivity;
 import com.example.androidzonghe1.entity.xtWork.RvFragmentMy;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.lanren.easydialog.AnimatorHelper;
@@ -64,7 +67,7 @@ public class RecycleAdapterFragmentMy extends RecyclerView.Adapter<RecyclerView.
                     @Override
                     public void onClick(View view) {
                         Log.e("这里是点击每一行item的响应事件",""+position);
-                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        Intent intent = new Intent(mContext, MyTripActivity.class);
                         mContext.startActivity(intent);
                     }
                 });
@@ -74,7 +77,7 @@ public class RecycleAdapterFragmentMy extends RecyclerView.Adapter<RecyclerView.
                     @Override
                     public void onClick(View view) {
                         Log.e("这里是点击每一行item的响应事件",""+position);
-                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        Intent intent = new Intent(mContext, MyOrderActivity.class);
                         mContext.startActivity(intent);
                     }
                 });
@@ -97,7 +100,22 @@ public class RecycleAdapterFragmentMy extends RecyclerView.Adapter<RecyclerView.
                         new EasyDialog(mContext, R.layout.lianxikefu) {
                             @Override
                             public void onBindViewHolder(DialogViewHolder holder) {
-
+                                Button btnCancel = holder.getView(R.id.btn_cancel);
+                                Button btnRingUp = holder.getView(R.id.btn_ring_up);
+                                btnCancel.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        dismiss();
+                                    }
+                                });
+                                btnRingUp.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:198998931058"));
+                                        mContext.startActivity(callIntent);
+                                        dismiss();
+                                    }
+                                });
                             }
                         }.backgroundLight(0.2)
                                 .setCanceledOnTouchOutside(false)
