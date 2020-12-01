@@ -63,7 +63,8 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
+                android:background="@drawable/circle_lpy"
                 android:src="@drawable/boy" />
 
             <TextView
@@ -140,21 +141,23 @@
             android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"
+            android:padding="10dp"
             android:orientation="vertical"
-            android:layout_width="80dp"
-            android:layout_height="80dp">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
             <ImageView
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center"
                 android:layout_width="30dp"
-                android:layout_height="60dp"
+                android:background="@drawable/circle_lpy"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:src="@drawable/gift"/>
             <TextView
                 android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:text="推荐有奖"
                 android:textSize="16sp"
@@ -173,18 +176,18 @@
             android:layout_width="80dp"
             android:layout_height="80dp">
             <ImageView
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center"
                 android:layout_width="30dp"
-                android:layout_height="60dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:src="@drawable/newpeople"/>
             <TextView
                 android:layout_weight="1"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:textColor="@color/black"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="新人必读"
                 android:textSize="16sp"
                 android:gravity="center"/>
@@ -201,18 +204,18 @@
             android:layout_width="80dp"
             android:layout_height="80dp">
             <ImageView
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center"
                 android:layout_width="30dp"
-                android:layout_height="60dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:src="@drawable/youhuiquan"/>
             <TextView
                 android:layout_weight="1"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:textColor="@color/black"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="新人领券"
                 android:textSize="16sp"
                 android:gravity="center"/>
