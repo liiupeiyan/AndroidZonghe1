@@ -168,11 +168,14 @@ public class FragmentLaunchRoute extends Fragment {
                     String pt = suggestionInfo.pt.toString();
                     setPosition(suggestionInfo.getPt().latitude,suggestionInfo.getPt().longitude);
                     addMarkerOverLay(suggestionInfo.getPt().latitude,suggestionInfo.getPt().longitude);
-                    MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(16.0f);
-                    baiduMap.setMapStatus(msu);
-                    baiduMap.setMaxAndMinZoomLevel(19,13);
+                    Log.e("st",btnStart.getText().toString());
+                    Log.e("en",btnEnd.getText().toString());
+                    Log.e("flag",(!btnStart.getText().toString().equals("请输入孩子上车地点")&&!btnEnd.getText().toString().equals("请输入终点"))+"");
+//                    MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(16.0f);
+//                    baiduMap.setMapStatus(msu);
+//                    baiduMap.setMaxAndMinZoomLevel(19,13);
                     //显示发起新路线按钮
-                    if(!btnStart.getText().equals("请输入孩子上车地点")&&!btnEnd.getText().equals("请输入终点")){
+                    if(!btnStart.getText().toString().equals("请输入孩子上车地点") && !btnEnd.getText().toString().equals("请输入终点")){
                         order.setVisibility(View.VISIBLE); //设置按钮为可见的
                         order.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -191,13 +194,17 @@ public class FragmentLaunchRoute extends Fragment {
                 if (resultCode == 0){
                     SuggestionResult.SuggestionInfo suggestionInfo = data.getExtras().getParcelable("suggestionInfo");
                     Log.e("FragmentLaunchRoute", "suggestionInfo" + suggestionInfo.toString());
+
                     btnStart.setText(suggestionInfo.key);
                     addMarkerOverlay(START_CODE, suggestionInfo);
+                    Log.e("",btnStart.getText().toString());
+                    Log.e("",btnEnd.getText().toString());
+                    Log.e("",(!btnStart.getText().toString().equals("请输入孩子上车地点")&&!btnEnd.getText().toString().equals("请输入终点"))+"");
                     String pt = suggestionInfo.pt.toString();
                     setPosition(suggestionInfo.getPt().latitude,suggestionInfo.getPt().longitude);
                     addMarkerOverLay(suggestionInfo.getPt().latitude,suggestionInfo.getPt().longitude);
                     //显示发起新路线按钮
-                    if(!btnStart.getText().equals("请输入孩子上车地点")&&!btnEnd.getText().equals("请输入终点")){
+                    if(!btnStart.getText().toString().equals("请输入孩子上车地点")&&!btnEnd.getText().toString().equals("请输入终点")){
                         order.setVisibility(View.VISIBLE); //设置按钮为可见的
                         order.setOnClickListener(new View.OnClickListener() {
                             @Override

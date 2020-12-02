@@ -61,10 +61,10 @@
             android:layout_weight="1">
 
             <Button
-                android:textColorHint="@color/dark_gray"
                 android:id="@+id/btn_end"
                 android:gravity="center|left"
-                android:hint="请输入终点"
+                android:text="请输入终点"
+                android:textColor="@color/dark_gray"
                 android:background="@null"
                 android:drawablePadding="20dp"
                 android:drawableLeft="@drawable/p1"
@@ -84,24 +84,25 @@
             android:paddingLeft="10dp"
             android:layout_weight="1">
             <Button
-                android:textColorHint="@color/dark_gray"
                 android:id="@+id/btn_start"
                 android:gravity="center|left"
-                android:hint="请输入孩子上车地点"
+                android:text="请输入孩子上车地点"
+                android:textColor="@color/dark_gray"
                 android:drawableLeft="@drawable/p2"
                 android:background="@null"
                 android:drawablePadding="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </LinearLayout>
+        <Button
+            android:id="@+id/btn_order"
+            android:text="发起新路线"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/red"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:layout_below="@id/lin_order"/>
     </LinearLayout>
-    <Button
-        android:id="@+id/btn_order"
-        android:text="发起新路线"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/red"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:layout_below="@id/lin_order"/>
+
 </RelativeLayout>
