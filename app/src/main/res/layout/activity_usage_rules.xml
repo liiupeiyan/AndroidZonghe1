@@ -14,7 +14,7 @@
         app:contentInsetLeft="0dp"
         android:gravity="center"
         app:contentInsetStart="140dp"
-        app:navigationIcon="@drawable/back1"/>
+        app:navigationIcon="@drawable/back"/>
     <TextView
         android:padding="10dp"
         android:text="代金券使用规则"
