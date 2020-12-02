@@ -131,6 +131,7 @@
                 android:src="@drawable/spot2"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/lin_or"
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -161,6 +162,94 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"/>
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/lin_day"
+            android:padding="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/lin_or"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="150dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/spot3"/>
+            <TextView
+                android:id="@+id/tv_week"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="周一"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/lin_time_start"
+            android:padding="10dp"
+            android:layout_below="@id/lin_day"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="入校"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/tv_to_sch"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="07:30"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/lin_time_end"
+            android:padding="10dp"
+            android:layout_below="@id/lin_time_start"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="离校"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/tv_left_sch"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="17:30" />
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/lin_time_end">
+            <TextView
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="期望开始日期："/>
+            <TextView
+                android:id="@+id/tv_hope"
+                android:text="2020-12"
+                android:layout_marginTop="3dp"
+                android:textStyle="bold"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
         <Button
             android:id="@+id/btn_add_order"
             android:layout_width="match_parent"

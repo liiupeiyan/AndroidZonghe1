@@ -43,6 +43,7 @@ import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.platform.comapi.basestruct.GeoPoint;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.lsbWork.SearchActivity;
+import com.example.androidzonghe1.activity.yyWork.OrderDetailsActivity;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
@@ -50,7 +51,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class FragmentLaunchRoute extends Fragment {
-
+    private Button order;
     private MapView mapView;
     RadioGroup rgMethod;
     RadioButton rbMultiple;
@@ -87,6 +88,7 @@ public class FragmentLaunchRoute extends Fragment {
         baiduMap = mapView.getMap();
 
         //获取控件引用
+        order = view.findViewById(R.id.btn_order);
         rgMethod = view.findViewById(R.id.rg_method);
         rbMultiple = view.findViewById(R.id.rb_multiple);
         rbSingle = view.findViewById(R.id.rb_single);
@@ -148,7 +150,6 @@ public class FragmentLaunchRoute extends Fragment {
 
         //定位功能
         locationClient = new LocationClient(getContext().getApplicationContext());
-
         return view;
     }
 
@@ -170,6 +171,18 @@ public class FragmentLaunchRoute extends Fragment {
                     MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(16.0f);
                     baiduMap.setMapStatus(msu);
                     baiduMap.setMaxAndMinZoomLevel(19,13);
+                    //显示发起新路线按钮
+                    if(!btnStart.getText().equals("请输入孩子上车地点")&&!btnEnd.getText().equals("请输入终点")){
+                        order.setVisibility(View.VISIBLE); //设置按钮为可见的
+                        order.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //跳转到OrderDetailsActivity
+                                Intent intent = new Intent(getContext(), OrderDetailsActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                    }
                 } else if (requestCode == -1){//未选中任何地点
 
                 }
@@ -183,6 +196,18 @@ public class FragmentLaunchRoute extends Fragment {
                     String pt = suggestionInfo.pt.toString();
                     setPosition(suggestionInfo.getPt().latitude,suggestionInfo.getPt().longitude);
                     addMarkerOverLay(suggestionInfo.getPt().latitude,suggestionInfo.getPt().longitude);
+                    //显示发起新路线按钮
+                    if(!btnStart.getText().equals("请输入孩子上车地点")&&!btnEnd.getText().equals("请输入终点")){
+                        order.setVisibility(View.VISIBLE); //设置按钮为可见的
+                        order.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //跳转到OrderDetailsActivity
+                                Intent intent = new Intent(getContext(), OrderDetailsActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                    }
                 } else if(requestCode == -1){//未选中任何地点
 
                 }
@@ -208,6 +233,7 @@ public class FragmentLaunchRoute extends Fragment {
         Marker marker = (Marker) baiduMap.addOverlay(options);
         marker.setTitle(info.getKey());
     }
+
 
     @Override
     public void onDestroy() {
