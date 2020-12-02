@@ -130,18 +130,20 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_marginBottom="23dp"
+        android:padding="20dp"
         android:background="@drawable/biankuang"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
-            android:id="@+id/ll_fragment_award_recommend"
             android:background="@drawable/biankuang"
             android:gravity="center"
-            android:layout_margin="20dp"
-            android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
             android:padding="10dp"
+            android:id="@+id/ll_fragment_new_get_ticket"
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -149,74 +151,79 @@
                 android:scaleType="centerCrop"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center"
-                android:layout_width="30dp"
-                android:background="@drawable/circle_lpy"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:src="@drawable/gift"/>
-            <TextView
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:text="推荐有奖"
-                android:textSize="16sp"
-                android:gravity="center"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_fragment_new_read"
-            android:background="@drawable/biankuang"
-            android:gravity="center"
-            android:layout_margin="20dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_width="80dp"
-            android:layout_height="80dp">
-            <ImageView
-                android:scaleType="centerCrop"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:src="@drawable/newpeople"/>
-            <TextView
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:textColor="@color/black"
-                android:layout_height="wrap_content"
-                android:text="新人必读"
-                android:textSize="16sp"
-                android:gravity="center"/>
-        </LinearLayout>
-        <LinearLayout
-            android:background="@drawable/biankuang"
-            android:gravity="center"
-            android:layout_margin="20dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_weight="1"
-            android:id="@+id/ll_fragment_new_get_ticket"
-            android:orientation="vertical"
-            android:layout_width="80dp"
-            android:layout_height="80dp">
-            <ImageView
-                android:scaleType="centerCrop"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:src="@drawable/youhuiquan"/>
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/ticket_xt"/>
             <TextView
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:textColor="@color/black"
                 android:layout_height="wrap_content"
                 android:text="新人领券"
+                android:textSize="16sp"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_fragment_award_recommend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/biankuang"
+            android:clickable="true"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/circle_lpy"
+                android:scaleType="centerCrop"
+                android:src="@drawable/gift_xt" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="推荐有奖"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_fragment_new_read"
+            android:background="@drawable/biankuang"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:scaleType="centerCrop"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/new_readxt"/>
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:text="新人必读"
                 android:textSize="16sp"
                 android:gravity="center"/>
         </LinearLayout>

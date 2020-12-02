@@ -5,6 +5,14 @@ plugins {
 apply plugin: 'com.mob.sdk'
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('E:\\1Android\\workSpace\\key\\keystore.jks')
+            storePassword '179749'
+            keyAlias 'key0'
+            keyPassword '179749'
+        }
+    }
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']

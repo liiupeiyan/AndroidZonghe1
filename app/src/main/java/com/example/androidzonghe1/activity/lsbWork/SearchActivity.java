@@ -1,6 +1,7 @@
 package com.example.androidzonghe1.activity.lsbWork;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -104,6 +105,8 @@ public class SearchActivity extends AppCompatActivity {
 
         btnCancel.setOnClickListener(v -> {
             cityFragment.onDestroy();
+            Intent response = new Intent();
+            this.setResult(-1, response);
             finish();
         });
 

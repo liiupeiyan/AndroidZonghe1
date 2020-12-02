@@ -31,6 +31,5 @@ public class UsageRulesActivity extends AppCompatActivity {
             }
         });
 
-
     }
 }
