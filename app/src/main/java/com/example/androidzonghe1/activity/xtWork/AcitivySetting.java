@@ -66,8 +66,8 @@ public class AcitivySetting extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_log_off://退出登录
-//                Intent logOffIntent = new Intent(getApplicationContext(), )
                 Log.e("ActivitySetting", "btnLogOff onClicked");
+
                 break;
             case R.id.ll_good_reputation://给叮咚好评
                 Log.e("ActivitySetting", "lGoodReputation onClicked");
@@ -89,7 +89,6 @@ public class AcitivySetting extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.ll_about_dingdong:
                 Log.e("ActivitySetting", "lAboutDingDong onClicked");
-//                Intent aboutIntent = new Intent(getApplicationContext(), )
                 Intent aboutIntent = new Intent(getApplicationContext(), ActivityAboutDingDong.class);
                 startActivity(aboutIntent);
                 break;
