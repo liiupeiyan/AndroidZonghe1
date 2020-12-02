@@ -166,6 +166,7 @@ public class FragmentLaunchRoute extends Fragment {
                     addMarkerOverlay(END_CODE, suggestionInfo);
                     String pt = suggestionInfo.pt.toString();
                     setPosition(suggestionInfo.getPt().latitude,suggestionInfo.getPt().longitude);
+                    addMarkerOverLay(suggestionInfo.getPt().latitude,suggestionInfo.getPt().longitude);
                     MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(16.0f);
                     baiduMap.setMapStatus(msu);
                     baiduMap.setMaxAndMinZoomLevel(19,13);
@@ -181,6 +182,7 @@ public class FragmentLaunchRoute extends Fragment {
                     addMarkerOverlay(START_CODE, suggestionInfo);
                     String pt = suggestionInfo.pt.toString();
                     setPosition(suggestionInfo.getPt().latitude,suggestionInfo.getPt().longitude);
+                    addMarkerOverLay(suggestionInfo.getPt().latitude,suggestionInfo.getPt().longitude);
                 } else if(requestCode == -1){//未选中任何地点
 
                 }
@@ -285,6 +287,44 @@ public class FragmentLaunchRoute extends Fragment {
         });
         //6.启动定位
         locationClient.start();
+    }
+
+    //添加标注覆盖物（在地图界面某个坐标点显示小图标）
+    public void addMarkerOverLay(double latitude,double longitude){
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.boy);
+        BitmapDescriptor icon2 = BitmapDescriptorFactory.fromResource(R.drawable.boy2);
+        BitmapDescriptor icon3 = BitmapDescriptorFactory.fromResource(R.drawable.boy3);
+        //1.定义坐标点
+        //114.524356,38.002234  师活超市
+        //   38.001082;//纬度114.53209;//经度  国培超市
+        //114.524332,38.003104 //图书馆
+        LatLng point1 = new LatLng(latitude, longitude);
+//        LatLng point2 = new LatLng(38.001082, 114.53209);
+//        LatLng point3 = new LatLng(38.003104,114.524332);
+        //2.创建OverlayOption子类的对象
+        MarkerOptions options = new MarkerOptions()
+                .position(point1)//位置
+                .icon(icon);//指定图标
+//        MarkerOptions options2 = new MarkerOptions()
+//                .position(point2)//位置
+//                .icon(icon2);//指定图标
+//        MarkerOptions options3 = new MarkerOptions()
+//                .position(point3)
+//                .icon(icon3);
+        //3.将覆盖物显示到地图界面
+        Marker marker = (Marker) baiduMap.addOverlay(options);
+//        Marker marker2 = (Marker) baiduMap.addOverlay(options2);
+//        Marker marker3 = (Marker) baiduMap.addOverlay(options3);
+//        marker.setTitle("天安门");
+        Bundle bundle = new Bundle();
+        bundle.putString("title", "师活超市");
+        marker.setExtraInfo(bundle);
+//        Bundle bundle2 = new Bundle();
+//        bundle2.putString("title", "国培超市");
+//        marker2.setExtraInfo(bundle2);
+//        Bundle bundle3 = new Bundle();
+//        bundle3.putString("title", "图书馆");
+//        marker3.setExtraInfo(bundle3);
     }
 
 }
