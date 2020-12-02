@@ -9,10 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="500dp"/>
     <LinearLayout
+        android:id="@+id/lin_order"
         android:layout_below="@id/map_view"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <RadioGroup
             android:id="@+id/rg_method"
             android:padding="10dp"
@@ -82,7 +83,6 @@
             android:paddingRight="10dp"
             android:paddingLeft="10dp"
             android:layout_weight="1">
-
             <Button
                 android:textColorHint="@color/dark_gray"
                 android:id="@+id/btn_start"
@@ -95,4 +95,13 @@
                 android:layout_height="match_parent"/>
         </LinearLayout>
     </LinearLayout>
+    <Button
+        android:id="@+id/btn_order"
+        android:text="发起新路线"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/red"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_below="@id/lin_order"/>
 </RelativeLayout>

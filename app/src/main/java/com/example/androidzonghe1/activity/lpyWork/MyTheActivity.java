@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -14,10 +16,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.Fragment.lpyWork.FragmentHomePage;
 import com.example.androidzonghe1.Fragment.lpyWork.FragmentLaunchRoute;
 import com.example.androidzonghe1.Fragment.lpyWork.FragmentMy;
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.yjWork.ActivityLoginPage;
 import com.lanren.easydialog.AnimatorHelper;
 import com.lanren.easydialog.DialogViewHolder;
 import com.lanren.easydialog.EasyDialog;
@@ -125,8 +129,13 @@ public class MyTheActivity extends AppCompatActivity {
                 break;
             case R.id.my:
 //                fragmentMy = new FragmentMy();
-                changeTab(fragmentMy);
-                btnMyClicked();
+                if (ConfigUtil.isLogin){
+                    changeTab(fragmentMy);
+                    btnMyClicked();
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), ActivityLoginPage.class);
+                    startActivity(intent);
+                }
                 break;
         }
     }

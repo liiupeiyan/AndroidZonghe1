@@ -16,6 +16,8 @@ public class ConfigUtil {
     public static boolean isLogin = false;
     //当前用户名
     public static String userName = "";
+    //当前手机号
+    public static String phone="";
 
     public static boolean adapterFlag =  true;
 

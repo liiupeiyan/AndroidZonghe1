@@ -1,6 +1,7 @@
 package com.example.androidzonghe1.activity.yjWork;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
@@ -13,8 +14,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.androidzonghe1.ConfigUtil;
+import com.example.androidzonghe1.Fragment.lpyWork.FragmentMy;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.View.yjWork.VerifyCodeView;
+import com.example.androidzonghe1.activity.lpyWork.MyTheActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,6 +63,9 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), MyTheActivity.class);
+                                startActivity(intent);
+                                ConfigUtil.isLogin = true;
                             }
                         });
                     }else if (event == SMSSDK.EVENT_GET_VOICE_VERIFICATION_CODE){
