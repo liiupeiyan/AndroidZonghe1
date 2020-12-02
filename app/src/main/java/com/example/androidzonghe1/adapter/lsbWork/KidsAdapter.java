@@ -15,24 +15,26 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.entity.xtWork.Child;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> implements View.OnClickListener{
     int resLayout;
-    List<String> data;
+    List<Child> data;
     RecyclerView recyclerView;
     OnItemClickListener onItemClickListener;
     Context context;
-    public KidsAdapter(Context context){
+    public KidsAdapter(Context context,List<Child> childs){
         this.context = context;
-        data = new ArrayList<String>();
-        data.add("one");
-        data.add("two");
-        data.add("three");
+        data = childs;
+//        data = new ArrayList<String>();
+//        data.add("one");
+//        data.add("two");
+//        data.add("three");
     }
-    public KidsAdapter(List<String> data, Context context){
+    public KidsAdapter(List<Child> data, Context context){
         this.context = context;
         this.data = data;
     }
@@ -79,7 +81,7 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
     }
 
     public interface OnItemClickListener{
-        void onItemClick(RecyclerView parent, View view, int position, String data);
+        void onItemClick(RecyclerView parent, View view, int position, Child data);
     }
 
     @Override
