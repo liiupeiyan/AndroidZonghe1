@@ -115,6 +115,7 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
             etClasses = itemView.findViewById(R.id.et_classes);
             btnSchool = itemView.findViewById(R.id.btn_school);
             btnDelete = itemView.findViewById(R.id.btn_delete);
+
         }
     }
 }

@@ -67,12 +67,12 @@
             <TextView
                 android:id="@+id/word2"
                 android:layout_width="wrap_content"
-
                 android:layout_height="wrap_content"
                 android:text="100元"
                 android:textColor="@android:color/holo_red_light"
                 android:textSize="29sp"/>
             <TextView
+                android:id="@+id/word3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
@@ -109,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:text="分享给好友，邀请5位新哟过户注册"/>
+                android:text="分享给好友，邀请5位新用户注册"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:textColor="@color/black"
@@ -126,18 +126,18 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:background="@color/black"/>
+                    android:background="@color/gray"/>
                 <TextView
                     android:layout_weight="0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:text="邀请好友既得奖励"/>
+                    android:textColor="@color/gray_9"
+                    android:text="邀请好友即得奖励"/>
                 <View
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:background="@color/black"/>
+                    android:background="@color/gray"/>
             </LinearLayout>
 
             <LinearLayout
@@ -180,7 +180,7 @@
                     android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:text="立即邀请"
-                    android:textColor="@color/black"
+                    android:textColor="@android:color/holo_red_light"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/invite_rjx"
                     android:layout_alignParentRight="true"/>
