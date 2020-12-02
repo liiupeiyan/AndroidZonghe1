@@ -106,19 +106,19 @@ public class ContactorAdapter extends RecyclerView.Adapter<ContactorAdapter.View
                 }
             }
         });
-        holder.btnSendInvite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("ContactorAdapter", "btnSendInvite onClick");
-                Pattern p = Pattern.compile("^[1][3,4,5,7,8,9][0-9]{9}$");
-                Matcher matcher = p.matcher(holder.etPhone.getText().toString().trim());
-                if (matcher.matches()){
-
-                } else {
-
-                }
-            }
-        });
+//        holder.btnSendInvite.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.e("ContactorAdapter", "btnSendInvite onClick");
+//                Pattern p = Pattern.compile("^[1][3,4,5,7,8,9][0-9]{9}$");
+//                Matcher matcher = p.matcher(holder.etPhone.getText().toString().trim());
+//                if (matcher.matches()){
+//
+//                } else {
+//
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -159,8 +159,8 @@ public class ContactorAdapter extends RecyclerView.Adapter<ContactorAdapter.View
         Button btnRelation;
         EditText etPhone;
         ImageView imgEye;
-        TextView tvBind;
-        Button btnSendInvite;
+        //TextView tvBind;
+        //Button btnSendInvite;
         Button btnDelete;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -168,8 +168,8 @@ public class ContactorAdapter extends RecyclerView.Adapter<ContactorAdapter.View
             btnRelation = itemView.findViewById(R.id.btn_relation);
             etPhone = itemView.findViewById(R.id.et_phone);
             imgEye = itemView.findViewById(R.id.img_eye);
-            tvBind = itemView.findViewById(R.id.tv_bind);
-            btnSendInvite = itemView.findViewById(R.id.btn_send_invite);
+//            tvBind = itemView.findViewById(R.id.tv_bind);
+//            btnSendInvite = itemView.findViewById(R.id.btn_send_invite);
             btnDelete = itemView.findViewById(R.id.btn_delete);
         }
     }

@@ -5,14 +5,14 @@ plugins {
 apply plugin: 'com.mob.sdk'
 
 android {
-    signingConfigs {
-        debug {
-            storeFile file('E:\\1Android\\workSpace\\key\\keystore.jks')
-            storePassword '179749'
-            keyAlias 'key0'
-            keyPassword '179749'
-        }
-    }
+//    signingConfigs {
+//        debug {
+//            storeFile file('E:\\1Android\\workSpace\\key\\keystore.jks')
+//            storePassword '179749'
+//            keyAlias 'key0'
+//            keyPassword '179749'
+//        }
+//    }
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
@@ -86,8 +86,8 @@ dependencies {
 }
 // 在MobSDK的扩展中注册SMSSDK的相关信息
 MobSDK {
-    appKey "31978222d138e"
-    appSecret "57c28147a3e92c62d8d9503db0b00537"
+    appKey "31a0d5190f2ec"
+    appSecret "f2ff8357ac588b9549d6429b21ddd146"
     SMSSDK {}
 }
 /**
