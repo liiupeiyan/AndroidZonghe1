@@ -14,7 +14,7 @@ public class ServiceAgreementActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_agreement);
-        back = findViewById(R.id.service_agreement_back);
+//        back = findViewById(R.id.service_agreement_back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
