@@ -252,8 +252,8 @@ public class FragmentLaunchRoute extends Fragment {
             @Override
             public void onReceiveLocation(BDLocation bdLocation) {
 //                //定位成功后自动执行，定位成功后位置信息保存在BDLocation对象中
-                double latitude = 38.001082;//纬度
-                double longitude = 114.53209;//经度
+                double latitude1 = latitude;//纬度
+                double longitude1 = longitude;//经度
 //                Log.e("定位错误码：",bdLocation.getLocType()+"");
 //                Log.e("定位成功","纬度："+latitude +
 //                        "经度："+longitude);

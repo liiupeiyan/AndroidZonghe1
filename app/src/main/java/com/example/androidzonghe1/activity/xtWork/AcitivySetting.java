@@ -12,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.yjWork.PolicyActivity;
 import com.example.androidzonghe1.activity.yjWork.ServiceAgreementActivity;
+import com.example.androidzonghe1.activity.yjWork.UserAgreementActivity;
 
 public class AcitivySetting extends AppCompatActivity implements View.OnClickListener {
 
@@ -72,6 +74,8 @@ public class AcitivySetting extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.ll_user_agreement:
                 Log.e("ActivitySetting", "lUserAgreement onClicked");
+                Intent userIntent = new Intent(getApplicationContext(), UserAgreementActivity.class);
+                startActivity(userIntent);
                 break;
             case R.id.ll_service_agreement:
                 Log.e("ActivitySetting", "lServiceAgreement onClicked");
@@ -80,9 +84,12 @@ public class AcitivySetting extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.ll_person_msg:
                 Log.e("ActivitySetting", "lPersonMsg onClicked");
+                Intent msgIntent = new Intent(getApplicationContext(), PolicyActivity.class);
+                startActivity(msgIntent);
                 break;
             case R.id.ll_about_dingdong:
                 Log.e("ActivitySetting", "lAboutDingDong onClicked");
+//                Intent aboutIntent = new Intent(getApplicationContext(), )
                 break;
         }
     }
