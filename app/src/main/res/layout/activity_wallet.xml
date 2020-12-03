@@ -80,7 +80,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/shape"
                 android:gravity="center"
-                android:text="细明" />
+                android:text="明细"
+                android:textColor="@android:color/white"/>
 
             <Button
                 android:id="@+id/btn_withdraw_money"
@@ -90,7 +91,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/shape"
                 android:gravity="center"
-                android:text="提现" />
+                android:text="提现"
+                android:textColor="@android:color/white"/>
         </LinearLayout>
 
     </LinearLayout>
