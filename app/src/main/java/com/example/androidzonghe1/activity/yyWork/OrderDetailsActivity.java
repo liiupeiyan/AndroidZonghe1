@@ -141,7 +141,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                 //出现输入支付密码框。密码输入成功后进入钱包界面
                 //进行密码判断。从数据库查询该用户的密码后进行判断，相等的话进入TestActivity。将得到的密码赋给 pwd
                 FragmentManager manager = getSupportFragmentManager();
-                final PayPasswordDialog dialog=new PayPasswordDialog(OrderDetailsActivity.this,R.style.mydialog,pwd,manager);
+                final PayPasswordDialog dialog=new PayPasswordDialog(OrderDetailsActivity.this,R.style.mydialog,pwd,manager,this,1);
                 dialog.setDialogClick(new PayPasswordDialog.DialogClick() {
                     @Override
                     public void doConfirm(String password) {
