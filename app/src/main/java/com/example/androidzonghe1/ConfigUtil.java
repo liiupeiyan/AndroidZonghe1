@@ -19,7 +19,7 @@ public class ConfigUtil {
     //当前手机号
     public static String phone="";
     //任佳旭连接服务器
-    public static final String Url = "http://192.168.43.52:8080/DingDong/GetChildServlet";
+    public static final String Url = "http://192.168.43.52:8080/DingDong/";
 
 
     public static boolean adapterFlag =  true;
