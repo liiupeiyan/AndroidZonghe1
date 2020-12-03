@@ -1,5 +1,6 @@
 package com.example.androidzonghe1.activity.yyWork;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -9,16 +10,25 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.example.androidzonghe1.ConfigUtil;
+import com.example.androidzonghe1.Fragment.lpyWork.FragmentDriver;
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.lpyWork.MyTheActivity;
+import com.example.androidzonghe1.adapter.rjxWork.DriverAdapter;
+import com.example.androidzonghe1.entity.lpyWork.Driver;
 import com.example.androidzonghe1.entity.yyWork.DriverOrder;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,13 +36,20 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 public class OrderDetailsActivity extends AppCompatActivity implements View.OnClickListener {
     private Button btnDriver;
+    private ImageView driverImg;
+    private TextView driverName;
+    private TextView chooseState;
+    private Button chooseDriver;
+    private Button driverInfo;
     private DriverOrder order=new DriverOrder();
     private ImageView inF;
     private ImageView outS;
@@ -46,7 +63,6 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
     private TextView tvBack;
     private TextView tvWeek;
     private TextView tvHope;
-    private TextView tvDriver;
     private TextView tvSpend;
     private TextView tvPrice;
     private Button add;
@@ -56,15 +72,57 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
     private String week;
     private double distance;
     private String pwd;
+    private List<Driver> drivers = new ArrayList<Driver>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_order);
         getViews();
+//        //选择司机
+        chooseDriver.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                //跳转到司机展示页，客户自主找寻空闲司机
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(OrderDetailsActivity.this);
+                View v = LayoutInflater.from(getApplicationContext()).inflate(R.layout.driver_list_item,null);
+                Button btnCancel = v.findViewById(R.id.btn_cancel);
+                Button btnConfirm = v.findViewById(R.id.btn_confirm);
+                DriverAdapter driverAdapter = new DriverAdapter(drivers,R.layout.item_recycleview_driver,getApplicationContext());
+                ListView listView = v.findViewById(R.id.lv_driver);
+                listView.setAdapter(driverAdapter);
+                //取消按钮
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        driverName.setText("小伴接送员");
+                        chooseState.setText("未选择");
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+                //确定按钮
+                btnConfirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        driverName.setText("张师傅");
+                        chooseState.setText("已选择");
+                        bottomSheetDialog.dismiss();
+
+                    }
+                });
+                bottomSheetDialog.setContentView(view);
+                bottomSheetDialog.setCancelable(true);
+                bottomSheetDialog.setCanceledOnTouchOutside(true);
+                bottomSheetDialog.show();
+            }
+        });
         //获取从FragmentLaunchRoute传递过来的数据：起点  终点；写入from和to控件中
+        Bundle bundle =  getIntent().getExtras().getBundle("lrInfo");
+        from.setText(bundle.getString("stName"));
+        to.setText(bundle.getString("enName"));
         //获取从FragmentLaunchRoute传递过来的数据: 起点和终点的经纬度。写入tvSpend中
-        distance = CaculateDistance.GetDistance(38.002119,114.520159,37.984026,114.528652);
+//        distance = CaculateDistance.GetDistance(38.002119,114.520159,37.984026,114.528652);
+        distance = bundle.getDouble("distance");
         double gl = Math.round( distance / 100d) / 10d;
         tvSpend.setText(gl+"");
         //计算价格，每公里15元写入tvPrice中
@@ -75,14 +133,15 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
         in.setOnClickListener(this);
         out.setOnClickListener(this);
         add.setOnClickListener(this);
-        btnDriver.setOnClickListener(this);
+//        btnDriver.setOnClickListener(this);
         //2
         order.setFrom(from.getText()+"");
         //3
         order.setTo(to.getText()+"");
         //4通过自主找寻司机
-        order.setDriver(tvDriver.getText()+"");
+//        order.setDriver(tvDriver.getText()+"");
         order.setPrice(Double.parseDouble(tvPrice.getText()+""));
+
     }
 
     private void getViews() {
@@ -102,8 +161,12 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
         calendar = Calendar.getInstance(Locale.CHINA);
         add = findViewById(R.id.btn_add_order);
         btnDriver = findViewById(R.id.btn_find_driver);
-        tvDriver = findViewById(R.id.tv_driver);
-        tvSpend = findViewById(R.id.tv_spend);
+        driverImg = findViewById(R.id.iv_order_driver_img);
+        driverName = findViewById(R.id.tv_order_driver_name);
+        chooseDriver = findViewById(R.id.btn_find_driver);
+        chooseState = findViewById(R.id.tv_order_choose_state);
+//        btnDriver
+//        tvSpend = findViewById(R.id.tv_spend);
         tvPrice = findViewById(R.id.tv_price);
     }
 
@@ -153,6 +216,12 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.btn_find_driver:
                 //跳转到司机展示页，客户自主找寻空闲司机
+                ConfigUtil.flagChooseDriver = true;
+                Intent intent = new Intent(OrderDetailsActivity.this, MyTheActivity.class);
+                startActivityForResult(intent,1);
+                break;
+            case R.id.btn_order_driver_info:
+                //司机详细信息
                 break;
         }
     }
@@ -252,4 +321,8 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
         }, calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),true).show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }
