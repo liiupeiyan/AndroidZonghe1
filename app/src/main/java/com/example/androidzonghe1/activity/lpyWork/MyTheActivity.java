@@ -22,6 +22,7 @@ import com.example.androidzonghe1.Fragment.lpyWork.FragmentLaunchRoute;
 import com.example.androidzonghe1.Fragment.lpyWork.FragmentMy;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.yjWork.ActivityLoginPage;
+import com.example.androidzonghe1.activity.yjWork.RegisterActivity;
 import com.lanren.easydialog.AnimatorHelper;
 import com.lanren.easydialog.DialogViewHolder;
 import com.lanren.easydialog.EasyDialog;
@@ -129,7 +130,7 @@ public class MyTheActivity extends AppCompatActivity {
                 break;
             case R.id.my:
 //                fragmentMy = new FragmentMy();
-                if (ConfigUtil.isLogin){
+                if (!ConfigUtil.isLogin){
                     changeTab(fragmentMy);
                     btnMyClicked();
                 } else {

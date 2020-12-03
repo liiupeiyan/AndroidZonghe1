@@ -18,6 +18,9 @@ public class ConfigUtil {
     public static String userName = "";
     //当前手机号
     public static String phone="";
+    //任佳旭连接服务器
+    public static final String Url = "http://192.168.43.52:8080/DingDong/";
+
 
     public static boolean adapterFlag =  true;
 
@@ -32,11 +35,20 @@ public class ConfigUtil {
     }
     public static List<Driver> drivers = new ArrayList<>();
     public static void initDrivers(){
-        for(int i = 0 ; i < 20; i++){
+        for(int i = 0 ; i < 10; i++){
             Driver driver = new Driver();
-            driver.setName("接送员"+i);
-            int phone = Integer.parseInt("123456789");
-            driver.setPhone(phone);
+//            driver.setImg(R.drawable.driver_img);
+            driver.setName("刘培焱");
+            driver.setAge(18);
+            if (i%3 != 0){
+                driver.setStatus("空闲");
+            } else {
+                driver.setStatus("忙碌");
+            }
+            driver.setCar("兰博基尼");
+            driver.setStyle("绿色");
+            driver.setExperience("十年老司机，从不翻车");
+            driver.setPhone("18830909589");
             ConfigUtil.drivers.add(driver);
         }
     }
