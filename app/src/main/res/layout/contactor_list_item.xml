@@ -96,14 +96,28 @@
                 android:layout_height="1dp"
                 android:background="#333333"/>
             <LinearLayout
+                android:orientation="horizontal"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="80dp">
                 <Button
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:id="@+id/hold"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/anniu"
                     android:text="保存"/>
+                <Button
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:id="@+id/change"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/anniu"
+                    android:text="修改"/>
             </LinearLayout>
 
 

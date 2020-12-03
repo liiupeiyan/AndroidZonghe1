@@ -22,10 +22,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-<<<<<<< HEAD
             android:text="本公司于2020年9月14日在河北师范大学软件学院成立。该公司一直致力于解决家长们接送孩子的难题。"/>
-=======
-           android:text="本公司于2020年9月14日在河北师范大学软件学院成立。该公司一直致力于解决家长们接送孩子的难题。"/>
->>>>>>> origin/master
     </LinearLayout>
 </LinearLayout>
