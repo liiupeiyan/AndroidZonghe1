@@ -10,11 +10,13 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -23,7 +25,10 @@ import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.Fragment.lpyWork.FragmentDriver;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.lpyWork.MyTheActivity;
+import com.example.androidzonghe1.adapter.rjxWork.DriverAdapter;
+import com.example.androidzonghe1.entity.lpyWork.Driver;
 import com.example.androidzonghe1.entity.yyWork.DriverOrder;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,8 +36,10 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -41,6 +48,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
     private ImageView driverImg;
     private TextView driverName;
     private TextView chooseState;
+    private Button chooseDriver;
     private Button driverInfo;
     private DriverOrder order=new DriverOrder();
     private ImageView inF;
@@ -64,6 +72,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
     private String week;
     private double distance;
     private String pwd;
+    private List<Driver> drivers = new ArrayList<Driver>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,15 +80,42 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_add_order);
         getViews();
 //        //选择司机
-//        chooseDriver.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view) {
-//                //跳转到司机展示页，客户自主找寻空闲司机
-//                ConfigUtil.flagChooseDriver = true;
-//                Intent intent = new Intent(OrderDetailsActivity.this, MyTheActivity.class);
-//                startActivityForResult(intent,1);
-//            }
-//        });
+        chooseDriver.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                //跳转到司机展示页，客户自主找寻空闲司机
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(OrderDetailsActivity.this);
+                View v = LayoutInflater.from(getApplicationContext()).inflate(R.layout.driver_list_item,null);
+                Button btnCancel = v.findViewById(R.id.btn_cancel);
+                Button btnConfirm = v.findViewById(R.id.btn_confirm);
+                DriverAdapter driverAdapter = new DriverAdapter(drivers,R.layout.item_recycleview_driver,getApplicationContext());
+                ListView listView = v.findViewById(R.id.lv_driver);
+                listView.setAdapter(driverAdapter);
+                //取消按钮
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        driverName.setText("小伴接送员");
+                        chooseState.setText("未选择");
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+                //确定按钮
+                btnConfirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        driverName.setText("张师傅");
+                        chooseState.setText("已选择");
+                        bottomSheetDialog.dismiss();
+
+                    }
+                });
+                bottomSheetDialog.setContentView(view);
+                bottomSheetDialog.setCancelable(true);
+                bottomSheetDialog.setCanceledOnTouchOutside(true);
+                bottomSheetDialog.show();
+            }
+        });
         //获取从FragmentLaunchRoute传递过来的数据：起点  终点；写入from和to控件中
         Bundle bundle =  getIntent().getExtras().getBundle("lrInfo");
         from.setText(bundle.getString("stName"));
@@ -127,6 +163,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
         btnDriver = findViewById(R.id.btn_find_driver);
         driverImg = findViewById(R.id.iv_order_driver_img);
         driverName = findViewById(R.id.tv_order_driver_name);
+        chooseDriver = findViewById(R.id.btn_find_driver);
         chooseState = findViewById(R.id.tv_order_choose_state);
 //        btnDriver
 //        tvSpend = findViewById(R.id.tv_spend);
