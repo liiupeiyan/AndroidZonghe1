@@ -117,11 +117,11 @@ public class FragmentHomePage extends Fragment {
         adapter.addFragment(new FragmentDayTrip(),"今日行程");
         adapter.addFragment(new FragmentSameSchoolRoute(),"同校路线");
         adapter.addFragment(new FragmentSameSchoolParents(),"同校家长");
-        if (ConfigUtil.drivers.size() == 0){
-            adapter.addFragment(new FragmentNoDataDriver(),"接送员");
-        } else {
+//        if (ConfigUtil.drivers.size() == 0){
+//            adapter.addFragment(new FragmentNoDataDriver(),"接送员");
+//        } else {
             adapter.addFragment(new FragmentDriver(),"接送员");
-        }
+//        }
 //        adapter.addFragment(new FragmentDriver(),"接送员");
 
         //为ViewPager绑定Adapter
