@@ -4,13 +4,10 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:layout_height="match_parent">
-    <com.baidu.mapapi.map.MapView
-        android:id="@+id/map_view"
-        android:layout_width="match_parent"
-        android:layout_height="500dp"/>
+
     <LinearLayout
         android:id="@+id/lin_order"
-        android:layout_below="@id/map_view"
+        android:layout_alignParentBottom="true"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -101,8 +98,14 @@
             android:backgroundTint="@color/red"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:layout_below="@id/lin_order"/>
     </LinearLayout>
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/lin_order"/>
 
 </RelativeLayout>

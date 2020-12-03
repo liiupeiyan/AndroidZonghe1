@@ -30,6 +30,10 @@ public class TicketActivity extends AppCompatActivity {
 
         TextView word1 = findViewById(R.id.word1);
         word1.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+        TextView word2 = findViewById(R.id.word2);
+        TextView word3 = findViewById(R.id.word3);
+        word2.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+        word3.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         TextView share = findViewById(R.id.share);
         TextView y2 = findViewById(R.id.y2);
         share.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
