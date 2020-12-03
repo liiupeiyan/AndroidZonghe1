@@ -133,6 +133,10 @@ public class FragmentHomePage extends Fragment {
         //给tabLayout设置ViewPage，如果设置关联了Viewpage，那么ViewpagAdapter中getPageTitle返回的就是Tab上标题(上面疑问的回答)
         //为ViewPager 和Tablelayout进行绑定，从而实现滑动标签切换Fragment的目的
         tab_layout.setupWithViewPager(myViewPager);
+        if (ConfigUtil.flagChooseDriver){
+            myViewPager.setCurrentItem(3);
+            ConfigUtil.flagChooseDriver = false;
+        }
     }
 
     //轮播图的使用
