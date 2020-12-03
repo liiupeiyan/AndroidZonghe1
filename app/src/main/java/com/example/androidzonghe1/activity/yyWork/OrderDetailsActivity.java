@@ -37,8 +37,11 @@ import java.util.Locale;
 import java.util.Map;
 
 public class OrderDetailsActivity extends AppCompatActivity implements View.OnClickListener {
-//    private Button btnDriver;
-    private RelativeLayout chooseDriver;
+    private Button btnDriver;
+    private ImageView driverImg;
+    private TextView driverName;
+    private TextView chooseState;
+    private Button driverInfo;
     private DriverOrder order=new DriverOrder();
     private ImageView inF;
     private ImageView outS;
@@ -52,7 +55,6 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
     private TextView tvBack;
     private TextView tvWeek;
     private TextView tvHope;
-    private TextView tvDriver;
     private TextView tvSpend;
     private TextView tvPrice;
     private Button add;
@@ -68,16 +70,16 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_order);
         getViews();
-        //选择司机
-        chooseDriver.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                //跳转到司机展示页，客户自主找寻空闲司机
-                ConfigUtil.flagChooseDriver = true;
-                Intent intent = new Intent(OrderDetailsActivity.this, MyTheActivity.class);
-                startActivityForResult(intent,1);
-            }
-        });
+//        //选择司机
+//        chooseDriver.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View view) {
+//                //跳转到司机展示页，客户自主找寻空闲司机
+//                ConfigUtil.flagChooseDriver = true;
+//                Intent intent = new Intent(OrderDetailsActivity.this, MyTheActivity.class);
+//                startActivityForResult(intent,1);
+//            }
+//        });
         //获取从FragmentLaunchRoute传递过来的数据：起点  终点；写入from和to控件中
         Bundle bundle =  getIntent().getExtras().getBundle("lrInfo");
         from.setText(bundle.getString("stName"));
@@ -101,7 +103,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
         //3
         order.setTo(to.getText()+"");
         //4通过自主找寻司机
-        order.setDriver(tvDriver.getText()+"");
+//        order.setDriver(tvDriver.getText()+"");
         order.setPrice(Double.parseDouble(tvPrice.getText()+""));
 
     }
@@ -122,10 +124,12 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
         format = DateFormat.getDateTimeInstance();
         calendar = Calendar.getInstance(Locale.CHINA);
         add = findViewById(R.id.btn_add_order);
-//        btnDriver = findViewById(R.id.btn_find_driver);
-        chooseDriver = findViewById(R.id.rel);
-        tvDriver = findViewById(R.id.tv_driver);
-        tvSpend = findViewById(R.id.tv_spend);
+        btnDriver = findViewById(R.id.btn_find_driver);
+        driverImg = findViewById(R.id.iv_order_driver_img);
+        driverName = findViewById(R.id.tv_order_driver_name);
+        chooseState = findViewById(R.id.tv_order_choose_state);
+//        btnDriver
+//        tvSpend = findViewById(R.id.tv_spend);
         tvPrice = findViewById(R.id.tv_price);
     }
 
@@ -173,11 +177,15 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                 });
                 dialog.show();
                 break;
-//            case R.id.btn_find_driver:
-//                //跳转到司机展示页，客户自主找寻空闲司机
-//                Intent intent = new Intent(OrderDetailsActivity.this, FragmentDriver.class);
-//                startActivityForResult(intent,1);
-//                break;
+            case R.id.btn_find_driver:
+                //跳转到司机展示页，客户自主找寻空闲司机
+                ConfigUtil.flagChooseDriver = true;
+                Intent intent = new Intent(OrderDetailsActivity.this, MyTheActivity.class);
+                startActivityForResult(intent,1);
+                break;
+            case R.id.btn_order_driver_info:
+                //司机详细信息
+                break;
         }
     }
     //将对象转化为json字符串
