@@ -29,15 +29,11 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
     public KidsAdapter(Context context,List<Child> childs){
         this.context = context;
         data = childs;
-//        data = new ArrayList<String>();
-//        data.add("one");
-//        data.add("two");
-//        data.add("three");
     }
-    public KidsAdapter(List<Child> data, Context context){
-        this.context = context;
-        this.data = data;
-    }
+//    public KidsAdapter(List<Child> data, Context context){
+//        this.context = context;
+//        this.data = data;
+//    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,6 +43,16 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        //给控件赋值
+        holder.etName.setText(data.get(position).getName());
+        if(data.get(position).getSex().equals("男")){
+            holder.rbBoy.setChecked(true);
+        }else {
+            holder.rbGirl.setChecked(true);
+        }
+        holder.etClasses.setText(data.get(position).getBanji());
+        holder.btnSchool.setText(data.get(position).getSchool());
+        //监听事件
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,6 +65,21 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
             @Override
             public void onClick(View v) {
                 onItemClickListener.onItemClick(recyclerView, v, position, data.get(position));
+            }
+        });
+        holder.rgSex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.rb_boy:
+                        holder.rbBoy.setChecked(true);
+                        holder.rbGirl.setChecked(false);
+                        break;
+                    case R.id.rb_girl:
+                        holder.rbGirl.setChecked(true);
+                        holder.rbBoy.setChecked(false);
+                        break;
+                }
             }
         });
     }
