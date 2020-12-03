@@ -25,8 +25,9 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:scaleType="fitXY"
                     android:id="@+id/img_photo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/people" />
 
@@ -36,13 +37,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:gravity="center"
-                    android:textColor="@color/black"
-                    android:text="请选择和孩子的关系"
-                    android:textSize="25sp" />
+                    android:layout_margin="10dp"
+                    android:gravity="left|center"
+                    android:textColor="@color/gray"
+                    android:hint="请选择和孩子的关系"
+                    android:textSize="20sp" />
 
                 <ImageView
-                    android:layout_width="30dp"
+                    android:layout_width="50dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center_vertical"
                     android:alpha="0.6"
@@ -60,7 +62,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:scaleType="fitXY"
+                    android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:padding="10dp"
                     android:src="@drawable/phone" />
@@ -92,39 +95,50 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#333333"/>
-
             <LinearLayout
+                android:gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/email" />
-
-                <TextView
-                    android:id="@+id/tv_bind"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:textColor="@color/black"
-                    android:gravity="left|center"
-                    android:text="未绑定"
-                    android:textSize="26sp" />
-
+                android:layout_height="80dp">
                 <Button
-                    android:id="@+id/btn_send_invite"
-                    android:layout_width="150dp"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shape"
-                    android:gravity="center"
-                    android:text="发送邀请"
-                    android:textColor="#cccccc"
-                    android:textSize="30sp" />
-
+                    android:background="@drawable/anniu"
+                    android:text="保存"/>
             </LinearLayout>
+
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="60dp"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_margin="10dp"-->
+<!--                    android:src="@drawable/email" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_bind"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:gravity="left|center"-->
+<!--                    android:text="未绑定"-->
+<!--                    android:textSize="26sp" />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/btn_send_invite"-->
+<!--                    android:layout_width="150dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@drawable/shape"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="发送邀请"-->
+<!--                    android:textColor="#cccccc"-->
+<!--                    android:textSize="30sp" />-->
+
+<!--            </LinearLayout>-->
         </LinearLayout>
 
     </LinearLayout>

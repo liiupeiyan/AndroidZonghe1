@@ -1,22 +1,25 @@
-package com.example.androidzonghe1.activity.yjWork;
+package com.example.androidzonghe1.activity.xtWork;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.media.Image;
+import android.app.Application;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.androidzonghe1.R;
 
-public class MyOrderActivity extends AppCompatActivity {
+public class ActivityAboutDingDong extends AppCompatActivity {
+
     private Toolbar toolbar;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_order);
+        setContentView(R.layout.about_dingdong);
+
         toolbar = findViewById(R.id.toolBar);
 
         if (getActionBar() != null){
@@ -27,9 +30,10 @@ public class MyOrderActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("MyOrderActivity", "toolbar back onClicked");
+                Log.e("ActivityAboutDingDong", "toolbar back onClicked");
                 finish();
             }
         });
+
     }
 }

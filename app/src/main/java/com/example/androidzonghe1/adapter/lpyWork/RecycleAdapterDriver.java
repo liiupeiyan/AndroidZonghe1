@@ -1,16 +1,20 @@
 package com.example.androidzonghe1.adapter.lpyWork;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.entity.lpyWork.Driver;
 import com.example.androidzonghe1.entity.lpyWork.RecycleviewTitle;
@@ -79,13 +83,23 @@ public class RecycleAdapterDriver extends RecyclerView.Adapter<RecyclerView.View
             ((TitleViewHolder) holder).title.setText(titles.get(position).getTitle());
         }
         if(holder instanceof Myholder){
+            Glide.with(mContext)
+//                    .load(drivers.get(position-1).getImg())
+                    .load(R.drawable.driver_img)
+                    .into(((Myholder)holder).img);
             ((Myholder) holder).name.setText(drivers.get(position-1).getName());
-            ((Myholder) holder).phone.setText(drivers.get(position-1).getPhone()+"");
+            ((Myholder) holder).age.setText(drivers.get(position-1).getAge()+"");
+            ((Myholder) holder).state.setText(drivers.get(position-1).getStatus());
+            ((Myholder) holder).car.setText(drivers.get(position-1).getCar());
+            ((Myholder) holder).style.setText(drivers.get(position-1).getStyle());
+            ((Myholder) holder).experience.setText(drivers.get(position-1).getExperience());
+            ((Myholder) holder).phone.setText(drivers.get(position-1).getPhone());
             //查看订单详情的点击事件
-            ((Myholder) holder).driverInfo.setOnClickListener(new View.OnClickListener(){
+            ((Myholder) holder).driverCall.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
-                    Log.e("RecycleAdapter","查看订单详情");
+                    Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+drivers.get(position-1).getPhone()));
+                    mContext.startActivity(callIntent);
                 }
             });
             holder.itemView.setOnClickListener(new View.OnClickListener(){
@@ -107,14 +121,26 @@ public class RecycleAdapterDriver extends RecyclerView.Adapter<RecyclerView.View
         return num;
     }
     public class Myholder extends RecyclerView.ViewHolder {
+        private ImageView img;
         private TextView name;
+        private TextView age;
+        private TextView state;
+        private TextView car;
+        private TextView style;
+        private TextView experience;
         private TextView phone;
-        private Button driverInfo;
+        private Button driverCall;
         public Myholder(View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.item_driver_tv_name);
-            phone = itemView.findViewById(R.id.item_driver_tv_phone);
-            driverInfo = itemView.findViewById(R.id.item_driver_btn_driver_info);
+            img = itemView.findViewById(R.id.iv_driver_img);
+            name = itemView.findViewById(R.id.tv_driver_name);
+            age = itemView.findViewById(R.id.tv_driver_age);
+            state = itemView.findViewById(R.id.tv_driver_state);
+            car = itemView.findViewById(R.id.tv_driver_car);
+            style = itemView.findViewById(R.id.tv_driver_car_style);
+            experience = itemView.findViewById(R.id.tv_driver_experience);
+            phone = itemView.findViewById(R.id.tv_driver_phone);
+            driverCall = itemView.findViewById(R.id.btn_call_driver);
         }
     }
 

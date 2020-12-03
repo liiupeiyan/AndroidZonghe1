@@ -15,27 +15,25 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.entity.xtWork.Child;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> implements View.OnClickListener{
     int resLayout;
-    List<String> data;
+    List<Child> data;
     RecyclerView recyclerView;
     OnItemClickListener onItemClickListener;
     Context context;
-    public KidsAdapter(Context context){
+    public KidsAdapter(Context context,List<Child> childs){
         this.context = context;
-        data = new ArrayList<String>();
-        data.add("one");
-        data.add("two");
-        data.add("three");
+        data = childs;
     }
-    public KidsAdapter(List<String> data, Context context){
-        this.context = context;
-        this.data = data;
-    }
+//    public KidsAdapter(List<Child> data, Context context){
+//        this.context = context;
+//        this.data = data;
+//    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -45,6 +43,16 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        //给控件赋值
+        holder.etName.setText(data.get(position).getName());
+        if(data.get(position).getSex().equals("男")){
+            holder.rbBoy.setChecked(true);
+        }else {
+            holder.rbGirl.setChecked(true);
+        }
+        holder.etClasses.setText(data.get(position).getBanji());
+        holder.btnSchool.setText(data.get(position).getSchool());
+        //监听事件
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +65,21 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
             @Override
             public void onClick(View v) {
                 onItemClickListener.onItemClick(recyclerView, v, position, data.get(position));
+            }
+        });
+        holder.rgSex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.rb_boy:
+                        holder.rbBoy.setChecked(true);
+                        holder.rbGirl.setChecked(false);
+                        break;
+                    case R.id.rb_girl:
+                        holder.rbGirl.setChecked(true);
+                        holder.rbBoy.setChecked(false);
+                        break;
+                }
             }
         });
     }
@@ -79,7 +102,7 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
     }
 
     public interface OnItemClickListener{
-        void onItemClick(RecyclerView parent, View view, int position, String data);
+        void onItemClick(RecyclerView parent, View view, int position, Child data);
     }
 
     @Override
@@ -113,6 +136,7 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
             etClasses = itemView.findViewById(R.id.et_classes);
             btnSchool = itemView.findViewById(R.id.btn_school);
             btnDelete = itemView.findViewById(R.id.btn_delete);
+
         }
     }
 }
