@@ -35,7 +35,7 @@ public class WalkingRouteOverlay extends OverlayManager {
      * 设置路线数据。
      * 
      * @param line
-     *            路线数据
+     *            路线数据；
      */
     public void setData(WalkingRouteLine line) {
         mRouteLine = line;
