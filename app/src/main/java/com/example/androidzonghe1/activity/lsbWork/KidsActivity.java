@@ -42,16 +42,11 @@ public class KidsActivity extends AppCompatActivity {
         @Override
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what){
-                case 1:
+                case 1://接收到孩子信息
                     String jsonStr = (String) msg.obj;
                     Gson gson = new Gson();
                     Type collectionType = new TypeToken<ArrayList<Child>>(){}.getType();
                     childs = gson.fromJson(jsonStr,collectionType);
-                    Child child = new Child();
-                    child.setName("王五");
-                    child.setBanji("2年1班");
-                    child.setSchool("附小");
-                    childs.add(child);
 
                     LinearLayoutManager manager = new LinearLayoutManager(getBaseContext());
                     recyclerView.setLayoutManager(manager);
@@ -98,10 +93,6 @@ public class KidsActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
     }
 
     @Override
@@ -120,7 +111,7 @@ public class KidsActivity extends AppCompatActivity {
             public void run() {
                 super.run();
                 try {
-                    URL url = new URL(s);
+                    URL url = new URL(s+"?pId=1");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     //设置http请求方式，get、post、put、...(默认get请求)
                     connection.setRequestMethod("POST");//设置请求方式
