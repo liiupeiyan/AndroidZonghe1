@@ -54,6 +54,7 @@ import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.platform.comapi.basestruct.GeoPoint;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.lsbWork.SearchActivity;
+import com.example.androidzonghe1.activity.yyWork.CaculateDistance;
 import com.example.androidzonghe1.activity.yyWork.OrderDetailsActivity;
 import com.example.androidzonghe1.entity.lpyWork.DrivingRouteOverlay;
 import com.example.androidzonghe1.entity.lpyWork.WalkingRouteOverlay;
@@ -78,6 +79,8 @@ public class FragmentLaunchRoute extends Fragment {
     RoutePlanSearch mSearch = null;
     private PlanNode stNode;//路线规划起点
     private PlanNode edNode;//路线规划终点
+    private SuggestionResult.SuggestionInfo stSuggestionInfo;//起点位置信息
+    private SuggestionResult.SuggestionInfo enSuggestionInfo;//终点位置信息
 
     String method = "multiple";
 
@@ -231,14 +234,17 @@ public class FragmentLaunchRoute extends Fragment {
         switch (requestCode){
             case END_CODE:
                 if (resultCode == 0){
-                    SuggestionResult.SuggestionInfo suggestionInfo = data.getExtras().getParcelable("suggestionInfo");
-                    Log.e("FragmentLaunchRoute", "suggestionInfo" + suggestionInfo.toString());
-                    btnEnd.setText(suggestionInfo.key);
-                    addMarkerOverlay(END_CODE, suggestionInfo);
-                    String pt = suggestionInfo.pt.toString();
-                    setPosition(suggestionInfo.getPt().latitude,suggestionInfo.getPt().longitude);
-                    addMarkerOverLay(suggestionInfo.getPt().latitude,suggestionInfo.getPt().longitude);
-                    edNode = PlanNode.withCityNameAndPlaceName(suggestionInfo.city,suggestionInfo.key);
+                    enSuggestionInfo = data.getExtras().getParcelable("suggestionInfo");
+                    Log.e("FragmentLaunchRoute", "suggestionInfo" + enSuggestionInfo.toString());
+                    btnEnd.setText(enSuggestionInfo.key);
+                    addMarkerOverlay(END_CODE, enSuggestionInfo);
+                    String pt = enSuggestionInfo.pt.toString();
+                    setPosition(enSuggestionInfo.getPt().latitude,enSuggestionInfo.getPt().longitude);
+                    //修改比例尺
+                    MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(15.0f);
+                    baiduMap.setMapStatus(msu);
+                    addMarkerOverLay(enSuggestionInfo.getPt().latitude,enSuggestionInfo.getPt().longitude);
+                    edNode = PlanNode.withCityNameAndPlaceName(enSuggestionInfo.city,enSuggestionInfo.key);
 //                    //驾车路线
 //                    mSearch.drivingSearch((new DrivingRoutePlanOption())
 //                            .from(stNode)
@@ -258,6 +264,13 @@ public class FragmentLaunchRoute extends Fragment {
                             public void onClick(View v) {
                                 //跳转到OrderDetailsActivity
                                 Intent intent = new Intent(getContext(), OrderDetailsActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("stName",stNode.getName());
+                                bundle.putString("enName",edNode.getName());
+                                //算出两点经纬度计算距离
+                                double distance =  CaculateDistance.GetDistance(stSuggestionInfo.getPt().latitude,stSuggestionInfo.getPt().longitude,enSuggestionInfo.getPt().latitude,enSuggestionInfo.getPt().longitude);
+                                bundle.putDouble("distance",distance);
+                                intent.putExtra("lrInfo",bundle);
                                 startActivity(intent);
                             }
                         });
@@ -268,15 +281,19 @@ public class FragmentLaunchRoute extends Fragment {
                 break;
             case START_CODE:
                 if (resultCode == 0){
-                    SuggestionResult.SuggestionInfo suggestionInfo = data.getExtras().getParcelable("suggestionInfo");
-                    Log.e("FragmentLaunchRoute", "suggestionInfo" + suggestionInfo.toString());
+                    stSuggestionInfo = data.getExtras().getParcelable("suggestionInfo");
+                    Log.e("FragmentLaunchRoute", "suggestionInfo" +  stSuggestionInfo.toString());
 
-                    btnStart.setText(suggestionInfo.key);
-                    addMarkerOverlay(START_CODE, suggestionInfo);
-                    String pt = suggestionInfo.pt.toString();
-                    setPosition(suggestionInfo.getPt().latitude,suggestionInfo.getPt().longitude);
-                    addMarkerOverLay(suggestionInfo.getPt().latitude,suggestionInfo.getPt().longitude);
-                    stNode = PlanNode.withCityNameAndPlaceName(suggestionInfo.city,suggestionInfo.key);
+                    btnStart.setText( stSuggestionInfo.key);
+                    addMarkerOverlay(START_CODE,  stSuggestionInfo);
+                    String pt =  stSuggestionInfo.pt.toString();
+                    setPosition( stSuggestionInfo.getPt().latitude, stSuggestionInfo.getPt().longitude);
+                    //修改比例尺
+                    MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(16.0f);
+                    baiduMap.setMapStatus(msu);
+                    baiduMap.setMaxAndMinZoomLevel(19,13);
+                    addMarkerOverLay( stSuggestionInfo.getPt().latitude, stSuggestionInfo.getPt().longitude);
+                    stNode = PlanNode.withCityNameAndPlaceName( stSuggestionInfo.city, stSuggestionInfo.key);
                     //显示发起新路线按钮
                     if(!btnStart.getText().toString().equals("请输入孩子上车地点")&&!btnEnd.getText().toString().equals("请输入终点")){
                         order.setVisibility(View.VISIBLE); //设置按钮为可见的

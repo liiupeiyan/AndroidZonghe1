@@ -13,28 +13,44 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.adapter.lsbWork.ContactorAdapter;
+import com.example.androidzonghe1.entity.xtWork.Contactor;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.zyyoona7.wheel.WheelView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ContactorActivity extends AppCompatActivity {
 
-    ImageView imgBack;
-    RecyclerView recyclerView;
-    Button btnInsert;
-    ContactorAdapter contactorAdapter;
+    private ArrayList<Contactor> contactors=new ArrayList<>();
+    private ImageView imgBack;
+    private RecyclerView recyclerView;
+    private Button btnInsert;
+    private ContactorAdapter contactorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contactor);
-
         recyclerView = findViewById(R.id.lv_contactor);
         imgBack = findViewById(R.id.img_back);
         btnInsert = findViewById(R.id.btn_insert);
-
+        //准备数据源
+        add();
+        //点击添加
         btnInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,7 +58,7 @@ public class ContactorActivity extends AppCompatActivity {
                 contactorAdapter.insertData();
             }
         });
-
+        //点击返回
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,14 +66,13 @@ public class ContactorActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+        //点击选择关系
         LinearLayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
-
-        contactorAdapter = new ContactorAdapter(getApplicationContext());
+        contactorAdapter = new ContactorAdapter(contactors,getApplicationContext());
         contactorAdapter.setOnItemClickListener(new ContactorAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(RecyclerView parent, View view, int position, String data) {
+            public void onItemClick(RecyclerView parent, View view, int position, Contactor data) {
                 Log.e("ContactorActivity", "item onClick position:" + position);
                 Button btnRelation = (Button) view;
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(ContactorActivity.this);
@@ -98,4 +113,49 @@ public class ContactorActivity extends AppCompatActivity {
         });
         recyclerView.setAdapter(contactorAdapter);
     }
+
+    private void add() {
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    URL url=new URL("http://192.168.10.1:8080/Dingdongg/QueryContactorServlet");
+                    //HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    //connection.setRequestMethod("POST");//设置请求方式
+                    InputStream inputStream = url.openStream();
+                    byte[] bytes = new byte[256];
+                    int len=-1;
+                    StringBuffer buffer=new StringBuffer();
+                    while((len=inputStream.read(bytes))!=-1) {
+                        buffer.append(new String(bytes,0,len));
+                    }
+                    String arr=buffer.toString();
+                    JSONArray jsonArray= null;
+                    jsonArray=new JSONArray(arr);
+                    for(int i=0;i<jsonArray.length();i++){
+                        JSONObject jsonObject=jsonArray.getJSONObject(i);
+                        Contactor con=new Contactor();
+                        con.setId(jsonObject.getInt("contactor_id"));
+                        con.setRelat(jsonObject.getString("relat"));
+                        con.setPhone(jsonObject.getString("contactor_phone"));
+                        con.setChild_id(jsonObject.getInt("user_id"));
+                        contactors.add(con);
+                    }
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }.start();
+
+
+
+    }
+
 }
