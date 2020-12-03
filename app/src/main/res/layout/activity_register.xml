@@ -27,11 +27,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="请输入孩子的昵称"/>
-        <EditText
+        <TextView
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:id="@+id/register_child_ship"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="请输入孩子的关系"/>
+            android:background="@drawable/text_under_line"
+            android:hint=" 请输入孩子的关系"/>
         <EditText
             android:id="@+id/register_child_school"
             android:layout_width="match_parent"
@@ -55,4 +58,8 @@
             android:text="完成"/>
 
     </LinearLayout>
+    <com.zyyoona7.wheel.WheelView
+        android:id="@+id/register_wheel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

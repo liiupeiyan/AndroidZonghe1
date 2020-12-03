@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -20,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.Utils.yjWork.Utils;
 import com.example.androidzonghe1.entity.yjWork.EditTextClearTools;
@@ -29,6 +32,15 @@ import com.mob.OperationCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 
@@ -37,14 +49,44 @@ public class ActivityLoginPage extends AppCompatActivity {
     private EditText editTextPhoneNum;
     private String phoneNum,attention;
     private TextView tv_attention;
+    private ImageView i,close;
     private EventHandler eh;
-
+    private Handler handler =new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            switch (msg.what){
+                case 1:
+                    String s = (String) msg.obj;
+                    Log.e("yj",s);
+                    if (s.equals("Yes")){
+                        //登陆界面，发送验证码
+                        SMSSDK.getVerificationCode("86", phoneNum);
+                        Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                        intent.putExtra("phoneNum",phoneNum);
+                        startActivity(intent);
+                    }else{
+                        //注册界面
+                        Intent intent = new Intent(getApplicationContext(),RegisterActivity.class);
+                        intent.putExtra("phoneNum",phoneNum);
+                        startActivity(intent);
+                    }
+                    break;
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
         editTextPhoneNum = findViewById(R.id.editTextPhoneNum);
-        ImageView i = findViewById(R.id.del_phonenumber);
+        i = findViewById(R.id.del_phonenumber);
+        close = findViewById(R.id.login_close);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         buttonCode = findViewById(R.id.buttonCode);
         EditTextClearTools.addclerListener(editTextPhoneNum,i);
         attention ="登录即代表您已经同意《叮咚接送用户协议》、《叮咚接送专业接送信息平台服务协议》和《隐私政策》。";
@@ -98,8 +140,8 @@ public class ActivityLoginPage extends AppCompatActivity {
                 phoneNum = editTextPhoneNum.getText().toString();
                 if(!phoneNum.isEmpty()){
                     if(Utils.checkTel(phoneNum)){ //利用正则表达式获取检验手机号
-                        // 获取验证码
-                        SMSSDK.getVerificationCode("86", phoneNum);
+                        //判断是否注册
+                        JudgeIsRegister("http://192.168.43.232:8080/DingDong/JudgeIsRegisterServlet?tel="+phoneNum);
                     }else{
                         Toast.makeText(getApplicationContext(),"请输入有效的手机号",Toast.LENGTH_LONG).show();
                         return;
@@ -108,9 +150,6 @@ public class ActivityLoginPage extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"请输入手机号",Toast.LENGTH_LONG).show();
                     return;
                 }
-                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-                intent.putExtra("phoneNum",phoneNum);
-                startActivity(intent);
             }
         });
     }
@@ -179,5 +218,34 @@ public class ActivityLoginPage extends AppCompatActivity {
                 Log.d("xxhh", "隐私协议授权结果提交：失败");
             }
         });
+    }
+    //判断是否已经注册
+    private void JudgeIsRegister(final String s){
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(s);
+                    URLConnection connection = url.openConnection();
+                    InputStream inputStream = connection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream,"utf-8"));
+                    String str=reader.readLine();
+                    reader.close();
+                    inputStream.close();
+                    Message msg = new Message();
+                    msg.what=1;
+                    msg.obj=str;
+                    Log.e("yj",str);
+                    handler.sendMessage(msg);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }.start();
     }
 }
