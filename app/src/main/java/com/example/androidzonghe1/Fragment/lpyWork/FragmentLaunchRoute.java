@@ -237,6 +237,9 @@ public class FragmentLaunchRoute extends Fragment {
                     addMarkerOverlay(END_CODE, suggestionInfo);
                     String pt = suggestionInfo.pt.toString();
                     setPosition(suggestionInfo.getPt().latitude,suggestionInfo.getPt().longitude);
+                    //修改比例尺
+                    MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(15.0f);
+                    baiduMap.setMapStatus(msu);
                     addMarkerOverLay(suggestionInfo.getPt().latitude,suggestionInfo.getPt().longitude);
                     edNode = PlanNode.withCityNameAndPlaceName(suggestionInfo.city,suggestionInfo.key);
 //                    //驾车路线
@@ -275,6 +278,10 @@ public class FragmentLaunchRoute extends Fragment {
                     addMarkerOverlay(START_CODE, suggestionInfo);
                     String pt = suggestionInfo.pt.toString();
                     setPosition(suggestionInfo.getPt().latitude,suggestionInfo.getPt().longitude);
+                    //修改比例尺
+                    MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(16.0f);
+                    baiduMap.setMapStatus(msu);
+                    baiduMap.setMaxAndMinZoomLevel(19,13);
                     addMarkerOverLay(suggestionInfo.getPt().latitude,suggestionInfo.getPt().longitude);
                     stNode = PlanNode.withCityNameAndPlaceName(suggestionInfo.city,suggestionInfo.key);
                     //显示发起新路线按钮
