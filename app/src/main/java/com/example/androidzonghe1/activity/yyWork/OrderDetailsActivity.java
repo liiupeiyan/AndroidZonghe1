@@ -1,5 +1,6 @@
 package com.example.androidzonghe1.activity.yyWork;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -14,10 +15,14 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.example.androidzonghe1.ConfigUtil;
+import com.example.androidzonghe1.Fragment.lpyWork.FragmentDriver;
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.lpyWork.MyTheActivity;
 import com.example.androidzonghe1.entity.yyWork.DriverOrder;
 
 import org.json.JSONException;
@@ -32,7 +37,8 @@ import java.util.Locale;
 import java.util.Map;
 
 public class OrderDetailsActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button btnDriver;
+//    private Button btnDriver;
+    private RelativeLayout chooseDriver;
     private DriverOrder order=new DriverOrder();
     private ImageView inF;
     private ImageView outS;
@@ -62,9 +68,23 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_order);
         getViews();
+        //选择司机
+        chooseDriver.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                //跳转到司机展示页，客户自主找寻空闲司机
+                ConfigUtil.flagChooseDriver = true;
+                Intent intent = new Intent(OrderDetailsActivity.this, MyTheActivity.class);
+                startActivityForResult(intent,1);
+            }
+        });
         //获取从FragmentLaunchRoute传递过来的数据：起点  终点；写入from和to控件中
+        Bundle bundle =  getIntent().getExtras().getBundle("lrInfo");
+        from.setText(bundle.getString("stName"));
+        to.setText(bundle.getString("enName"));
         //获取从FragmentLaunchRoute传递过来的数据: 起点和终点的经纬度。写入tvSpend中
-        distance = CaculateDistance.GetDistance(38.002119,114.520159,37.984026,114.528652);
+//        distance = CaculateDistance.GetDistance(38.002119,114.520159,37.984026,114.528652);
+        distance = bundle.getDouble("distance");
         double gl = Math.round( distance / 100d) / 10d;
         tvSpend.setText(gl+"");
         //计算价格，每公里15元写入tvPrice中
@@ -75,7 +95,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
         in.setOnClickListener(this);
         out.setOnClickListener(this);
         add.setOnClickListener(this);
-        btnDriver.setOnClickListener(this);
+//        btnDriver.setOnClickListener(this);
         //2
         order.setFrom(from.getText()+"");
         //3
@@ -83,6 +103,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
         //4通过自主找寻司机
         order.setDriver(tvDriver.getText()+"");
         order.setPrice(Double.parseDouble(tvPrice.getText()+""));
+
     }
 
     private void getViews() {
@@ -101,7 +122,8 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
         format = DateFormat.getDateTimeInstance();
         calendar = Calendar.getInstance(Locale.CHINA);
         add = findViewById(R.id.btn_add_order);
-        btnDriver = findViewById(R.id.btn_find_driver);
+//        btnDriver = findViewById(R.id.btn_find_driver);
+        chooseDriver = findViewById(R.id.rel);
         tvDriver = findViewById(R.id.tv_driver);
         tvSpend = findViewById(R.id.tv_spend);
         tvPrice = findViewById(R.id.tv_price);
@@ -151,9 +173,11 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                 });
                 dialog.show();
                 break;
-            case R.id.btn_find_driver:
-                //跳转到司机展示页，客户自主找寻空闲司机
-                break;
+//            case R.id.btn_find_driver:
+//                //跳转到司机展示页，客户自主找寻空闲司机
+//                Intent intent = new Intent(OrderDetailsActivity.this, FragmentDriver.class);
+//                startActivityForResult(intent,1);
+//                break;
         }
     }
     //将对象转化为json字符串
@@ -252,4 +276,8 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
         }, calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),true).show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

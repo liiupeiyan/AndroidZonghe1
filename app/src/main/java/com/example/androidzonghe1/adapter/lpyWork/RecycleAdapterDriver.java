@@ -107,6 +107,7 @@ public class RecycleAdapterDriver extends RecyclerView.Adapter<RecyclerView.View
                 public void onClick(View view) {
                     Log.e("这里是点击每一行item的响应事件",""+position);
                 }
+
             });
         }
 
