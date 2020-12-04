@@ -64,13 +64,14 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
     private TextView tvWeek;
     private TextView tvHope;
     private TextView tvSpend;
+    private  double gl = 0;
     private TextView tvPrice;
     private Button add;
     private DateFormat format;
     private Calendar calendar;
     private String time;
     private String week;
-    private double distance;
+    private double distance = 0;
     private String pwd;
     private List<Driver> drivers = new ArrayList<Driver>();
 
@@ -110,20 +111,24 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
 
                     }
                 });
-                bottomSheetDialog.setContentView(view);
+                bottomSheetDialog.setContentView(v);
                 bottomSheetDialog.setCancelable(true);
                 bottomSheetDialog.setCanceledOnTouchOutside(true);
                 bottomSheetDialog.show();
             }
         });
-        //获取从FragmentLaunchRoute传递过来的数据：起点  终点；写入from和to控件中
-        Bundle bundle =  getIntent().getExtras().getBundle("lrInfo");
-        from.setText(bundle.getString("stName"));
-        to.setText(bundle.getString("enName"));
-        //获取从FragmentLaunchRoute传递过来的数据: 起点和终点的经纬度。写入tvSpend中
+
+        if (ConfigUtil.flagOrder){
+            //获取从FragmentLaunchRoute传递过来的数据：起点  终点；写入from和to控件中
+            Bundle bundle =  getIntent().getExtras().getBundle("lrInfo");
+            from.setText(bundle.getString("stName"));
+            to.setText(bundle.getString("enName"));
+            //获取从FragmentLaunchRoute传递过来的数据: 起点和终点的经纬度。写入tvSpend中
 //        distance = CaculateDistance.GetDistance(38.002119,114.520159,37.984026,114.528652);
-        distance = bundle.getDouble("distance");
-        double gl = Math.round( distance / 100d) / 10d;
+            distance = bundle.getDouble("distance");
+            gl = Math.round( distance / 100d) / 10d;
+            ConfigUtil.flagOrder = false;
+        }
         tvSpend.setText(gl+"");
         //计算价格，每公里15元写入tvPrice中
         tvPrice.setText(gl*15+"");
@@ -166,7 +171,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
         chooseDriver = findViewById(R.id.btn_find_driver);
         chooseState = findViewById(R.id.tv_order_choose_state);
 //        btnDriver
-//        tvSpend = findViewById(R.id.tv_spend);
+        tvSpend = findViewById(R.id.tv_spend);
         tvPrice = findViewById(R.id.tv_price);
     }
 

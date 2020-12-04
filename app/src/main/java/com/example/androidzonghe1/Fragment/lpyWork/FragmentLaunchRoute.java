@@ -52,6 +52,7 @@ import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.platform.comapi.basestruct.GeoPoint;
+import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.lsbWork.SearchActivity;
 import com.example.androidzonghe1.activity.yyWork.CaculateDistance;
@@ -271,6 +272,7 @@ public class FragmentLaunchRoute extends Fragment {
                                 double distance =  CaculateDistance.GetDistance(stSuggestionInfo.getPt().latitude,stSuggestionInfo.getPt().longitude,enSuggestionInfo.getPt().latitude,enSuggestionInfo.getPt().longitude);
                                 bundle.putDouble("distance",distance);
                                 intent.putExtra("lrInfo",bundle);
+                                ConfigUtil.flagOrder = true;
                                 startActivity(intent);
                             }
                         });

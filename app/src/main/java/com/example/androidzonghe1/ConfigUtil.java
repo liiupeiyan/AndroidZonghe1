@@ -24,6 +24,9 @@ public class ConfigUtil {
 
     public static boolean adapterFlag =  true;
 
+    ///是否下单
+    public static boolean flagOrder = false;
+
     //下单操作进行司机选择（跳转界面）
     public static boolean flagChooseDriver = false;
 
