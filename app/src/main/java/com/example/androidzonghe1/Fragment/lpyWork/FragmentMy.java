@@ -16,23 +16,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidzonghe1.ConfigUtil;
-import com.example.androidzonghe1.Fragment.yyWork.ThirdFragment;
-import com.example.androidzonghe1.MyApplication;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.lsbWork.ContactorActivity;
 import com.example.androidzonghe1.activity.lsbWork.KidsActivity;
 import com.example.androidzonghe1.activity.rjxWork.CommandActivity;
 import com.example.androidzonghe1.activity.rjxWork.TicketActivity;
-import com.example.androidzonghe1.activity.xtWork.AcitivityChangeName;
 import com.example.androidzonghe1.activity.xtWork.ActivityPersonInfo;
 import com.example.androidzonghe1.activity.yyWork.ActivityNewRead;
-import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterDayTrip;
 import com.example.androidzonghe1.adapter.xtWork.RecycleAdapterFragmentMy;
-import com.example.androidzonghe1.entity.lpyWork.RecycleviewTitle;
 import com.example.androidzonghe1.entity.xtWork.RvFragmentMy;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class FragmentMy extends Fragment {
     private View view;

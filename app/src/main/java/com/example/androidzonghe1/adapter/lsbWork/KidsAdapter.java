@@ -14,18 +14,22 @@ import android.widget.RadioGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.entity.xtWork.Child;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> implements View.OnClickListener{
     int resLayout;
-    List<Child> data;
-    RecyclerView recyclerView;
-    OnItemClickListener onItemClickListener;
-    Context context;
+    private List<Child> data;
+    private RecyclerView recyclerView;
+    private OnItemClickListener onItemClickListener;
+    private Context context;
     public KidsAdapter(Context context,List<Child> childs){
         this.context = context;
         data = childs;
@@ -57,6 +61,9 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
             @Override
             public void onClick(View v) {
                 Log.e("KidsAdapter", "btnDelete onClick position:" + position);
+                //网络流删除数据
+                int id = data.get(position).getId();
+                deleteChildById(ConfigUtil.Url+"deleteChildServlet?cId="+id);
                 data.remove(position);
                 notifyDataSetChanged();
             }
@@ -118,14 +125,14 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imgHeadPhoto;
-        EditText etName;
-        RadioGroup rgSex;
-        RadioButton rbBoy;
-        RadioButton rbGirl;
-        EditText etClasses;
-        Button btnSchool;
-        Button btnDelete;
+        private ImageView imgHeadPhoto;
+        private EditText etName;
+        private RadioGroup rgSex;
+        private RadioButton rbBoy;
+        private RadioButton rbGirl;
+        private EditText etClasses;
+        private Button btnSchool;
+        private Button btnDelete;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imgHeadPhoto = itemView.findViewById(R.id.img_head_photo);
@@ -137,6 +144,30 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
             btnSchool = itemView.findViewById(R.id.btn_school);
             btnDelete = itemView.findViewById(R.id.btn_delete);
 
+        }
+    }
+
+    //删除一条数据
+    public void deleteChildById(final String s){
+        Thread thread = new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    URL url = new URL(s);
+                    url.openStream();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

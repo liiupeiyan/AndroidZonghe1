@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.yyWork.OrderDetailsActivity;
 import com.example.androidzonghe1.entity.lpyWork.Driver;
 import com.example.androidzonghe1.entity.lpyWork.RecycleviewTitle;
 
@@ -106,6 +107,9 @@ public class RecycleAdapterDriver extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onClick(View view) {
                     Log.e("这里是点击每一行item的响应事件",""+position);
+                    ((Myholder) holder).state.setText("忙碌");
+                    Intent intent = new Intent(mContext, OrderDetailsActivity.class);
+                    mContext.startActivity(intent);
                 }
             });
         }

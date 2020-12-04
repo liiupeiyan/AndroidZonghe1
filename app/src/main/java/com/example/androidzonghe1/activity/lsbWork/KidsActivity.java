@@ -75,7 +75,7 @@ public class KidsActivity extends AppCompatActivity {
         btnInsert = findViewById(R.id.btn_insert);
 
         //网络连接
-        getChildInfo(ConfigUtil.Url );
+        getChildInfo(ConfigUtil.Url+"GetChildServlet" );
 
         btnInsert.setOnClickListener(new View.OnClickListener() {
             @Override
