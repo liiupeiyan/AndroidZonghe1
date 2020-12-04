@@ -26,6 +26,9 @@ public class ConfigUtil {
 
     public static boolean adapterFlag =  true;
 
+    //下单操作进行司机选择（跳转界面）
+    public static boolean flagChooseDriver = false;
+
     public static List<Order> orders = new ArrayList<>();
     public static void initOrders(){
         for(int i = 0 ; i < 20; i++){

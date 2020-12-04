@@ -30,11 +30,11 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="iAngGeHOk7mYUBU0nGIpTfhwZ5le7Wqj" />
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity android:name=".others.lsbWork.MyAppIntro2" />
         <activity android:name=".activity.lsbWork.KidsActivity" />
@@ -56,6 +56,13 @@
         <activity android:name=".activity.yyWork.CarPoolActivity" />
         <activity android:name=".activity.yyWork.DisActivity" />
         <activity android:name=".activity.yyWork.DisinfectActivity" />
+        <activity android:name=".activity.yyWork.OrderDetailsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activity.yyWork.FuncActivity" />
         <activity android:name=".activity.yyWork.PreventActivity" />
         <activity android:name=".activity.yyWork.SendActivity" />
