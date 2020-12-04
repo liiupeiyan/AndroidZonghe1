@@ -11,6 +11,6 @@ public class ActivityDingDongAppInfo extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.guanyudingdong);
+        setContentView(R.layout.about_dingdong);
     }
 }

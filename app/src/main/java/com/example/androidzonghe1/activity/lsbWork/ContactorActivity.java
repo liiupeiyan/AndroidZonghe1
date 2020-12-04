@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.adapter.lsbWork.ContactorAdapter;
 import com.example.androidzonghe1.entity.xtWork.Contactor;
@@ -119,7 +120,7 @@ public class ContactorActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    URL url=new URL("http://192.168.10.1:8080/Dingdongg/QueryContactorServlet");
+                    URL url=new URL(ConfigUtil.xt+"QueryContactorServlet");
                     //HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     //connection.setRequestMethod("POST");//设置请求方式
                     InputStream inputStream = url.openStream();

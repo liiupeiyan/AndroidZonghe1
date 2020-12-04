@@ -49,17 +49,26 @@
                 android:layout_height="5dp"
                 android:background="@android:color/holo_red_light"/>
         </LinearLayout>
-
-
-        <TextView
-            android:id="@+id/tv_money"
+        <LinearLayout
+            android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:text="¥0.0"
-            android:textSize="36sp"
-            android:textColor="@color/black"
-
-            android:gravity="center"/>
+            android:layout_height="50dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:text="¥"
+                android:textSize="36sp"
+                android:textColor="@color/black"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/tv_money"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:text="0.0"
+                android:textSize="36sp"
+                android:textColor="@color/black"
+                android:gravity="center"/>
+        </LinearLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,10 +87,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:layout_weight="1"
+                android:textColor="@color/white"
                 android:background="@drawable/shape"
                 android:gravity="center"
-                android:text="明细"
-                android:textColor="@android:color/white"/>
+                android:text="细明" />
 
             <Button
                 android:id="@+id/btn_withdraw_money"
@@ -91,8 +100,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/shape"
                 android:gravity="center"
-                android:text="提现"
-                android:textColor="@android:color/white"/>
+                android:textColor="@color/white"
+                android:text="充值" />
         </LinearLayout>
 
     </LinearLayout>

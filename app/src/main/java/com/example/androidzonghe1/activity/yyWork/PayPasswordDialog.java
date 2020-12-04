@@ -1,5 +1,6 @@
 package com.example.androidzonghe1.activity.yyWork;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,6 +24,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.lsbWork.WalletActivity;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 public class PayPasswordDialog extends Dialog implements View.OnClickListener {
@@ -42,11 +45,24 @@ public class PayPasswordDialog extends Dialog implements View.OnClickListener {
     private TextView tvDel;
     private String pwd;
     private FragmentManager manager;
-    public PayPasswordDialog(@NonNull Context context, int themeResId,String order,FragmentManager fragmentManager) {
+    private Activity activity;
+    private int code;
+    private Dialog mDia;
+    private String money;
+    public PayPasswordDialog(@NonNull Context context, int themeResId,int code,Dialog dialog,String mon) {
+        super(context, themeResId);
+        this.context = context;
+        this.code = code;
+        mDia = dialog;
+        money = mon;
+    }
+    public PayPasswordDialog(@NonNull Context context, int themeResId, String order, FragmentManager fragmentManager, Activity activity,int code) {
         super(context, themeResId);
         this.context = context;
         this.pwd = order;
         manager = fragmentManager;
+        this.code = code;
+        activity = activity;
     }
 
     @Override
@@ -84,10 +100,16 @@ public class PayPasswordDialog extends Dialog implements View.OnClickListener {
                 if (dialogClick!=null){
                     dialogClick.doConfirm(password);
                 }
-                //判断pwd.equals(password)。弹出支付成功界面
-                showCustomeDialog();
-//                Intent intent = new Intent(getContext(), TestActivity.class);
-//                getContext().startActivity(intent);
+                if(code==1){
+                    //判断pwd.equals(password)。弹出支付成功界面
+                    showCustomeDialog();
+                }else if(code==2){
+                    //返回WalletActivity
+                    EventBus.getDefault().post(money);
+                    mDia.dismiss();
+                    //判断pwd.equals(password)。相等关闭Fragment
+//                    showMoneyDialog();
+                }
             }
         });
 
@@ -103,6 +125,16 @@ public class PayPasswordDialog extends Dialog implements View.OnClickListener {
         tv9.setOnClickListener(this);
     }
 
+    private void showMoneyDialog() {
+        FragmentTransaction transaction = manager.beginTransaction();
+        MoneyDialog dialog = new MoneyDialog();
+        if(!dialog.isAdded()){
+            transaction.add(dialog,"dialog_tag");
+        }
+        transaction.show(dialog);
+        transaction.commit();
+    }
+
     private void showCustomeDialog() {
         FragmentTransaction transaction = manager.beginTransaction();
         PaySucc dialog = new PaySucc();
@@ -111,6 +143,8 @@ public class PayPasswordDialog extends Dialog implements View.OnClickListener {
         }
         transaction.show(dialog);
         transaction.commit();
+        //结束OrderDetailsActivity
+        activity.finish();
     }
 
     private void initView() {

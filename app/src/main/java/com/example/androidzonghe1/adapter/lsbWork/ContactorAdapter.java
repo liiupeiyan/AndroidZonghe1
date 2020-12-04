@@ -15,15 +15,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.entity.xtWork.Contactor;
-import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,7 +80,7 @@ public class ContactorAdapter extends RecyclerView.Adapter<ContactorAdapter.View
                         try {
                             Log.e("id",data.get(position).getId()+"");
                             jsonObject.put("contactor_id",data.get(position).getId());
-                            URL url=new URL("http://192.168.10.1:8080/Dingdongg/DeleteContactorServlet");
+                            URL url=new URL(ConfigUtil.xt+"DeleteContactorServlet");
                             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                             //设置http请求方式，get、post、put、...(默认get请求)
                             connection.setRequestMethod("POST");//设置请求方式
@@ -172,7 +170,7 @@ public class ContactorAdapter extends RecyclerView.Adapter<ContactorAdapter.View
                             jsonObject.put("relat",relation);
                             jsonObject.put("contactor_phone",phone);
                             jsonObject.put("id",data.get(position).getId());
-                            URL url=new URL("http://192.168.10.1:8080/Dingdongg/UpdateContactorServlet");
+                            URL url=new URL(ConfigUtil.xt+"UpdateContactorServlet");
                             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                             //设置http请求方式，get、post、put、...(默认get请求)
                             connection.setRequestMethod("POST");//设置请求方式
@@ -199,12 +197,12 @@ public class ContactorAdapter extends RecyclerView.Adapter<ContactorAdapter.View
                     }
                 };
                 thread.start();
-                try {
-                    thread.join();
-                    notifyDataSetChanged();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    thread.join();
+//                    notifyDataSetChanged();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
             }
         });
         //点击保存按钮,可以添加数据
@@ -224,7 +222,7 @@ public class ContactorAdapter extends RecyclerView.Adapter<ContactorAdapter.View
                         try {
                             jsonObject.put("relat",relation);
                             jsonObject.put("contactor_phone",phone);
-                            URL url=new URL("http://192.168.10.1:8080/Dingdongg/AddContactorServlet");
+                            URL url=new URL(ConfigUtil.xt+"AddContactorServlet");
                             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                             //设置http请求方式，get、post、put、...(默认get请求)
                             connection.setRequestMethod("POST");//设置请求方式
@@ -238,6 +236,7 @@ public class ContactorAdapter extends RecyclerView.Adapter<ContactorAdapter.View
                                 buffer.append(new String(bytes,0,len));
                             }
                             String arr=buffer.toString();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (MalformedURLException e) {
@@ -251,12 +250,12 @@ public class ContactorAdapter extends RecyclerView.Adapter<ContactorAdapter.View
                     }
                 };
                 thread.start();
-                try {
-                    thread.join();
-                    notifyDataSetChanged();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    thread.join();
+//                    notifyDataSetChanged();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
 
 
             }
