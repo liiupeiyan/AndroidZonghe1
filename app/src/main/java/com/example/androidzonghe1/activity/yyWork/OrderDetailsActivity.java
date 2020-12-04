@@ -72,7 +72,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
     private String week;
     private double distance;
     private String pwd;
-    private List<Driver> drivers = new ArrayList<Driver>();
+    private List<Driver> drivers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +80,14 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_add_order);
         getViews();
 //        //选择司机
+        for (int i = 0;i<7;i++){
+            Driver driver = new Driver();
+            driver.setName("ere");
+            driver.setAge(23);
+            driver.setCar("lawnfi");
+            driver.setPhone("12341322");
+            drivers.add(driver);
+        }
         chooseDriver.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -110,7 +118,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
 
                     }
                 });
-                bottomSheetDialog.setContentView(view);
+                bottomSheetDialog.setContentView(v);
                 bottomSheetDialog.setCancelable(true);
                 bottomSheetDialog.setCanceledOnTouchOutside(true);
                 bottomSheetDialog.show();
