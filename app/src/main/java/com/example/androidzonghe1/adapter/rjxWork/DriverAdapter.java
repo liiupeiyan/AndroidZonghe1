@@ -28,7 +28,7 @@ public class DriverAdapter extends BaseAdapter{
     @Override
     public int getCount() {
         if (null != drivers){
-            return drivers.size();
+            return 8;
         }
         return 8;
     }

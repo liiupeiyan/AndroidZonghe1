@@ -26,10 +26,10 @@ import java.util.List;
 
 public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> implements View.OnClickListener{
     int resLayout;
-    List<Child> data;
-    RecyclerView recyclerView;
-    OnItemClickListener onItemClickListener;
-    Context context;
+    private List<Child> data;
+    private RecyclerView recyclerView;
+    private OnItemClickListener onItemClickListener;
+    private Context context;
     public KidsAdapter(Context context,List<Child> childs){
         this.context = context;
         data = childs;
@@ -125,14 +125,14 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imgHeadPhoto;
-        EditText etName;
-        RadioGroup rgSex;
-        RadioButton rbBoy;
-        RadioButton rbGirl;
-        EditText etClasses;
-        Button btnSchool;
-        Button btnDelete;
+        private ImageView imgHeadPhoto;
+        private EditText etName;
+        private RadioGroup rgSex;
+        private RadioButton rbBoy;
+        private RadioButton rbGirl;
+        private EditText etClasses;
+        private Button btnSchool;
+        private Button btnDelete;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imgHeadPhoto = itemView.findViewById(R.id.img_head_photo);

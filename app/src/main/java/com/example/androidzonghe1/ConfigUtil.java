@@ -18,6 +18,8 @@ public class ConfigUtil {
     public static String userName = "";
     //当前手机号
     public static String phone="";
+    //徐婷连接到服务器
+    public static final String xt = "http://192.168.43.115:8080/Dingdongg/";
     //任佳旭连接服务器
     public static final String Url = "http://192.168.43.52:8080/DingDong/";
 

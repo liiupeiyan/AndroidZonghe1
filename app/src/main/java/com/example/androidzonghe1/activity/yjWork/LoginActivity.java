@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.androidzonghe1.ConfigUtil;
@@ -22,6 +25,15 @@ import com.example.androidzonghe1.activity.lpyWork.MyTheActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
@@ -34,6 +46,23 @@ public class LoginActivity extends AppCompatActivity {
     private TextView tv_phoneNum,tv_second;
     private VerifyCodeView verifyCodeView;
     private EventHandler eh;
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            switch (msg.what){
+                case 1:
+                    String name = (String) msg.obj;
+                    Intent intent = new Intent(getApplicationContext(), MyTheActivity.class);
+                    startActivity(intent);
+                    ConfigUtil.isLogin = true;
+                    ConfigUtil.phone = phoneNum;
+                    ConfigUtil.userName = name;
+                    ConfigUtil.parent.setName(name);
+                    countDownTimer.cancel();
+                    break;
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,9 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(), MyTheActivity.class);
-                                startActivity(intent);
-                                ConfigUtil.isLogin = true;
+                                GetParentId("http://192.168.43.232:8080/DingDong/LoginServlet?tel="+phoneNum);
                             }
                         });
                     }else if (event == SMSSDK.EVENT_GET_VOICE_VERIFICATION_CODE){
@@ -132,5 +159,34 @@ public class LoginActivity extends AppCompatActivity {
             SMSSDK.getVerificationCode("86", phoneNum);
         }
     };
+
+    private void GetParentId(final String s){
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(s);
+                    URLConnection connection = url.openConnection();
+                    InputStream inputStream = connection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream,"utf-8"));
+                    String str=reader.readLine();
+                    reader.close();
+                    inputStream.close();
+                    Message msg = new Message();
+                    msg.what=1;
+                    msg.obj=str;
+                    Log.e("yj",str);
+                    handler.sendMessage(msg);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }.start();
+    }
 
 }
