@@ -6,6 +6,7 @@ import com.example.androidzonghe1.entity.lpyWork.Message;
 import com.example.androidzonghe1.entity.lpyWork.Order;
 import com.example.androidzonghe1.entity.lpyWork.SameSchoolRoute;
 import com.example.androidzonghe1.entity.xtWork.RvFragmentMy;
+import com.example.androidzonghe1.entity.yjWork.Parent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ public class ConfigUtil {
     public static String userName = "";
     //当前手机号
     public static String phone="";
+    public static Parent parent = new Parent();
     //徐婷连接到服务器
     public static final String xt = "http://192.168.43.115:8080/Dingdongg/";
     //任佳旭连接服务器
