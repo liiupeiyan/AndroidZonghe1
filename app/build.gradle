@@ -44,6 +44,8 @@ android {
 }
 
 dependencies {
+    //eventBus
+    implementation 'org.greenrobot:eventbus:3.1.1'
     //okhttp  
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
     //apk multidex
