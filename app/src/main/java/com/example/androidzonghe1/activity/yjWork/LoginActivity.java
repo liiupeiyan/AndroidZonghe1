@@ -99,6 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                                 ConfigUtil.phone = phoneNum;
                                 ConfigUtil.userName = "杨颖妈妈";
                                 ConfigUtil.parent.setName("杨颖妈妈");
+                                countDownTimer.cancel();
                             }
                         });
                     }else if (event == SMSSDK.EVENT_GET_VOICE_VERIFICATION_CODE){

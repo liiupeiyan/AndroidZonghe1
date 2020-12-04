@@ -144,7 +144,7 @@ public class PayPasswordDialog extends Dialog implements View.OnClickListener {
         transaction.show(dialog);
         transaction.commit();
         //结束OrderDetailsActivity
-        activity.finish();
+        //activity.finish();
     }
 
     private void initView() {

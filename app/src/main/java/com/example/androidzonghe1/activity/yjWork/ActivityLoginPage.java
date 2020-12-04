@@ -145,6 +145,7 @@ public class ActivityLoginPage extends AppCompatActivity {
                         SMSSDK.getVerificationCode("86", phoneNum);
                         Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                         intent.putExtra("phoneNum",phoneNum);
+                        startActivity(intent);
                     }else{
                         Toast.makeText(getApplicationContext(),"请输入有效的手机号",Toast.LENGTH_LONG).show();
                         return;

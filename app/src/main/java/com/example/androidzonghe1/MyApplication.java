@@ -15,7 +15,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         //初始化百度地图
-//        SDKInitializer.initialize(this);
+        SDKInitializer.initialize(this);
         init();
         MultiDex.install(this);
     }
