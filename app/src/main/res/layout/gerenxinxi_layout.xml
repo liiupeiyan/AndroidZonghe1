@@ -24,6 +24,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"/>
             <TextView
+                android:id="@+id/yj_person_name"
                 android:layout_marginTop="10dp"
                 android:textSize="20sp"
                 android:layout_width="wrap_content"

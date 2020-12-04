@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,7 +44,7 @@ public class FragmentMy extends Fragment {
     private LinearLayout llAwardCommend;
     private LinearLayout llNewRead;
     private LinearLayout llNewGetTicket;
-
+    private TextView myName;
 
     @Nullable
     @Override
@@ -80,6 +81,13 @@ public class FragmentMy extends Fragment {
         llContact = view.findViewById(R.id.ll_fragment_my_contact);
         llNewRead = view.findViewById(R.id.ll_fragment_new_read);
         llNewGetTicket = view.findViewById(R.id.ll_fragment_new_get_ticket);
+        myName = view.findViewById(R.id.my_name);
+        if(ConfigUtil.isLogin){
+            myName.setText(ConfigUtil.parent.getName());
+        }else {
+            myName.setText("昵称");
+        }
+
     }
 
     public void setOnClickedListener(){
