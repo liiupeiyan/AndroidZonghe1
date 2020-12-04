@@ -57,7 +57,8 @@
             android:focusable="true"
             android:gravity="center"
             android:onClick="onClicked"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="30dp"
@@ -99,7 +100,8 @@
             android:gravity="center"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="70dp" >
+            android:layout_height="70dp"
+            android:padding="10dp">
             <ImageView
                 android:src="@drawable/father"
                 android:layout_width="30dp"
