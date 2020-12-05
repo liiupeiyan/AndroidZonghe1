@@ -3,6 +3,7 @@ package com.example.androidzonghe1.activity.yyWork;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -25,11 +26,14 @@ import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.Fragment.lpyWork.FragmentDriver;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.lpyWork.MyTheActivity;
+import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterDriver;
+import com.example.androidzonghe1.adapter.lpyWork.RvAdapterNoTitleDriver;
 import com.example.androidzonghe1.adapter.rjxWork.DriverAdapter;
 import com.example.androidzonghe1.entity.lpyWork.Driver;
 import com.example.androidzonghe1.entity.yyWork.DriverOrder;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -73,6 +77,8 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
     private String week;
     private double distance = 0;
     private String pwd;
+    private RecyclerView recyclerView;
+    private RvAdapterNoTitleDriver adapter;
     private List<Driver> drivers = new ArrayList<>();
 
     @Override
@@ -97,13 +103,16 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                 View v = LayoutInflater.from(getApplicationContext()).inflate(R.layout.driver_list_item,null);
                 Button btnCancel = v.findViewById(R.id.btn_cancel);
                 Button btnConfirm = v.findViewById(R.id.btn_confirm);
-                DriverAdapter driverAdapter = new DriverAdapter(drivers,R.layout.item_recycleview_driver,getApplicationContext());
-                ListView listView = v.findViewById(R.id.lv_driver);
-                listView.setAdapter(driverAdapter);
+//                ListView listView = v.findViewById(R.id.lv_driver);
+                recyclerView = v.findViewById(R.id.rv_driver);
+                adapter = new RvAdapterNoTitleDriver(ConfigUtil.drivers);
+                recyclerView.setAdapter(adapter);
+//                listView.setAdapter(driverAdapter);
                 //取消按钮
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+//                        EventBus.getDefault().post(listView.);
                         driverName.setText("小伴接送员");
                         chooseState.setText("未选择");
                         bottomSheetDialog.dismiss();
@@ -113,6 +122,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                 btnConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         driverName.setText("张师傅");
                         chooseState.setText("已选择");
                         bottomSheetDialog.dismiss();
