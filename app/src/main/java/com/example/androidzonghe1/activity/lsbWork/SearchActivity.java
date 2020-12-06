@@ -62,6 +62,13 @@ public class SearchActivity extends AppCompatActivity {
                     city = (String) msg.obj;
                     cityText = (String) msg.obj;
                     etCity.setText(city);
+                    etSite.setFocusable(true);
+                    etSite.setFocusableInTouchMode(true);
+                    etSite.requestFocus();
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment, siteFragment);
+                    fragmentTransaction.commit();
                     break;
             }
         }
@@ -113,12 +120,13 @@ public class SearchActivity extends AppCompatActivity {
         etCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                etCity.setText("");
-                etCity.setHint("城市名称");
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment, cityFragment);
-                fragmentTransaction.commit();
+                if (hasFocus){
+                    etCity.setText("");
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment, cityFragment);
+                    fragmentTransaction.commit();
+                }
             }
         });
         etCity.addTextChangedListener(new TextWatcher() {
@@ -142,22 +150,27 @@ public class SearchActivity extends AppCompatActivity {
         etSite.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (cityText.equals("")){
-                    etCity.setText(city);
-                } else {
-                    etCity.setText(cityText);
+                if (hasFocus){
+                    if (cityText.equals("")){
+                        etCity.setText(city);
+                    } else {
+                        etCity.setText(cityText);
+                    }
+                    if (etCity.getText().toString().trim().equals("")){
+                        etCity.setText(location);
+                        city = location;
+                    }
+                    Log.e("SearchActivity", "keyword:" + keyword + "\tcity:" + city);
+                    if (keyword == null || keyword.equals("")){
+                        suggestionSearch.requestSuggestion(new SuggestionSearchOption().city(city).keyword(city));
+                    } else {
+                        suggestionSearch.requestSuggestion(new SuggestionSearchOption().city(city).keyword(keyword));
+                    }
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment, siteFragment);
+                    fragmentTransaction.commit();
                 }
-                etCity.setHint("");
-                Log.e("SearchActivity", "keyword:" + keyword + "\tcity:" + city);
-                if (keyword == null || keyword.equals("")){
-                    suggestionSearch.requestSuggestion(new SuggestionSearchOption().city(city).keyword(city));
-                } else {
-                    suggestionSearch.requestSuggestion(new SuggestionSearchOption().city(city).keyword(keyword));
-                }
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment, siteFragment);
-                fragmentTransaction.commit();
             }
         });
 

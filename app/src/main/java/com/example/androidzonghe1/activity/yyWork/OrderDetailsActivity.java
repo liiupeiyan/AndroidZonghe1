@@ -58,7 +58,7 @@ import java.util.Map;
 public class OrderDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 //    private Button btnDriver;
     private ImageView driverImg;
-    private TextView driverName;
+    public   static TextView driverName;
     private TextView chooseState;
     private Button chooseDriver;
     private Button driverInfo;
@@ -138,6 +138,12 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                         driverName.setText("小伴接送员");
                         chooseState.setText("未选择");
                         bottomSheetDialog.dismiss();
+                    }
+                });
+                recyclerView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
                     }
                 });
                 //确定按钮

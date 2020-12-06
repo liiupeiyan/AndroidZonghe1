@@ -250,16 +250,16 @@ public class FragmentLaunchRoute extends Fragment {
 //                    mSearch.drivingSearch((new DrivingRoutePlanOption())
 //                            .from(stNode)
 //                            .to(edNode));
-                    //步行路线
-                    mSearch.walkingSearch((new WalkingRoutePlanOption())
-                            .from(stNode)
-                            .to(edNode));
 //                    MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(16.0f);
 //                    baiduMap.setMapStatus(msu);
 //                    baiduMap.setMaxAndMinZoomLevel(19,13);
                     //显示发起新路线按钮
                     if(!btnStart.getText().toString().equals("请输入孩子上车地点") && !btnEnd.getText().toString().equals("请输入终点")){
                         order.setVisibility(View.VISIBLE); //设置按钮为可见的
+                        //步行路线
+                        mSearch.walkingSearch((new WalkingRoutePlanOption())
+                                .from(stNode)
+                                .to(edNode));
                         order.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -299,11 +299,23 @@ public class FragmentLaunchRoute extends Fragment {
                     //显示发起新路线按钮
                     if(!btnStart.getText().toString().equals("请输入孩子上车地点")&&!btnEnd.getText().toString().equals("请输入终点")){
                         order.setVisibility(View.VISIBLE); //设置按钮为可见的
+                        //步行路线
+                        mSearch.walkingSearch((new WalkingRoutePlanOption())
+                                .from(stNode)
+                                .to(edNode));
                         order.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 //跳转到OrderDetailsActivity
                                 Intent intent = new Intent(getContext(), OrderDetailsActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("stName",stNode.getName());
+                                bundle.putString("enName",edNode.getName());
+                                //算出两点经纬度计算距离
+                                double distance =  CaculateDistance.GetDistance(stSuggestionInfo.getPt().latitude,stSuggestionInfo.getPt().longitude,enSuggestionInfo.getPt().latitude,enSuggestionInfo.getPt().longitude);
+                                bundle.putDouble("distance",distance);
+                                intent.putExtra("lrInfo",bundle);
+                                ConfigUtil.flagOrder = true;
                                 startActivity(intent);
                             }
                         });

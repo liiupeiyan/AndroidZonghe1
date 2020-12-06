@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="270dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/view_gift_card_radius"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            app:riv_corner_radius="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:src="@drawable/city"/>
+        <ImageView
+            android:id="@+id/iv_photo"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@android:color/white"
+            android:src="@drawable/mother"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="110dp"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/word1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="给Ta发送邀请"
+            android:layout_below="@+id/iv_photo"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/word2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="邀请TA加入您的路线"
+            android:layout_below="@id/word1"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/word3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="一起接送孩子上下学"
+            android:layout_below="@id/word2"
+            android:layout_centerHorizontal="true"/>
+
+        <Button
+            android:id="@+id/btn_invite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="邀请TA"
+            android:textColor="@android:color/white"
+            android:background="@drawable/shape"
+            android:layout_below="@id/word3"
+            android:layout_marginTop="30dp"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/img_close"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/close_round"
+        android:layout_gravity="center_horizontal"/>
+</LinearLayout>
