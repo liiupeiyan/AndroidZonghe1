@@ -45,7 +45,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
-                android:text="18"
+                android:text="18岁"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
         </LinearLayout>

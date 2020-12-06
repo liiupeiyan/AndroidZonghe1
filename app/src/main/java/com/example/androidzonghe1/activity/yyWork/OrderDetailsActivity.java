@@ -8,10 +8,12 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -25,6 +27,7 @@ import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.Fragment.lpyWork.FragmentDriver;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.lpyWork.MyTheActivity;
+import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterDriver;
 import com.example.androidzonghe1.adapter.rjxWork.DriverAdapter;
 import com.example.androidzonghe1.entity.lpyWork.Driver;
 import com.example.androidzonghe1.entity.yyWork.DriverOrder;
@@ -64,6 +67,8 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
     private TextView tvWeek;
     private TextView tvHope;
     private TextView tvSpend;
+    private ImageView ivSender;
+    private TextView tvSender;
     private  double gl = 0;
     private TextView tvPrice;
     private Button add;
@@ -98,14 +103,29 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                 Button btnCancel = v.findViewById(R.id.btn_cancel);
                 Button btnConfirm = v.findViewById(R.id.btn_confirm);
                 DriverAdapter driverAdapter = new DriverAdapter(drivers,R.layout.item_recycleview_driver,getApplicationContext());
+//                RecycleAdapterDriver adapterDriver = new RecycleAdapterDriver();
                 ListView listView = v.findViewById(R.id.lv_driver);
                 listView.setAdapter(driverAdapter);
+
+                //没有效果
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        driverName.setText(drivers.get(position).getName());
+                        view.setBackgroundResource(R.drawable.shape_red_frame);
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+
                 //取消按钮
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         driverName.setText("小伴接送员");
                         chooseState.setText("未选择");
+                        tvSender.setTextColor(Color.GRAY);
+                        ivSender.setImageResource(R.drawable.spot2);
+                        driverImg.setImageResource(R.drawable.driver1);
                         bottomSheetDialog.dismiss();
                     }
                 });
@@ -113,8 +133,11 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                 btnConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        driverName.setText("张师傅");
+//                        driverName.setText("张师傅");
                         chooseState.setText("已选择");
+                        tvSender.setTextColor(Color.RED);
+                        ivSender.setImageResource(R.drawable.spot1);
+                        driverImg.setImageResource(R.drawable.driver_img);
                         bottomSheetDialog.dismiss();
 
                     }
@@ -181,6 +204,8 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
 //        btnDriver
         tvSpend = findViewById(R.id.tv_spend);
         tvPrice = findViewById(R.id.tv_price);
+        ivSender = findViewById(R.id.iv_sender);
+        tvSender = findViewById(R.id.tv_sender);
     }
 
     @Override
