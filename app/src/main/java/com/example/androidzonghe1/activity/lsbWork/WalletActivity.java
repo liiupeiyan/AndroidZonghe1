@@ -91,14 +91,11 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
                 //充值钱
                 showMoneyDialog();
 //                //获取充值钱数
-//                Log.e("qiannnn", DataMmoney.getMoney());
-//                mon = Double.parseDouble(DataMmoney.getMoney());
-////                mon = Double.parseDouble(dialog.getText(R.id.edt_moy)+"");
-//                tvMoney.setText(Double.parseDouble(tvMoney.getText()+"")+mon+"");
                 //将钱传到数据库
                 break;
         }
     }
+    //从数据库查询该用户的余额，显示在tvMoney上
 
     private void showMoneyDialog() {
         FragmentManager manager = getSupportFragmentManager();
@@ -111,6 +108,7 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
         transaction.show(dialog);
         transaction.commit();
     }
+
     @Subscribe
     public void updateMoney(String money){
         mon = Double.parseDouble(money);
