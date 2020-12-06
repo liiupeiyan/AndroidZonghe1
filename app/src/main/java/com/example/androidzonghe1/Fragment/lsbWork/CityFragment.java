@@ -116,8 +116,7 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
 
     //设置常用地点
     public void setUsePosition(){
-//        SuggestionInfo: key = 河北师范大学; city = 石家庄市; district = 裕华区; pt = latitude: 38.003617, longitude: 114.526421;
-//        uid = 42362707d679c71f5cbe86c3; tag = 高校; address = 石家庄市-裕华区-南二环东路20号; childrenInfo = null
+        hotCityList.clear();
         SuggestionResult.SuggestionInfo suggestionInfo = new SuggestionResult.SuggestionInfo();
         suggestionInfo.setKey("河北师范大学");
         suggestionInfo.setCity("石家庄市");
