@@ -3,6 +3,8 @@ package com.example.androidzonghe1.activity.lsbWork;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
@@ -17,6 +20,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.yyWork.MoneyDialog;
 import com.example.androidzonghe1.activity.yyWork.PaySucc;
@@ -27,6 +31,14 @@ import com.example.androidzonghe1.entity.yyWork.DataMmoney;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.StringReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 public class WalletActivity extends AppCompatActivity implements View.OnClickListener {
@@ -40,6 +52,24 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
     TextView tvMoney;
     MoneyDialog dialog;
     double mon;
+    String uMoney;
+    String nMoney;
+    String str;
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            if(msg.what==1){
+                if(!uMoney.equals("false")){
+                    tvMoney.setText(uMoney);
+                }
+            }else if(msg.what==2){
+                if(!str.equals("false")){
+                    tvMoney.setText(nMoney);
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -66,6 +96,9 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
         ticketAdapter = new TicketAdapter(getApplicationContext());
 
         recyclerView.setAdapter(ticketAdapter);
+        if(ConfigUtil.isLogin){
+            getUserMoney();
+        }
     }
 
     @SuppressLint("ResourceType")
@@ -96,6 +129,36 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
     //从数据库查询该用户的余额，显示在tvMoney上
+    public void getUserMoney(){
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    URL url = new URL(ConfigUtil.xt+"QueryMoneyServlet");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    OutputStream os = connection.getOutputStream();
+                    os.write(ConfigUtil.phone.getBytes());
+                    InputStream is =connection.getInputStream();
+                    byte[] buffer = new byte[512];
+                    int len = 0;
+                    if((len = is.read(buffer))!=-1){
+                        uMoney = new String(buffer,0,len,"UTF-8");
+                    }
+                    Message message = new Message();
+                    message.what=1;
+                    handler.sendMessage(message);
+                    os.close();
+                    is.close();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
 
     private void showMoneyDialog() {
         FragmentManager manager = getSupportFragmentManager();
@@ -113,7 +176,42 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
     public void updateMoney(String money){
         mon = Double.parseDouble(money);
 //                mon = Double.parseDouble(dialog.getText(R.id.edt_moy)+"");
-        tvMoney.setText(Double.parseDouble(tvMoney.getText()+"")+mon+"");
+        nMoney = Double.parseDouble(tvMoney.getText()+"")+mon+"";
+        //修改数据库  根据手机号修改余额
+        upMoney();
+//        tvMoney.setText(nMoney);
+    }
+
+    private void upMoney() {
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    //
+                    URL url = new URL(ConfigUtil.xt+"UpdateMoneyServlet");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    OutputStream os = connection.getOutputStream();
+                    os.write((ConfigUtil.phone+","+nMoney).getBytes());
+                    InputStream is =connection.getInputStream();
+                    byte[] buffer = new byte[512];
+                    int len = 0;
+                    if((is.read(buffer))!=-1){
+                        str = new String(buffer,0,len,"UTF-8");
+                    }
+                    Message message = new Message();
+                    message.what=2;
+                    handler.sendMessage(message);
+                    os.close();
+                    is.close();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 
     @Override
