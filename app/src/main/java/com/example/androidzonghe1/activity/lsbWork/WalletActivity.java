@@ -189,12 +189,8 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
                 super.run();
                 try {
                     //
-                    URL url = new URL(ConfigUtil.xt+"UpdateMoneyServlet");
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("POST");
-                    OutputStream os = connection.getOutputStream();
-                    os.write((ConfigUtil.phone+","+nMoney).getBytes());
-                    InputStream is =connection.getInputStream();
+                    URL url = new URL(ConfigUtil.xt+"UpdateMoneyServlet?money="+nMoney+"&phone="+ConfigUtil.phone);
+                    InputStream is =url.openStream();
                     byte[] buffer = new byte[512];
                     int len = 0;
                     if((is.read(buffer))!=-1){
@@ -203,7 +199,6 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
                     Message message = new Message();
                     message.what=2;
                     handler.sendMessage(message);
-                    os.close();
                     is.close();
                 } catch (MalformedURLException e) {
                     e.printStackTrace();

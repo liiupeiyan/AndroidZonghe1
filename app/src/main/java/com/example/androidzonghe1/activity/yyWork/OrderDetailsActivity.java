@@ -3,6 +3,7 @@ package com.example.androidzonghe1.activity.yyWork;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +39,12 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -82,8 +89,10 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
     private RvAdapterNoTitleDriver adapter;
     private ImageView ivChooseDrivedr;
     private ImageView getIvChooseDrivedrLine;
+    private ImageView ivOrderSuccess;
     private TextView tvChooseD;
     private int myPosition;
+    private String str;
 //    private List<Driver> drivers = new ArrayList<>();
 
     @Override
@@ -142,6 +151,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                         getIvChooseDrivedrLine.setImageResource(R.drawable.hline2);
                         tvChooseD.setTextColor(getResources().getColor(R.color.red));
                         driverName.setText(ConfigUtil.drivers.get(myPosition).getName());
+                        order.setDriver(driverName.getText()+"");
                         chooseState.setText("已选择");
                         bottomSheetDialog.dismiss();
 
@@ -214,6 +224,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
         ivChooseDrivedr = findViewById(R.id.iv_choose_driver);
         getIvChooseDrivedrLine = findViewById(R.id.iv_choose_driver_line);
         tvChooseD = findViewById(R.id.tv_driver_choose);
+        ivOrderSuccess = findViewById(R.id.iv_run);
     }
 
     @Override
@@ -250,12 +261,23 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                 //出现输入支付密码框。密码输入成功后进入钱包界面
                 //进行密码判断。从数据库查询该用户的密码后进行判断，相等的话进入TestActivity。将得到的密码赋给 pwd
                 FragmentManager manager = getSupportFragmentManager();
-                final PayPasswordDialog dialog=new PayPasswordDialog(OrderDetailsActivity.this,R.style.mydialog,pwd,manager,this,1);
+                final PayPasswordDialog dialog=new PayPasswordDialog(OrderDetailsActivity.this,R.style.mydialog,pwd,manager,this,3);
                 dialog.setDialogClick(new PayPasswordDialog.DialogClick() {
                     @Override
                     public void doConfirm(String password) {
                         dialog.dismiss();
-                        Log.e("输入密码为：",password);
+                        if(ConfigUtil.isLogin){
+                            if(ConfigUtil.pwd.equals(password)){
+                                showCustomeDialog();
+                                ivOrderSuccess.setImageResource(R.drawable.spot1);
+                                //将数据传递给服务端
+                                commitOrder();
+                                Log.e("订单",order.toString());
+                                Log.e("输入密码为：",password);
+                            }else {
+                                showErrorDialog();
+                            }
+                        }
                     }
                 });
                 dialog.show();
@@ -271,6 +293,64 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                 break;
         }
     }
+
+    private void showErrorDialog() {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        ErrorDialog errorDialog = new ErrorDialog();
+        if(!errorDialog.isAdded()){
+            transaction.add(errorDialog,"dialog_tag");
+        }
+        transaction.show(errorDialog);
+        transaction.commit();
+    }
+
+    private void commitOrder() {
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    URL url = new URL(ConfigUtil.xt+"AddOrderServlet");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    OutputStream os = connection.getOutputStream();
+                    os.write(toStr(order).getBytes());
+                    InputStream is = connection.getInputStream();
+                    byte[] b = new byte[512];
+                    int len = 0;
+                    if((len = is.read(b))!=-1){
+                        str = new String(b,0,len,"UTF-8");
+                    }
+                    Log.e("结果",str);
+                    if(str.equals("true")){
+                        //下单成功。跳转到FragmentLaunchRoute
+                        //结束当前activity
+                        finish();
+                    }
+                    os.close();
+                    is.close();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    private void showCustomeDialog() {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        PaySucc dialog = new PaySucc();
+        if(!dialog.isAdded()){
+            transaction.add(dialog,"dialog_tag");
+        }
+        transaction.show(dialog);
+        transaction.commit();
+        //结束OrderDetailsActivity
+    }
+
     //将对象转化为json字符串
     public String toStr(DriverOrder order){
         JSONObject jsonObject = new JSONObject();
@@ -361,7 +441,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                     tv.setText(hourOfDay+":"+minute);
                 }
                 //6
-                order.setTime(hourOfDay+":"+minute);
+                order.setTime(tv.getText()+"");
                 Log.e("时间",order.getTime());
             }
         }, calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),true).show();
