@@ -92,7 +92,14 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
-                                GetParentId("http://192.168.43.232:8080/DingDong/LoginServlet?tel="+phoneNum);
+                                //GetParentId("http://192.168.43.232:8080/DingDong/LoginServlet?tel="+phoneNum);
+                                Intent intent = new Intent(getApplicationContext(), MyTheActivity.class);
+                                startActivity(intent);
+                                ConfigUtil.isLogin = true;
+                                ConfigUtil.phone = phoneNum;
+                                ConfigUtil.userName = "杨颖妈妈";
+                                ConfigUtil.parent.setName("杨颖妈妈");
+                                countDownTimer.cancel();
                             }
                         });
                     }else if (event == SMSSDK.EVENT_GET_VOICE_VERIFICATION_CODE){

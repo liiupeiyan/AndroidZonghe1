@@ -52,37 +52,37 @@ public class MyTheActivity extends AppCompatActivity {
          * 设置先不弹出
          */
 
-//        if (!ticket){
-//            //弹出优惠券
-//            new EasyDialog(this, R.layout.view_gift_card) {
-//                @Override
-//                public void onBindViewHolder(DialogViewHolder holder) {
-//                    ImageView imageView = holder.getView(R.id.img_close);
-//                    imageView.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            dismiss();
-//                        }
-//                    });
-//                    Button button = holder.getView(R.id.btn_get);
-//                    button.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-////                            //领取代金券
-////                            SharedPreferences.Editor editor = sharedPreferences.edit();
-////                            editor.putBoolean("ticket",true);
-////                            editor.apply();
-//                            dismiss();
-//                        }
-//                    });
-//                }
-//            }.backgroundLight(0.2)
-//                    .setCanceledOnTouchOutside(false)
-//                    .setCancelAble(true)
-//                    .fromTopToMiddle()
-//                    .setCustomAnimations(AnimatorHelper.TOP_IN_ANIM, AnimatorHelper.TOP_OUT_ANIM)
-//                    .showDialog(true);
-//        }
+        if (!ticket){
+            //弹出优惠券
+            new EasyDialog(this, R.layout.view_gift_card) {
+                @Override
+                public void onBindViewHolder(DialogViewHolder holder) {
+                    ImageView imageView = holder.getView(R.id.img_close);
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dismiss();
+                        }
+                    });
+                    Button button = holder.getView(R.id.btn_get);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+//                            //领取代金券
+//                            SharedPreferences.Editor editor = sharedPreferences.edit();
+//                            editor.putBoolean("ticket",true);
+//                            editor.apply();
+                            dismiss();
+                        }
+                    });
+                }
+            }.backgroundLight(0.2)
+                    .setCanceledOnTouchOutside(false)
+                    .setCancelAble(true)
+                    .fromTopToMiddle()
+                    .setCustomAnimations(AnimatorHelper.TOP_IN_ANIM, AnimatorHelper.TOP_OUT_ANIM)
+                    .showDialog(true);
+        }
 
 
         findViews();
