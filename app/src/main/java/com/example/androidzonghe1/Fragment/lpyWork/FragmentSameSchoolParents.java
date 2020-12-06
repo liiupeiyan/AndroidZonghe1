@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -223,14 +224,17 @@ public class FragmentSameSchoolParents extends Fragment {
                     @Override
                     public void onBindViewHolder(DialogViewHolder holder) {
                         ImageView close = holder.getView(R.id.img_close);
-                        close.setImageBitmap(marker.getIcon().getBitmap());
+                        ImageView photo = holder.getView(R.id.iv_photo);
+                        photo.setImageBitmap(marker.getIcon().getBitmap());
+                        TextView textView = holder.getView(R.id.word1);
+                        textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                         close.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 dismiss();
                             }
                         });
-                        Button button = holder.getView(R.id.btn_get);
+                        Button button = holder.getView(R.id.btn_invite);
                         button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
