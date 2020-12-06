@@ -3,6 +3,7 @@ package com.example.androidzonghe1.activity.yyWork;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
@@ -48,7 +49,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class OrderDetailsActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button btnDriver;
+//    private Button btnDriver;
     private ImageView driverImg;
     private TextView driverName;
     private TextView chooseState;
@@ -68,7 +69,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
     private TextView tvWeek;
     private TextView tvHope;
     private TextView tvSpend;
-    private  double gl = 0;
+    private double gl = 0;
     private TextView tvPrice;
     private Button add;
     private DateFormat format;
@@ -79,22 +80,27 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
     private String pwd;
     private RecyclerView recyclerView;
     private RvAdapterNoTitleDriver adapter;
-    private List<Driver> drivers = new ArrayList<>();
+    private ImageView ivChooseDrivedr;
+    private ImageView getIvChooseDrivedrLine;
+    private TextView tvChooseD;
+    private int myPosition;
+//    private List<Driver> drivers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_order);
         getViews();
-//        //选择司机
-        for (int i = 0;i<7;i++){
-            Driver driver = new Driver();
-            driver.setName("ere");
-            driver.setAge(23);
-            driver.setCar("lawnfi");
-            driver.setPhone("12341322");
-            drivers.add(driver);
-        }
+////        //选择司机
+//        for (int i = 0;i<7;i++){
+//            Driver driver = new Driver();
+//            driver.setName("ere");
+//            driver.setAge(23);
+//            driver.setCar("lawnfi");
+//            driver.setPhone("12341322");
+//            drivers.add(driver);
+//        }
+
         chooseDriver.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -105,8 +111,15 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                 Button btnConfirm = v.findViewById(R.id.btn_confirm);
 //                ListView listView = v.findViewById(R.id.lv_driver);
                 recyclerView = v.findViewById(R.id.rv_driver);
+                if(ConfigUtil.drivers.size() == 0){
+                    ConfigUtil.initDrivers();
+                }
+
+                Log.e("",ConfigUtil.drivers.toString());
                 adapter = new RvAdapterNoTitleDriver(ConfigUtil.drivers);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 recyclerView.setAdapter(adapter);
+                myPosition = adapter.getMyPosition();
 //                listView.setAdapter(driverAdapter);
                 //取消按钮
                 btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -122,13 +135,19 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                 btnConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                        driverName.setText("张师傅");
+                        driverInfo.setVisibility(View.VISIBLE);
+                        driverImg.setImageResource(ConfigUtil.drivers.get(myPosition).getImg());
+                        chooseDriver.setText("更换司机");
+                        ivChooseDrivedr.setImageResource(R.drawable.spot1);
+                        getIvChooseDrivedrLine.setImageResource(R.drawable.hline2);
+                        tvChooseD.setTextColor(getResources().getColor(R.color.red));
+                        driverName.setText(ConfigUtil.drivers.get(myPosition).getName());
                         chooseState.setText("已选择");
                         bottomSheetDialog.dismiss();
 
                     }
                 });
+
                 bottomSheetDialog.setContentView(v);
                 bottomSheetDialog.setCancelable(true);
                 bottomSheetDialog.setCanceledOnTouchOutside(true);
@@ -183,14 +202,18 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
         format = DateFormat.getDateTimeInstance();
         calendar = Calendar.getInstance(Locale.CHINA);
         add = findViewById(R.id.btn_add_order);
-        btnDriver = findViewById(R.id.btn_find_driver);
+//        btnDriver = findViewById(R.id.btn_find_driver);
         driverImg = findViewById(R.id.iv_order_driver_img);
         driverName = findViewById(R.id.tv_order_driver_name);
         chooseDriver = findViewById(R.id.btn_find_driver);
         chooseState = findViewById(R.id.tv_order_choose_state);
 //        btnDriver
+        driverInfo = findViewById(R.id.btn_order_driver_info);
         tvSpend = findViewById(R.id.tv_spend);
         tvPrice = findViewById(R.id.tv_price);
+        ivChooseDrivedr = findViewById(R.id.iv_choose_driver);
+        getIvChooseDrivedrLine = findViewById(R.id.iv_choose_driver_line);
+        tvChooseD = findViewById(R.id.tv_driver_choose);
     }
 
     @Override
@@ -347,5 +370,11 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

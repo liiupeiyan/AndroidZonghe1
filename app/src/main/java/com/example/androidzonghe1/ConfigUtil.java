@@ -48,7 +48,7 @@ public class ConfigUtil {
     public static void initDrivers(){
         for(int i = 0 ; i < 10; i++){
             Driver driver = new Driver();
-//            driver.setImg(R.drawable.driver_img);
+            driver.setImg(R.drawable.driver_img);
             driver.setName("刘培焱");
             driver.setAge(18);
             if (i%3 != 0){
