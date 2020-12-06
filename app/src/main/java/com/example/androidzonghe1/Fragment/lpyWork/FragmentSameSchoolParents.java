@@ -2,14 +2,17 @@ package com.example.androidzonghe1.Fragment.lpyWork;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +27,7 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.LogoPosition;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -35,6 +39,10 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.lpyWork.MyTheActivity;
+import com.lanren.easydialog.AnimatorHelper;
+import com.lanren.easydialog.DialogViewHolder;
+import com.lanren.easydialog.EasyDialog;
 
 public class FragmentSameSchoolParents extends Fragment {
     private View view;
@@ -205,7 +213,43 @@ public class FragmentSameSchoolParents extends Fragment {
         Bundle bundle3 = new Bundle();
         bundle3.putString("title", "图书馆");
         marker3.setExtraInfo(bundle3);
-//        //4.添加覆盖物的事件监听器
+
+        //4.添加覆盖物的事件监听器
+        baiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                //弹出邀请页
+                new EasyDialog(getContext(), R.layout.view_invite_card) {
+                    @Override
+                    public void onBindViewHolder(DialogViewHolder holder) {
+                        ImageView close = holder.getView(R.id.img_close);
+                        close.setImageBitmap(marker.getIcon().getBitmap());
+                        close.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dismiss();
+                            }
+                        });
+                        Button button = holder.getView(R.id.btn_get);
+                        button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //邀请
+                                dismiss();
+                            }
+                        });
+                    }
+                }.backgroundLight(0.2)
+                        .setCanceledOnTouchOutside(false)
+                        .setCancelAble(true)
+                        .fromTopToMiddle()
+                        .setCustomAnimations(AnimatorHelper.TOP_IN_ANIM, AnimatorHelper.TOP_OUT_ANIM)
+                        .showDialog(true);
+
+                return false;
+            }
+        });
+
 //        baiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
 //            @Override
 //            public boolean onMarkerClick(Marker marker) {
@@ -214,7 +258,7 @@ public class FragmentSameSchoolParents extends Fragment {
 //                String title = extra.getString("title");
 //                Log.e("点击的标注覆盖物标题为：", title);
 //                //显示弹出窗覆盖物
-//                TextView contentTV = new TextView(MainActivity.this);
+//                TextView contentTV = new TextView(MyTheActivity.this);
 //                contentTV.setText(title);
 //                contentTV.setTextColor(Color.WHITE);
 //                contentTV.setTextSize(30.0f);

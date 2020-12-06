@@ -21,6 +21,8 @@ import com.example.androidzonghe1.entity.lpyWork.Driver;
 
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 public class RvAdapterNoTitleDriver extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private List<Driver> drivers;
 
@@ -71,8 +73,9 @@ public class RvAdapterNoTitleDriver extends RecyclerView.Adapter<RecyclerView.Vi
             public void onClick(View view) {
                 Log.e("这里是点击每一行item的响应事件",""+position);
                 ((Myholder) holder).state.setText("忙碌");
-                Intent intent = new Intent(mContext, OrderDetailsActivity.class);
-                mContext.startActivity(intent);
+                OrderDetailsActivity.driverName.setText(drivers.get(position).getName());
+//                Intent intent = new Intent(mContext, OrderDetailsActivity.class);
+//                mContext.startActivity(intent);
             }
         });
     }
