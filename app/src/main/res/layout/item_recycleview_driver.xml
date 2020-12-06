@@ -3,6 +3,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/radius_lpy"
     android:padding="10dp"
+    android:id="@+id/rl_driver_item"
     android:layout_marginBottom="10dp"
     android:paddingLeft="0dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -45,7 +46,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
-                android:text="18"
+                android:text="18岁"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
         </LinearLayout>

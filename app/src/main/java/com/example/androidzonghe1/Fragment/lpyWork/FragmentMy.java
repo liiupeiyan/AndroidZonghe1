@@ -90,7 +90,6 @@ public class FragmentMy extends Fragment {
         llAwardCommend.setOnClickListener(myListener);
         llNewRead.setOnClickListener(myListener);
         llNewGetTicket.setOnClickListener(myListener);
-
     }
 
     class MyListener implements View.OnClickListener{

@@ -8,10 +8,10 @@ public class Driver {
     private String car;
     private String style;
     private String experience;
-    private String img;
+    private int img;
     private String status;
 
-    public Driver(int id, String name, String phone, int age, String car, String style, String experience, String img, String status) {
+    public Driver(int id, String name, String phone, int age, String car, String style, String experience, int img, String status) {
         this.id = id;
         this.name = name;
         this.phone = phone;
@@ -82,11 +82,11 @@ public class Driver {
         this.experience = experience;
     }
 
-    public String getImg() {
+    public int getImg() {
         return img;
     }
 
-    public void setImg(String img) {
+    public void setImg(int img) {
         this.img = img;
     }
 
