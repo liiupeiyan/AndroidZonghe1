@@ -1,22 +1,30 @@
 package com.example.androidzonghe1.Fragment.lsbWork;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.textservice.SuggestionsInfo;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.example.androidzonghe1.Bind;
 import com.example.androidzonghe1.MyApplication;
 import com.example.androidzonghe1.R;
@@ -24,6 +32,7 @@ import com.example.androidzonghe1.entity.lsbWork.CityEntity;
 import com.example.androidzonghe1.Utils.lsbWork.JsonReadUtil;
 import com.example.androidzonghe1.View.lsbWork.ViewBinder;
 import com.example.androidzonghe1.others.LetterListView;
+import com.example.androidzonghe1.others.ScrollWithGridView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,6 +52,7 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
     TextView noSearchDataTv;
     TextView tvLetter;
     TextView tvLocation;
+    GridView hotCityGv;
 
     private boolean isScroll = false;
 
@@ -51,6 +61,7 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
     protected List<CityEntity> totalCityList = new ArrayList<>();
     protected List<CityEntity> curCityList = new ArrayList<>();
     protected List<CityEntity> searchCityList = new ArrayList<>();
+    protected List<SuggestionResult.SuggestionInfo> hotCityList = new ArrayList<>();
     protected CityListAdapter cityListAdapter;
     protected SearchCityListAdapter searchCityListAdapter;
 
@@ -60,6 +71,7 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_city, container, false);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         totalCityLv = view.findViewById(R.id.total_city_lv);
         lettersLv = view.findViewById(R.id.total_city_letters_lv);
@@ -67,21 +79,15 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
         noSearchDataTv = view.findViewById(R.id.no_search_result_tv);
         tvLetter = view.findViewById(R.id.tv_letter);
         tvLocation = view.findViewById(R.id.tv_location);
+        hotCityGv = view.findViewById(R.id.recent_city_gv);
 
         initView();
-        initData();
+        setUsePosition();
         return view;
     }
     private void initView() {
         searchCityListAdapter = new SearchCityListAdapter(getContext(), searchCityList);
         searchCityLv.setAdapter(searchCityListAdapter);
-    }
-
-    public void setTvLocation(String location){
-        tvLocation.setText(location);
-    }
-
-    private void initData() {
         initTotalCityList();
         cityListAdapter = new CityListAdapter(getContext(), totalCityList);
         totalCityLv.setAdapter(cityListAdapter);
@@ -99,6 +105,38 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CityEntity cityEntity = searchCityList.get(position);
                 showSetCityDialog(cityEntity.getName(), cityEntity.getCityCode());
+            }
+        });
+
+    }
+
+    public void setTvLocation(String location){
+        tvLocation.setText(location);
+    }
+
+    //设置常用地点
+    public void setUsePosition(){
+        hotCityList.clear();
+        SuggestionResult.SuggestionInfo suggestionInfo = new SuggestionResult.SuggestionInfo();
+        suggestionInfo.setKey("河北师范大学");
+        suggestionInfo.setCity("石家庄市");
+        suggestionInfo.setDistrict("裕华区");
+        suggestionInfo.setPt(new LatLng(38.003617, 114.526421));
+        suggestionInfo.setUid("42362707d679c71f5cbe86c3");
+        suggestionInfo.setTag("高校");
+        suggestionInfo.setAddress("石家庄市-裕华区-南二环东路20号");
+        suggestionInfo.setPoiChildrenInfoList(null);
+        hotCityList.add(suggestionInfo);
+        hotCityGv.setAdapter(new HotCityListAdapter(getContext(), hotCityList));
+        hotCityGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent response = new Intent();
+                Bundle b = new Bundle();
+                b.putParcelable("suggestionInfo", hotCityList.get(position));
+                response.putExtras(b);
+                getActivity().setResult(0, response);
+                getActivity().finish();
             }
         });
     }
@@ -313,6 +351,56 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
             TextView cityNameTv;
             @Bind(R.id.city_key_tv)
             TextView cityKeyTv;
+        }
+    }
+    /**
+     * 常用地点适配器
+     */
+    private class HotCityListAdapter extends BaseAdapter {
+
+        private List<SuggestionResult.SuggestionInfo> cityEntities;
+        private LayoutInflater inflater;
+
+        HotCityListAdapter(Context mContext, List<SuggestionResult.SuggestionInfo> cityEntities) {
+            this.cityEntities = cityEntities;
+            inflater = LayoutInflater.from(mContext);
+        }
+
+        @Override
+        public int getCount() {
+            return cityEntities == null ? 0 : cityEntities.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return cityEntities.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            if (null == convertView) {
+                holder = new ViewHolder();
+                convertView = inflater.inflate(R.layout.city_list_grid_item_layout, null);
+                ViewBinder.bind(holder, convertView);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            SuggestionResult.SuggestionInfo suggestionInfo = cityEntities.get(position);
+            holder.cityNameTv.setText(suggestionInfo.getKey());
+
+            return convertView;
+        }
+
+        private class ViewHolder {
+            @Bind(R.id.city_list_grid_item_name_tv)
+            TextView cityNameTv;
         }
     }
 

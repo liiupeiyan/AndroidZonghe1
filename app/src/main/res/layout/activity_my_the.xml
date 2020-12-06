@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:clipChildren="false">
+
+    <View
+        android:id="@+id/tabs_bar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"
+        android:layout_above="@id/tabs"/>
+
     <LinearLayout
+        android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tabs"
+        android:elevation="10dp"
         android:background="@color/white"
         android:paddingTop="5dp"
+        android:gravity="bottom"
+        android:clipChildren="false"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
@@ -55,9 +66,10 @@
             android:text="我的"/>
 
     </LinearLayout>
+
     <FrameLayout
         android:id="@+id/tab_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/tabs"/>
+        android:layout_above="@id/tabs_bar"/>
 </RelativeLayout>

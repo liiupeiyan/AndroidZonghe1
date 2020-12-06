@@ -35,6 +35,35 @@
             android:textSize="26sp"/>
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/purple_200"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="常用地点"
+            android:textColor="@color/black"
+            android:textSize="26sp"/>
+        <com.example.androidzonghe1.others.ScrollWithGridView
+            android:id="@+id/recent_city_gv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp"
+            android:horizontalSpacing="10dp"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="2"
+            android:verticalSpacing="10dp" />
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -61,14 +90,6 @@
             android:divider="@null"
             android:listSelector="@android:color/transparent"
             android:visibility="gone" />
-
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/search_city_lv"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:divider="@null"-->
-<!--            android:listSelector="@android:color/transparent"-->
-<!--            android:visibility="gone" />-->
 
         <TextView
             android:id="@+id/no_search_result_tv"
