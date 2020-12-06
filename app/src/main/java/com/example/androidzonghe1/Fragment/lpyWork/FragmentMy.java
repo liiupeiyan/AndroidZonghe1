@@ -54,7 +54,7 @@ public class FragmentMy extends Fragment {
             RvFragmentMy my1 = new RvFragmentMy(R.drawable.trip,"我的行程",R.drawable.right_xt);
             RvFragmentMy my2 = new RvFragmentMy(R.drawable.order,"我的订单",R.drawable.right_xt);
             RvFragmentMy my3 = new RvFragmentMy(R.drawable.wallet,"我的钱包",R.drawable.right_xt);
-            RvFragmentMy my4 = new RvFragmentMy(R.drawable.lianxi,"联系客服",R.drawable.right_xt);
+            RvFragmentMy my4 = new RvFragmentMy(R.drawable.lianxi,"联系客服",R.drawable.phone_xt);
             RvFragmentMy my5 = new RvFragmentMy(R.drawable.setting,"设置",R.drawable.right_xt);
             RvFragmentMy my6 = new RvFragmentMy(R.drawable.question,"常见问题",R.drawable.right_xt);
             ConfigUtil.mys.add(my1);

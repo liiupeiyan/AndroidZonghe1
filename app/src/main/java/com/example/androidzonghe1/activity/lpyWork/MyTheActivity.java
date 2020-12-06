@@ -47,11 +47,6 @@ public class MyTheActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         //判断用户是否领券
         Boolean ticket = sharedPreferences.getBoolean("ticket", false);
-
-        /***
-         * 设置先不弹出
-         */
-
         if (!ticket){
             //弹出优惠券
             new EasyDialog(this, R.layout.view_gift_card) {
