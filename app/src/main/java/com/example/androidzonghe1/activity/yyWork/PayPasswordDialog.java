@@ -105,6 +105,8 @@ public class PayPasswordDialog extends Dialog implements View.OnClickListener {
                     showCustomeDialog();
                 }else if(code==2){
                     //返回WalletActivity
+                    //从数据库查询密码，进行判断
+
                     EventBus.getDefault().post(money);
                     mDia.dismiss();
                     //判断pwd.equals(password)。相等关闭Fragment
@@ -144,7 +146,7 @@ public class PayPasswordDialog extends Dialog implements View.OnClickListener {
         transaction.show(dialog);
         transaction.commit();
         //结束OrderDetailsActivity
-        activity.finish();
+//        activity.finish();
     }
 
     private void initView() {

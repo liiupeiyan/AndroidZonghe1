@@ -22,6 +22,7 @@ public class PaySucc extends DialogFragment {
             @Override
             public void onClick(View v) {
                 getDialog().dismiss();
+
             }
         });
         return view;

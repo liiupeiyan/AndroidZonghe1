@@ -141,7 +141,11 @@ public class ActivityLoginPage extends AppCompatActivity {
                 if(!phoneNum.isEmpty()){
                     if(Utils.checkTel(phoneNum)){ //利用正则表达式获取检验手机号
                         //判断是否注册
-                        JudgeIsRegister("http://192.168.43.232:8080/DingDong/JudgeIsRegisterServlet?tel="+phoneNum);
+                        //JudgeIsRegister("http://192.168.43.232:8080/DingDong/JudgeIsRegisterServlet?tel="+phoneNum);
+                        SMSSDK.getVerificationCode("86", phoneNum);
+                        Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                        intent.putExtra("phoneNum",phoneNum);
+                        startActivity(intent);
                     }else{
                         Toast.makeText(getApplicationContext(),"请输入有效的手机号",Toast.LENGTH_LONG).show();
                         return;
