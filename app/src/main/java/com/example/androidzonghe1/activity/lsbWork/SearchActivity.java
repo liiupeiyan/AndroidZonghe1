@@ -62,6 +62,13 @@ public class SearchActivity extends AppCompatActivity {
                     city = (String) msg.obj;
                     cityText = (String) msg.obj;
                     etCity.setText(city);
+                    etSite.setFocusable(true);
+                    etSite.setFocusableInTouchMode(true);
+                    etSite.requestFocus();
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment, siteFragment);
+                    fragmentTransaction.commit();
                     break;
             }
         }
