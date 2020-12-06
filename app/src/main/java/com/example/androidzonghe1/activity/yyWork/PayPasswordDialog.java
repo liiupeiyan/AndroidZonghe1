@@ -15,14 +15,17 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.lsbWork.WalletActivity;
+import com.example.androidzonghe1.entity.yyWork.DataMmoney;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -106,9 +109,14 @@ public class PayPasswordDialog extends Dialog implements View.OnClickListener {
                 }else if(code==2){
                     //返回WalletActivity
                     //从数据库查询密码，进行判断
-
-                    EventBus.getDefault().post(money);
-                    mDia.dismiss();
+                    if(ConfigUtil.isLogin){ //已经登录
+                        if(password.equals(ConfigUtil.pwd)){ //密码正确
+                            EventBus.getDefault().post(money);
+                            mDia.dismiss();
+                        }else{
+                            Toast.makeText(context,"密码错误",Toast.LENGTH_SHORT);
+                        }
+                    }
                     //判断pwd.equals(password)。相等关闭Fragment
 //                    showMoneyDialog();
                 }

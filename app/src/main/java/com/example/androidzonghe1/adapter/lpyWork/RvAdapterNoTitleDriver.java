@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,14 +22,13 @@ import com.example.androidzonghe1.entity.lpyWork.Driver;
 
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
 public class RvAdapterNoTitleDriver extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private List<Driver> drivers;
 
     private View view;
     private Context mContext;
 
+    private int myPosition;
     private LayoutInflater layoutInflater;
     public RvAdapterNoTitleDriver(List<Driver> data) {
         this.drivers = data;
@@ -50,21 +50,21 @@ public class RvAdapterNoTitleDriver extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Glide.with(mContext)
-//                    .load(drivers.get(position-1).getImg())
+                    .load(drivers.get(position).getImg())
                 .load(R.drawable.driver_img)
                 .into(((Myholder)holder).img);
-        ((Myholder) holder).name.setText(drivers.get(position-1).getName());
-        ((Myholder) holder).age.setText(drivers.get(position-1).getAge()+"");
-        ((Myholder) holder).state.setText(drivers.get(position-1).getStatus());
-        ((Myholder) holder).car.setText(drivers.get(position-1).getCar());
-        ((Myholder) holder).style.setText(drivers.get(position-1).getStyle());
-        ((Myholder) holder).experience.setText(drivers.get(position-1).getExperience());
-        ((Myholder) holder).phone.setText(drivers.get(position-1).getPhone());
+        ((Myholder) holder).name.setText(drivers.get(position).getName());
+        ((Myholder) holder).age.setText(drivers.get(position).getAge()+"");
+        ((Myholder) holder).state.setText(drivers.get(position).getStatus());
+        ((Myholder) holder).car.setText(drivers.get(position).getCar());
+        ((Myholder) holder).style.setText(drivers.get(position).getStyle());
+        ((Myholder) holder).experience.setText(drivers.get(position).getExperience());
+        ((Myholder) holder).phone.setText(drivers.get(position).getPhone());
         //查看订单详情的点击事件
         ((Myholder) holder).driverCall.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+drivers.get(position-1).getPhone()));
+                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+drivers.get(position).getPhone()));
                 mContext.startActivity(callIntent);
             }
         });
@@ -73,11 +73,27 @@ public class RvAdapterNoTitleDriver extends RecyclerView.Adapter<RecyclerView.Vi
             public void onClick(View view) {
                 Log.e("这里是点击每一行item的响应事件",""+position);
                 ((Myholder) holder).state.setText("忙碌");
-                OrderDetailsActivity.driverName.setText(drivers.get(position).getName());
 //                Intent intent = new Intent(mContext, OrderDetailsActivity.class);
 //                mContext.startActivity(intent);
+                myPosition = position;
+                ((Myholder) holder).itemD.setBackgroundResource(R.drawable.shape_red_frame);
             }
         });
+        holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (!b){
+                    Log.e("没有焦点","123");
+                    ((Myholder) holder).itemD.setBackgroundResource(R.color.white);
+                }
+            }
+        });
+
+
+    }
+
+    public int getMyPosition() {
+        return myPosition;
     }
 
     @Override
@@ -95,6 +111,7 @@ public class RvAdapterNoTitleDriver extends RecyclerView.Adapter<RecyclerView.Vi
         private TextView experience;
         private TextView phone;
         private Button driverCall;
+        private RelativeLayout itemD;
         public Myholder(View itemView) {
             super(itemView);
             img = itemView.findViewById(R.id.iv_driver_img);
@@ -106,6 +123,7 @@ public class RvAdapterNoTitleDriver extends RecyclerView.Adapter<RecyclerView.Vi
             experience = itemView.findViewById(R.id.tv_driver_experience);
             phone = itemView.findViewById(R.id.tv_driver_phone);
             driverCall = itemView.findViewById(R.id.btn_call_driver);
+            itemD = itemView.findViewById(R.id.rl_driver_item);
         }
     }
 
