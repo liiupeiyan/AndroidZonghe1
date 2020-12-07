@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ZoomControls;
 
 import androidx.annotation.NonNull;
@@ -38,6 +39,7 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.route.BikingRouteResult;
 import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
@@ -54,6 +56,7 @@ import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.platform.comapi.basestruct.GeoPoint;
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.lpyWork.RoutePlanDemo;
 import com.example.androidzonghe1.activity.lsbWork.SearchActivity;
 import com.example.androidzonghe1.activity.yyWork.CaculateDistance;
 import com.example.androidzonghe1.activity.yyWork.OrderDetailsActivity;
@@ -203,16 +206,38 @@ public class FragmentLaunchRoute extends Fragment {
 
         @Override
         public void onGetDrivingRouteResult(DrivingRouteResult drivingRouteResult) {
-            //创建DrivingRouteOverlay实例
-            DrivingRouteOverlay overlay = new DrivingRouteOverlay(baiduMap);
-//            if ()
-            if (drivingRouteResult!= null && drivingRouteResult.getRouteLines().size() > 0) {
-                //获取路径规划数据,(以返回的第一条路线为例）
-                //为DrivingRouteOverlay实例设置数据
-                overlay.setData(drivingRouteResult.getRouteLines().get(0));
-                //在地图上绘制DrivingRouteOverlay
-                overlay.addToMap();
+            if (drivingRouteResult == null || drivingRouteResult.error !=   SearchResult.ERRORNO.NO_ERROR) {
+                Toast.makeText(getContext(), "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
             }
+            if (drivingRouteResult.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+                // 起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+                drivingRouteResult.getSuggestAddrInfo();
+                return;
+            }
+            if (drivingRouteResult.error == SearchResult.ERRORNO.NO_ERROR) {
+                if (drivingRouteResult.getRouteLines().size() >= 1) {
+//                        DrivingRouteLine route = drivingRouteResult.getRouteLines().get(0);
+                    DrivingRouteOverlay overlay = new DrivingRouteOverlay(baiduMap);
+//                    routeOverlay = overlay;
+                    baiduMap.setOnMarkerClickListener(overlay);
+                    overlay.setData(drivingRouteResult.getRouteLines().get(0));
+                    overlay.addToMap();
+                    overlay.zoomToSpan();
+                } else {
+                    Log.d("route result", "结果数<0");
+                    return;
+                }
+            }
+//            //创建DrivingRouteOverlay实例
+//            DrivingRouteOverlay overlay = new DrivingRouteOverlay(baiduMap);
+////            if ()
+//            if (drivingRouteResult!= null && drivingRouteResult.getRouteLines().size() > 0) {
+//                //获取路径规划数据,(以返回的第一条路线为例）
+//                //为DrivingRouteOverlay实例设置数据
+//                overlay.setData(drivingRouteResult.getRouteLines().get(0));
+//                //在地图上绘制DrivingRouteOverlay
+//                overlay.addToMap();
+//            }
         }
 
 
@@ -246,20 +271,25 @@ public class FragmentLaunchRoute extends Fragment {
                     baiduMap.setMapStatus(msu);
                     addMarkerOverLay(enSuggestionInfo.getPt().latitude,enSuggestionInfo.getPt().longitude);
                     edNode = PlanNode.withCityNameAndPlaceName(enSuggestionInfo.city,enSuggestionInfo.key);
-//                    //驾车路线
-//                    mSearch.drivingSearch((new DrivingRoutePlanOption())
-//                            .from(stNode)
-//                            .to(edNode));
+
 //                    MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(16.0f);
 //                    baiduMap.setMapStatus(msu);
 //                    baiduMap.setMaxAndMinZoomLevel(19,13);
                     //显示发起新路线按钮
                     if(!btnStart.getText().toString().equals("请输入孩子上车地点") && !btnEnd.getText().toString().equals("请输入终点")){
-                        order.setVisibility(View.VISIBLE); //设置按钮为可见的
-                        //步行路线
-                        mSearch.walkingSearch((new WalkingRoutePlanOption())
-                                .from(stNode)
-                                .to(edNode));
+                        order.setVisibility(View.VISIBLE); //设置按钮为可见
+                        if (stNode.getName().equals(edNode.getName())){
+                            Toast.makeText(getContext(), "起点和终点不能一致", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // 驾车路线
+                            mSearch.drivingSearch((new DrivingRoutePlanOption())
+                                    .from(stNode)
+                                    .to(edNode));
+                            //步行路线
+//                        mSearch.walkingSearch((new WalkingRoutePlanOption())
+//                                .from(stNode)
+//                                .to(edNode));
+                        }
                         order.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -299,10 +329,18 @@ public class FragmentLaunchRoute extends Fragment {
                     //显示发起新路线按钮
                     if(!btnStart.getText().toString().equals("请输入孩子上车地点")&&!btnEnd.getText().toString().equals("请输入终点")){
                         order.setVisibility(View.VISIBLE); //设置按钮为可见的
-                        //步行路线
-                        mSearch.walkingSearch((new WalkingRoutePlanOption())
-                                .from(stNode)
-                                .to(edNode));
+                        if (stNode.getName().equals(edNode.getName())){
+                            Toast.makeText(getContext(), "起点和终点不能一致", Toast.LENGTH_SHORT).show();
+                        } else {
+                            //驾车路线
+                            mSearch.drivingSearch((new DrivingRoutePlanOption())
+                                    .from(stNode)
+                                    .to(edNode));
+//                        //步行路线
+//                        mSearch.walkingSearch((new WalkingRoutePlanOption())
+//                                .from(stNode)
+//                                .to(edNode));
+                        }
                         order.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
