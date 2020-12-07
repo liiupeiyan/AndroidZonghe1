@@ -38,7 +38,9 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.Overlay;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.route.BikingRouteResult;
@@ -191,6 +193,7 @@ public class FragmentLaunchRoute extends Fragment {
                 overlay.setData(walkingRouteResult.getRouteLines().get(0));
                 //在地图上绘制WalkingRouteOverlay
                 overlay.addToMap();
+
             }
         }
 
@@ -267,9 +270,9 @@ public class FragmentLaunchRoute extends Fragment {
                     String pt = enSuggestionInfo.pt.toString();
                     setPosition(enSuggestionInfo.getPt().latitude,enSuggestionInfo.getPt().longitude);
                     //修改比例尺
-                    MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(15.0f);
-                    baiduMap.setMapStatus(msu);
-                    addMarkerOverLay(enSuggestionInfo.getPt().latitude,enSuggestionInfo.getPt().longitude);
+//                    MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(15.0f);
+//                    baiduMap.setMapStatus(msu);
+                    addMarkerOverLay(enSuggestionInfo.getPt().latitude,enSuggestionInfo.getPt().longitude,1);
                     edNode = PlanNode.withCityNameAndPlaceName(enSuggestionInfo.city,enSuggestionInfo.key);
 
 //                    MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(16.0f);
@@ -321,10 +324,10 @@ public class FragmentLaunchRoute extends Fragment {
                     String pt =  stSuggestionInfo.pt.toString();
                     setPosition( stSuggestionInfo.getPt().latitude, stSuggestionInfo.getPt().longitude);
                     //修改比例尺
-                    MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(16.0f);
-                    baiduMap.setMapStatus(msu);
-                    baiduMap.setMaxAndMinZoomLevel(19,13);
-                    addMarkerOverLay( stSuggestionInfo.getPt().latitude, stSuggestionInfo.getPt().longitude);
+//                    MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(16.0f);
+//                    baiduMap.setMapStatus(msu);
+//                    baiduMap.setMaxAndMinZoomLevel(19,13);
+                    addMarkerOverLay( stSuggestionInfo.getPt().latitude, stSuggestionInfo.getPt().longitude,0);
                     stNode = PlanNode.withCityNameAndPlaceName( stSuggestionInfo.city, stSuggestionInfo.key);
                     //显示发起新路线按钮
                     if(!btnStart.getText().toString().equals("请输入孩子上车地点")&&!btnEnd.getText().toString().equals("请输入终点")){
@@ -466,10 +469,16 @@ public class FragmentLaunchRoute extends Fragment {
     }
 
     //添加标注覆盖物（在地图界面某个坐标点显示小图标）
-    public void addMarkerOverLay(double latitude,double longitude){
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.boy);
-        BitmapDescriptor icon2 = BitmapDescriptorFactory.fromResource(R.drawable.boy2);
-        BitmapDescriptor icon3 = BitmapDescriptorFactory.fromResource(R.drawable.boy3);
+    public void addMarkerOverLay(double latitude,double longitude,int flag){
+        BitmapDescriptor icon = null;
+        if (flag == 0){
+            icon = BitmapDescriptorFactory.fromResource(R.drawable.icon_st_map);
+        } else if(flag == 1){
+            icon = BitmapDescriptorFactory.fromResource(R.drawable.icon_en_map);
+        }
+
+//        BitmapDescriptor icon2 = BitmapDescriptorFactory.fromResource(R.drawable.boy2);
+//        BitmapDescriptor icon3 = BitmapDescriptorFactory.fromResource(R.drawable.boy3);
         //1.定义坐标点
         //114.524356,38.002234  师活超市
         //   38.001082;//纬度114.53209;//经度  国培超市
@@ -508,4 +517,29 @@ public class FragmentLaunchRoute extends Fragment {
         super.onDestroyView();
         mSearch.destroy();
     }
+
+    /**
+     * 缩放地图，使所有Overlay都在合适的视野内
+     * <p>
+     * 注： 该方法只对Marker类型的overlay有效
+     * </p>
+     *
+     */
+//    public void zoomToSpan() {
+//        if (baiduMap == null) {
+//            return;
+//        }
+//        if (overlayList.size() > 0) {
+//            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+//            for (Overlay overlay : mOverlayList) {
+//                // polyline 中的点可能太多，只按marker 缩放
+//                if (overlay instanceof Marker) {
+//                    builder.include(((Marker) overlay).getPosition());
+//                }
+//            }
+//            baiduMap.setMapStatus(MapStatusUpdateFactory
+//                    .newLatLngBounds(builder.build()));
+//        }
+//    }
+
 }
