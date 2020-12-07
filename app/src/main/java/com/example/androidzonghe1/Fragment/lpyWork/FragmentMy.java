@@ -25,6 +25,7 @@ import com.example.androidzonghe1.activity.xtWork.ActivityPersonInfo;
 import com.example.androidzonghe1.activity.yyWork.ActivityNewRead;
 import com.example.androidzonghe1.adapter.xtWork.RecycleAdapterFragmentMy;
 import com.example.androidzonghe1.entity.xtWork.RvFragmentMy;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 public class FragmentMy extends Fragment {
     private View view;
@@ -37,11 +38,16 @@ public class FragmentMy extends Fragment {
     private LinearLayout llNewRead;
     private LinearLayout llNewGetTicket;
     private TextView myName;
+    RoundedImageView imgRelation;
+
+    static final int REQUEST_CODE = 1;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_my, container, false);
+
+        imgRelation = view.findViewById(R.id.img_relation);
 
         findViews();
         setOnClickedListener();
@@ -100,7 +106,7 @@ public class FragmentMy extends Fragment {
                 case R.id.ll_fragment_name:
                     Log.e("fragmetn","intent");
                     intent = new Intent(getContext(), ActivityPersonInfo.class);
-                    startActivity(intent);
+                    startActivityForResult(intent, REQUEST_CODE);
                     break;
                 case R.id.ll_fragment_my_child:
                     intent = new Intent(getContext(), KidsActivity.class);
@@ -123,6 +129,24 @@ public class FragmentMy extends Fragment {
                     startActivity(intent);
                     break;
             }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE:
+                if (resultCode == 1) { //返回信息成功
+                    String name = data.getStringExtra("name");
+                    myName.setText(name);
+                    String relation = "爸爸";
+                    if (name.length() > 2){
+                         relation = name.substring(name.length() - 2);
+                    }
+                    Log.e("FragmentMy", "relation:" + relation);
+                }
+                break;
         }
     }
 }
