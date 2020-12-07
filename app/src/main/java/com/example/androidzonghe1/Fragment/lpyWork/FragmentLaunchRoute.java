@@ -1,8 +1,9 @@
 package com.example.androidzonghe1.Fragment.lpyWork;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,12 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ZoomControls;
 
@@ -39,9 +41,10 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.RouteLine;
 import com.baidu.mapapi.search.core.SearchResult;
-import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.route.BikingRouteResult;
+import com.baidu.mapapi.search.route.DrivingRouteLine;
 import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
 import com.baidu.mapapi.search.route.DrivingRouteResult;
 import com.baidu.mapapi.search.route.IndoorRouteResult;
@@ -50,23 +53,20 @@ import com.baidu.mapapi.search.route.OnGetRoutePlanResultListener;
 import com.baidu.mapapi.search.route.PlanNode;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.baidu.mapapi.search.route.TransitRouteResult;
-import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.baidu.mapapi.search.sug.SuggestionResult;
-import com.baidu.platform.comapi.basestruct.GeoPoint;
 import com.example.androidzonghe1.ConfigUtil;
+import com.example.androidzonghe1.JavaClass.lpyWork.DrivingRouteOverlay;
+import com.example.androidzonghe1.JavaClass.lpyWork.OverlayManager;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.lpyWork.RoutePlanDemo;
 import com.example.androidzonghe1.activity.lsbWork.SearchActivity;
 import com.example.androidzonghe1.activity.yyWork.CaculateDistance;
 import com.example.androidzonghe1.activity.yyWork.OrderDetailsActivity;
-import com.example.androidzonghe1.entity.lpyWork.DrivingRouteOverlay;
-import com.example.androidzonghe1.entity.lpyWork.WalkingRouteOverlay;
-import com.google.gson.JsonObject;
+import com.example.androidzonghe1.JavaClass.lpyWork.WalkingRouteOverlay;
+import com.example.androidzonghe1.adapter.lpyWork.RouteLineAdapter;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
 public class FragmentLaunchRoute extends Fragment {
     private Button order;
@@ -85,6 +85,12 @@ public class FragmentLaunchRoute extends Fragment {
     private PlanNode edNode;//路线规划终点
     private SuggestionResult.SuggestionInfo stSuggestionInfo;//起点位置信息
     private SuggestionResult.SuggestionInfo enSuggestionInfo;//终点位置信息
+    private int nodeIndex = -1; // 节点索引,供浏览节点时使用
+    DrivingRouteResult nowResultdrive = null;
+    boolean hasShownDialogue = false;
+    RouteLine route = null;
+    OverlayManager routeOverlay = null;
+
 
     String method = "multiple";
 
@@ -191,6 +197,7 @@ public class FragmentLaunchRoute extends Fragment {
                 overlay.setData(walkingRouteResult.getRouteLines().get(0));
                 //在地图上绘制WalkingRouteOverlay
                 overlay.addToMap();
+
             }
         }
 
@@ -204,41 +211,92 @@ public class FragmentLaunchRoute extends Fragment {
 
         }
 
+//        @Override
+//        public void onGetDrivingRouteResult(DrivingRouteResult drivingRouteResult) {
+//            if (drivingRouteResult == null || drivingRouteResult.error !=   SearchResult.ERRORNO.NO_ERROR) {
+//                Toast.makeText(getContext(), "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
+//            }
+//            if (drivingRouteResult.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+//                // 起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+//                drivingRouteResult.getSuggestAddrInfo();
+//                return;
+//            }
+//            if (drivingRouteResult.error == SearchResult.ERRORNO.NO_ERROR) {
+//                if (drivingRouteResult.getRouteLines().size() >= 1) {
+//                        DrivingRouteLine route = drivingRouteResult.getRouteLines().get(0);
+//                    DrivingRouteOverlay overlay = new DrivingRouteOverlay(baiduMap);
+////                    routeOverlay = overlay;
+//                    baiduMap.setOnMarkerClickListener(overlay);
+//                    overlay.setData(drivingRouteResult.getRouteLines().get(0));
+//                    overlay.addToMap();
+//                    overlay.zoomToSpan();
+//                } else {
+//                    Log.d("route result", "结果数<0");
+//                    return;
+//                }
+//            }
+//        }
+
         @Override
-        public void onGetDrivingRouteResult(DrivingRouteResult drivingRouteResult) {
-            if (drivingRouteResult == null || drivingRouteResult.error !=   SearchResult.ERRORNO.NO_ERROR) {
+        public void onGetDrivingRouteResult(DrivingRouteResult result) {
+            if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
                 Toast.makeText(getContext(), "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
             }
-            if (drivingRouteResult.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+            if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
                 // 起终点或途经点地址有岐义，通过以下接口获取建议查询信息
-                drivingRouteResult.getSuggestAddrInfo();
+                // result.getSuggestAddrInfo()
                 return;
             }
-            if (drivingRouteResult.error == SearchResult.ERRORNO.NO_ERROR) {
-                if (drivingRouteResult.getRouteLines().size() >= 1) {
-//                        DrivingRouteLine route = drivingRouteResult.getRouteLines().get(0);
+            if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+                nodeIndex = -1;
+
+                Log.e("routeLine",result.getRouteLines().size()+"");
+                if (result.getRouteLines().size() > 1) {
+                    nowResultdrive = result;
+                    if (!hasShownDialogue) {
+                        MyTransitDlg myTransitDlg = new MyTransitDlg(getContext(),
+                                result.getRouteLines(),
+                                RouteLineAdapter.Type.DRIVING_ROUTE);
+                        myTransitDlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                hasShownDialogue = false;
+                            }
+                        });
+                        myTransitDlg.setOnItemInDlgClickLinster(new OnItemInDlgClickListener() {
+                            public void onItemClick(int position) {
+                                route = nowResultdrive.getRouteLines().get(position);
+                                DrivingRouteOverlay overlay = new DrivingRouteOverlay(baiduMap);
+                                baiduMap.setOnMarkerClickListener(overlay);
+                                routeOverlay = overlay;
+                                overlay.setData(nowResultdrive.getRouteLines().get(position));
+                                overlay.addToMap();
+                                overlay.zoomToSpan();
+                                overlay.onRouteNodeClick(position);
+                            }
+
+                        });
+                        myTransitDlg.show();
+                        hasShownDialogue = true;
+                    }
+                } else if (result.getRouteLines().size() == 1) {
+                    route = result.getRouteLines().get(0);
                     DrivingRouteOverlay overlay = new DrivingRouteOverlay(baiduMap);
-//                    routeOverlay = overlay;
+                    routeOverlay = overlay;
                     baiduMap.setOnMarkerClickListener(overlay);
-                    overlay.setData(drivingRouteResult.getRouteLines().get(0));
+                    overlay.setData(result.getRouteLines().get(0));
                     overlay.addToMap();
                     overlay.zoomToSpan();
+//                    mBtnPre.setVisibility(View.VISIBLE);
+//                    mBtnNext.setVisibility(View.VISIBLE);
                 } else {
                     Log.d("route result", "结果数<0");
                     return;
                 }
+
             }
-//            //创建DrivingRouteOverlay实例
-//            DrivingRouteOverlay overlay = new DrivingRouteOverlay(baiduMap);
-////            if ()
-//            if (drivingRouteResult!= null && drivingRouteResult.getRouteLines().size() > 0) {
-//                //获取路径规划数据,(以返回的第一条路线为例）
-//                //为DrivingRouteOverlay实例设置数据
-//                overlay.setData(drivingRouteResult.getRouteLines().get(0));
-//                //在地图上绘制DrivingRouteOverlay
-//                overlay.addToMap();
-//            }
         }
+
 
 
         @Override
@@ -267,9 +325,9 @@ public class FragmentLaunchRoute extends Fragment {
                     String pt = enSuggestionInfo.pt.toString();
                     setPosition(enSuggestionInfo.getPt().latitude,enSuggestionInfo.getPt().longitude);
                     //修改比例尺
-                    MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(15.0f);
-                    baiduMap.setMapStatus(msu);
-                    addMarkerOverLay(enSuggestionInfo.getPt().latitude,enSuggestionInfo.getPt().longitude);
+//                    MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(15.0f);
+//                    baiduMap.setMapStatus(msu);
+                    addMarkerOverLay(enSuggestionInfo.getPt().latitude,enSuggestionInfo.getPt().longitude,1);
                     edNode = PlanNode.withCityNameAndPlaceName(enSuggestionInfo.city,enSuggestionInfo.key);
 
 //                    MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(16.0f);
@@ -280,6 +338,7 @@ public class FragmentLaunchRoute extends Fragment {
                         order.setVisibility(View.VISIBLE); //设置按钮为可见
                         if (stNode.getName().equals(edNode.getName())){
                             Toast.makeText(getContext(), "起点和终点不能一致", Toast.LENGTH_SHORT).show();
+                            order.setVisibility(View.GONE);
                         } else {
                             // 驾车路线
                             mSearch.drivingSearch((new DrivingRoutePlanOption())
@@ -321,10 +380,10 @@ public class FragmentLaunchRoute extends Fragment {
                     String pt =  stSuggestionInfo.pt.toString();
                     setPosition( stSuggestionInfo.getPt().latitude, stSuggestionInfo.getPt().longitude);
                     //修改比例尺
-                    MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(16.0f);
-                    baiduMap.setMapStatus(msu);
-                    baiduMap.setMaxAndMinZoomLevel(19,13);
-                    addMarkerOverLay( stSuggestionInfo.getPt().latitude, stSuggestionInfo.getPt().longitude);
+//                    MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(16.0f);
+//                    baiduMap.setMapStatus(msu);
+//                    baiduMap.setMaxAndMinZoomLevel(19,13);
+                    addMarkerOverLay( stSuggestionInfo.getPt().latitude, stSuggestionInfo.getPt().longitude,0);
                     stNode = PlanNode.withCityNameAndPlaceName( stSuggestionInfo.city, stSuggestionInfo.key);
                     //显示发起新路线按钮
                     if(!btnStart.getText().toString().equals("请输入孩子上车地点")&&!btnEnd.getText().toString().equals("请输入终点")){
@@ -466,10 +525,16 @@ public class FragmentLaunchRoute extends Fragment {
     }
 
     //添加标注覆盖物（在地图界面某个坐标点显示小图标）
-    public void addMarkerOverLay(double latitude,double longitude){
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.boy);
-        BitmapDescriptor icon2 = BitmapDescriptorFactory.fromResource(R.drawable.boy2);
-        BitmapDescriptor icon3 = BitmapDescriptorFactory.fromResource(R.drawable.boy3);
+    public void addMarkerOverLay(double latitude,double longitude,int flag){
+        BitmapDescriptor icon = null;
+        if (flag == 0){
+            icon = BitmapDescriptorFactory.fromResource(R.drawable.icon_st_map);
+        } else if(flag == 1){
+            icon = BitmapDescriptorFactory.fromResource(R.drawable.icon_en_map);
+        }
+
+//        BitmapDescriptor icon2 = BitmapDescriptorFactory.fromResource(R.drawable.boy2);
+//        BitmapDescriptor icon3 = BitmapDescriptorFactory.fromResource(R.drawable.boy3);
         //1.定义坐标点
         //114.524356,38.002234  师活超市
         //   38.001082;//纬度114.53209;//经度  国培超市
@@ -507,5 +572,63 @@ public class FragmentLaunchRoute extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         mSearch.destroy();
+    }
+
+    // 响应DLg中的List item 点击
+    interface OnItemInDlgClickListener {
+        public void onItemClick(int position);
+    }
+
+    // 供路线选择的Dialog
+    class MyTransitDlg extends Dialog {
+
+        private List<? extends RouteLine> mtransitRouteLines;
+        private ListView transitRouteList;
+        private RouteLineAdapter mTransitAdapter;
+
+        OnItemInDlgClickListener onItemInDlgClickListener;
+
+        public MyTransitDlg(Context context, int theme) {
+        super(context, theme);
+    }
+
+        public MyTransitDlg(Context context, List<? extends RouteLine> transitRouteLines, RouteLineAdapter.Type
+        type) {
+        this(context, 0);
+        mtransitRouteLines = transitRouteLines;
+        mTransitAdapter = new RouteLineAdapter(context, mtransitRouteLines, type);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+    }
+
+        @Override
+        public void setOnDismissListener(DialogInterface.OnDismissListener listener) {
+        super.setOnDismissListener(listener);
+    }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_transit_dialog);
+
+        transitRouteList = (ListView) findViewById(R.id.transitList);
+        transitRouteList.setAdapter(mTransitAdapter);
+
+        transitRouteList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                onItemInDlgClickListener.onItemClick(position);
+//                mBtnPre.setVisibility(View.VISIBLE);
+//                mBtnNext.setVisibility(View.VISIBLE);
+                dismiss();
+                hasShownDialogue = false;
+            }
+        });
+    }
+
+        public void setOnItemInDlgClickLinster(OnItemInDlgClickListener itemListener) {
+        onItemInDlgClickListener = itemListener;
+    }
+
     }
 }

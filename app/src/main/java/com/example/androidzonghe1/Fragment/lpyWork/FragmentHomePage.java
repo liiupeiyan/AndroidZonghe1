@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -163,6 +164,7 @@ public class FragmentHomePage extends Fragment {
 
         //为ViewPager绑定Adapter
         myViewPager.setAdapter(adapter);
+//        tab_layout.setTabMode(TableLayout.MOOE_FIX);
         //为TabLayout添加标签，注意这里我们传入了标签名称，但demo运行时显示的标签名称并不是我们添加的，那么为什么呢？卖个官子...
         tab_layout.addTab(tab_layout.newTab().setText("今日行程").setIcon(R.drawable.trip4));
         tab_layout.addTab(tab_layout.newTab().setText("同校路线").setIcon(R.drawable.route2));
@@ -170,11 +172,12 @@ public class FragmentHomePage extends Fragment {
         tab_layout.addTab(tab_layout.newTab().setText("接送员").setIcon(R.drawable.driver));
         //给tabLayout设置ViewPage，如果设置关联了Viewpage，那么ViewpagAdapter中getPageTitle返回的就是Tab上标题(上面疑问的回答)
         //为ViewPager 和Tablelayout进行绑定，从而实现滑动标签切换Fragment的目的
+//        tab_layout.getTabAt(3);
         tab_layout.setupWithViewPager(myViewPager);
-        if (ConfigUtil.flagChooseDriver){
-            myViewPager.setCurrentItem(3);
-            ConfigUtil.flagChooseDriver = false;
-        }
+//        if (ConfigUtil.flagChooseDriver){
+//            myViewPager.setCurrentItem(3);
+//            ConfigUtil.flagChooseDriver = false;
+//        }
     }
 
     //轮播图的使用
