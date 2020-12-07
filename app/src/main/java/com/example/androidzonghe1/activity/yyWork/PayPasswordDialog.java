@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyboardShortcutGroup;
 import android.view.LayoutInflater;
@@ -15,14 +16,17 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.lsbWork.WalletActivity;
+import com.example.androidzonghe1.entity.yyWork.DataMmoney;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -100,15 +104,20 @@ public class PayPasswordDialog extends Dialog implements View.OnClickListener {
                 if (dialogClick!=null){
                     dialogClick.doConfirm(password);
                 }
-                if(code==1){
-                    //判断pwd.equals(password)。弹出支付成功界面
-                    showCustomeDialog();
-                }else if(code==2){
+                if(code==2){
                     //返回WalletActivity
-                    EventBus.getDefault().post(money);
-                    mDia.dismiss();
-                    //判断pwd.equals(password)。相等关闭Fragment
-//                    showMoneyDialog();
+                    //从数据库查询密码，进行判断
+                    if(ConfigUtil.isLogin){ //已经登录
+                        if(password.equals(ConfigUtil.pwd)){ //密码正确
+                            EventBus.getDefault().post(money);
+                            mDia.dismiss();
+                        }else{
+                            Log.e("error",password);
+                            //显示密码错误
+//                            showErrorDialog();
+
+                        }
+                    }
                 }
             }
         });
@@ -144,7 +153,6 @@ public class PayPasswordDialog extends Dialog implements View.OnClickListener {
         transaction.show(dialog);
         transaction.commit();
         //结束OrderDetailsActivity
-        activity.finish();
     }
 
     private void initView() {

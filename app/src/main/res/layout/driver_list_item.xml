@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:padding="10dp"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
@@ -23,7 +24,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="请选择联系人的关系" />
+            android:text="请选择接送员" />
 
         <Button
             android:id="@+id/btn_confirm"
@@ -35,9 +36,9 @@
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/lv_driver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_driver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

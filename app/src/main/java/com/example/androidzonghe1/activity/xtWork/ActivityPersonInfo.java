@@ -82,8 +82,14 @@ public class ActivityPersonInfo extends AppCompatActivity {
                 }
                 break;
             case USUAL_ADDRESS_REQUESTCODD:
+                if (resultCode == 0){
+
+                }
                 break;
             case CHILD_ADDRESS_REQUEST_CODD:
+                if (resultCode == 0){
+
+                }
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);

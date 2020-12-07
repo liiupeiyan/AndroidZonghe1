@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigUtil {
-
+    //当前密码
+    public static String pwd="";
     //判断当前用户是否登录
     public static boolean isLogin = false;
     //当前用户名
@@ -24,10 +25,11 @@ public class ConfigUtil {
     //当前用户类
     public static Parent parent = new Parent();
     //徐婷连接到服务器
-    public static final String xt = "http://192.168.43.115:8080/Dingdongg/";
+    public static final String xt = "http://10.7.90.141:8080/Dingdongg/";
     //任佳旭连接服务器
     public static final String Url = "http://192.168.43.52:8080/DingDong/";
 
+    public static final String URL = "http://59.110.228.91:8080/DingDong/";
 
     public static boolean adapterFlag =  true;
 
@@ -50,7 +52,7 @@ public class ConfigUtil {
     public static void initDrivers(){
         for(int i = 0 ; i < 10; i++){
             Driver driver = new Driver();
-//            driver.setImg(R.drawable.driver_img);
+            driver.setImg(R.drawable.driver_img);
             driver.setName("刘培焱");
             driver.setAge(18);
             if (i%3 != 0){
