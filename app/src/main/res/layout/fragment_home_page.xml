@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
@@ -57,8 +58,7 @@
 
     </LinearLayout>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/fragment_home_page_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -92,18 +92,34 @@
                 app:tabTextColor="#ff0000">
             </com.google.android.material.tabs.TabLayout>
         </com.google.android.material.appbar.AppBarLayout>
-<!--        <view-->
-
+<!--        <androidx.fragment.app.FragmentTabHost-->
+<!--            android:id="@android:id/tabhost"-->
+<!--            android:layout_below="@+id/appBar_layout"-->
+<!--            app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+<!--            android:layout_height="match_parent"-->
 <!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="5dp"/>-->
+<!--            xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent">-->
+<!--                <FrameLayout-->
+<!--                    android:id="@android:id/tabcontent"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_above="@android:id/tabs"/>-->
+<!--                <TabWidget-->
+<!--                    android:layout_alignParentTop="true"-->
+<!--                    android:id="@android:id/tabs"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"/>-->
+<!--            </RelativeLayout>-->
+<!--        </androidx.fragment.app.FragmentTabHost>-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/appBar_layout"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
             <androidx.viewpager.widget.ViewPager
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:id="@+id/view_page_home_page"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
