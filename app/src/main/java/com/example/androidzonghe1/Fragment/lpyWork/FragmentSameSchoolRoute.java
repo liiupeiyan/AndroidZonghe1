@@ -3,6 +3,7 @@ package com.example.androidzonghe1.Fragment.lpyWork;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterSameSchoolRoute;
 import com.example.androidzonghe1.entity.lpyWork.RecycleviewTitle;
+import com.mob.tools.network.HttpConnection;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -24,6 +26,12 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +64,10 @@ public class FragmentSameSchoolRoute extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_same_school_route, container, false);
+
+        //获取同校路线
+        getSameSchoolRoute(ConfigUtil.Url+"GetSameRouteServlet");
+
         findViews();
         //设置刷新头和加载更多的样式
         refreshLayout.setRefreshHeader(new ClassicsHeader(getActivity()));
@@ -127,5 +139,42 @@ public class FragmentSameSchoolRoute extends Fragment {
                 }.start();
             }
         });
+    }
+
+    //网络操作
+    public void getSameSchoolRoute(String s){
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    URL url = new URL(s+"?school=");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");//设置请求方式
+
+                    //从服务器段获取响应
+                    InputStream is = connection.getInputStream();
+                    byte[] bytes = new byte[1024];
+                    int len = is.read(bytes);//将数据保存在bytes中，长度保存在len中
+                    String resp = new String(bytes,0,len);
+                    Log.e("搜索结果",resp);
+
+                    is.close();
+
+                    //借助Message传递数据
+                    Message message = new Message();
+                    //设置Message对象的参数
+                    message.what = 10;
+                    message.obj = resp;
+                    //发送Message
+                    handler.sendMessage(message);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }.start();
     }
 }
