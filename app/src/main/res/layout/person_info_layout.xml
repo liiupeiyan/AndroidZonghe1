@@ -44,20 +44,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/img_relation"
+            <ImageView
+                android:id="@+id/iv_toux"
                 android:src="@drawable/father"
                 android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:scaleType="fitCenter"
-                app:riv_oval="true"
-                app:riv_mutate_background="true"
-                app:riv_corner_radius="30dp"
-                app:riv_border_width="1dp"
-                app:riv_border_color="@color/black"
-                android:background="@color/gray"/>
-
+                android:layout_height="80dp"/>
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_marginTop="10dp"
@@ -81,7 +72,7 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/shouji"/>
             <TextView
-                android:id="@+id/tv_tel"
+                android:id="@+id/tv_gerenxinxi_phone"
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
                 android:textSize="15sp"
@@ -112,17 +103,15 @@
                 android:layout_height="30dp"
                 android:text="常用地址"/>
 
-        </LinearLayout>
 
+        </LinearLayout>
         <Button
             android:id="@+id/et_gerenxinxi_address_usually"
             android:layout_marginLeft="30dp"
             android:text="@string/usual_address"
             android:background="@drawable/none_style"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="left|center"/>
-
+            android:layout_height="wrap_content"/>
         <View
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
@@ -136,8 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:background="@drawable/none_style"
-            android:hint="@string/child_address"
-            android:gravity="left|center"/>
+            android:hint="@string/child_address" />
 
         <View
             android:layout_marginLeft="25dp"
