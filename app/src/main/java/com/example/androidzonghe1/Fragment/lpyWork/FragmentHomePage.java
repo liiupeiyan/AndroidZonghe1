@@ -34,6 +34,7 @@ import com.example.androidzonghe1.activity.lpyWork.ActivityMyMessage;
 import com.example.androidzonghe1.activity.lsbWork.SearchActivity;
 import com.example.androidzonghe1.adapter.lpyWork.ImageAdapter;
 import com.example.androidzonghe1.adapter.lpyWork.MyViewPagerAdapter;
+import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterSameSchoolRoute;
 import com.example.androidzonghe1.entity.lpyWork.DataBean;
 import com.example.androidzonghe1.entity.lpyWork.SameSchoolRoute;
 import com.google.android.material.tabs.TabLayout;
@@ -60,6 +61,7 @@ public class FragmentHomePage extends Fragment {
     private TextView tvSchoolName;
     private final int REQUEST_SEARCH_CODE = 100;
     private View view;
+    private MyViewPagerAdapter adapter;
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -69,6 +71,12 @@ public class FragmentHomePage extends Fragment {
                     Gson gson = new Gson();
                     Type collectionType = new TypeToken<ArrayList<SameSchoolRoute>>() {}.getType();
                     ConfigUtil.routes = gson.fromJson(resp, collectionType);
+
+                    InitUiAndDatas();
+//                    adapter.changeId(2);
+//                    adapter.notifyDataSetChanged();
+                    //为ViewPager绑定Adapter
+//                    myViewPager.setAdapter(adapter);
                     break;
             }
         }
@@ -128,11 +136,9 @@ public class FragmentHomePage extends Fragment {
         tvSchoolName = view.findViewById(R.id.home_page_school_name);
     }
 
-
-
     private void InitUiAndDatas(){
         //初始化viewPager的adapter代码
-        MyViewPagerAdapter adapter = new MyViewPagerAdapter(getFragmentManager());
+        adapter = new MyViewPagerAdapter(getFragmentManager());
         //为Adapter添加Aapter和标题
 //        if (ConfigUtil.trips.size() == 0){
 //            adapter.addFragment(new FragmentNoDataDayTrip(),"今日行程");
@@ -144,6 +150,8 @@ public class FragmentHomePage extends Fragment {
             adapter.addFragment(new FragmentNoDataSchoolRoute(),"同校路线");
         }else {
             adapter.addFragment(new FragmentSameSchoolRoute(),"同校路线");
+//            FragmentSameSchoolRoute.adapter.notifyDataSetChanged();
+
         }
         adapter.addFragment(new FragmentSameSchoolParents(),"同校家长");
 //        if (ConfigUtil.drivers.size() == 0){
@@ -200,8 +208,7 @@ public class FragmentHomePage extends Fragment {
                 String schoolName =  info.key;
                 ConfigUtil.school = schoolName;
                 //获取同校路线
-                getSameSchoolRoute(ConfigUtil.Url+"GetSameRouteServlet");
-
+                getSameSchoolRoute(ConfigUtil.Url+"GetSameRouteServlet?school="+schoolName);
                 tvSchoolName.setText(schoolName);
                 tvSchoolName.setTextSize(18);
             }
@@ -216,7 +223,7 @@ public class FragmentHomePage extends Fragment {
             public void run() {
                 super.run();
                 try {
-                    URL url = new URL(s+"?school="+ConfigUtil.school);
+                    URL url = new URL(s);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");//设置请求方式
 

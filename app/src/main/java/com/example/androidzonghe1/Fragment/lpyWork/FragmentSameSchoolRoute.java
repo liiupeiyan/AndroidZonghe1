@@ -1,4 +1,4 @@
-package com.example.androidzonghe1.Fragment.lpyWork;
+    package com.example.androidzonghe1.Fragment.lpyWork;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,7 +44,7 @@ public class FragmentSameSchoolRoute extends Fragment {
     private RecyclerView recyclerView;
     private SmartRefreshLayout refreshLayout;
     private View view;
-    private RecycleAdapterSameSchoolRoute adapter;
+    public static RecycleAdapterSameSchoolRoute adapter;
     private final int REFRESH = 0;
     private final int LOADMORE = 1;
     private Handler handler = new Handler(){
