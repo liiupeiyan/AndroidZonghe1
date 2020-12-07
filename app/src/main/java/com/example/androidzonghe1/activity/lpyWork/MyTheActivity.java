@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.Fragment.lpyWork.FragmentHomePage;
@@ -80,6 +82,8 @@ public class MyTheActivity extends AppCompatActivity {
             new EasyDialog(this, R.layout.view_gift_card) {
                 @Override
                 public void onBindViewHolder(DialogViewHolder holder) {
+                    TextView textView = holder.getView(R.id.tv_word);
+                    textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                     ImageView imageView = holder.getView(R.id.img_close);
                     imageView.setOnClickListener(new View.OnClickListener() {
                         @Override

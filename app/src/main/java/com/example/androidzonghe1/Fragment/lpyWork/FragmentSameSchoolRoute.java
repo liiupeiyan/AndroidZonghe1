@@ -17,7 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterSameSchoolRoute;
+import com.example.androidzonghe1.entity.lpyWork.Driver;
 import com.example.androidzonghe1.entity.lpyWork.RecycleviewTitle;
+import com.example.androidzonghe1.entity.lpyWork.SameSchoolRoute;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mob.tools.network.HttpConnection;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -29,6 +33,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -57,6 +62,7 @@ public class FragmentSameSchoolRoute extends Fragment {
                     adapter.notifyDataSetChanged();
                     refreshLayout.finishLoadMore();
                     break;
+
             }
         }
     };
@@ -65,8 +71,7 @@ public class FragmentSameSchoolRoute extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_same_school_route, container, false);
 
-        //获取同校路线
-        getSameSchoolRoute(ConfigUtil.Url+"GetSameRouteServlet");
+
 
         findViews();
         //设置刷新头和加载更多的样式
@@ -141,40 +146,5 @@ public class FragmentSameSchoolRoute extends Fragment {
         });
     }
 
-    //网络操作
-    public void getSameSchoolRoute(String s){
-        new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    URL url = new URL(s+"?school=");
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("POST");//设置请求方式
 
-                    //从服务器段获取响应
-                    InputStream is = connection.getInputStream();
-                    byte[] bytes = new byte[1024];
-                    int len = is.read(bytes);//将数据保存在bytes中，长度保存在len中
-                    String resp = new String(bytes,0,len);
-                    Log.e("搜索结果",resp);
-
-                    is.close();
-
-                    //借助Message传递数据
-                    Message message = new Message();
-                    //设置Message对象的参数
-                    message.what = 10;
-                    message.obj = resp;
-                    //发送Message
-                    handler.sendMessage(message);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }.start();
-    }
 }
