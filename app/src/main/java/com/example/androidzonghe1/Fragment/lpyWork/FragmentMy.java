@@ -1,11 +1,17 @@
 package com.example.androidzonghe1.Fragment.lpyWork;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,6 +32,13 @@ import com.example.androidzonghe1.activity.yyWork.ActivityNewRead;
 import com.example.androidzonghe1.adapter.xtWork.RecycleAdapterFragmentMy;
 import com.example.androidzonghe1.entity.xtWork.RvFragmentMy;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class FragmentMy extends Fragment {
     private View view;
     private RecyclerView recyclerView;
@@ -36,7 +49,25 @@ public class FragmentMy extends Fragment {
     private LinearLayout llAwardCommend;
     private LinearLayout llNewRead;
     private LinearLayout llNewGetTicket;
+    private ImageView imageView;
     private TextView myName;
+    private String str;
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 1:
+                    imageView.setImageBitmap((Bitmap) msg.obj);
+                    break;
+                case 2:
+                    if(!str.equals("false")){
+                        myName.setText(str);
+                    }
+                    break;
+            }
+        }
+    };
 
     @Nullable
     @Override
@@ -74,12 +105,66 @@ public class FragmentMy extends Fragment {
         llNewRead = view.findViewById(R.id.ll_fragment_new_read);
         llNewGetTicket = view.findViewById(R.id.ll_fragment_new_get_ticket);
         myName = view.findViewById(R.id.my_name);
+        imageView = view.findViewById(R.id.iv_img);
+        //根据id获取头像
+        getUserImage();
+        getInfo();
         if(ConfigUtil.isLogin){
             myName.setText(ConfigUtil.parent.getName());
         }else {
             myName.setText("昵称");
         }
+    }
 
+    private void getInfo() {
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    URL url = new URL(ConfigUtil.xt+"ShowParentNameServlet?"+ConfigUtil.parent.getId());
+                    InputStream inputStream = url.openStream();
+                    int len = 0;
+                    byte[] b=new byte[1024];
+                    if((len = inputStream.read(b))!=-1){
+                        str = new String(b,0,len,"UTF-8");
+                    }
+                    Log.e("获取家长信息结果",str);
+                    Message message = new Message();
+                    message.what =2;
+                    handler.sendMessage(message);
+                    inputStream.close();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    private void getUserImage() {
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    URL url = new URL(ConfigUtil.xt+"ShowParentImageServlet?id="+ConfigUtil.parent.getId());
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    InputStream is = connection.getInputStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(is);
+                    Message msg = new Message();
+                    msg.obj = bitmap;
+                    msg.what=1;
+                    handler.sendMessage(msg);
+                    is.close();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 
     public void setOnClickedListener(){
@@ -92,6 +177,16 @@ public class FragmentMy extends Fragment {
         llNewGetTicket.setOnClickListener(myListener);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==1&&requestCode==100){
+            myName.setText(data.getStringExtra("name"));
+            getUserImage();
+            getInfo();
+        }
+    }
+
     class MyListener implements View.OnClickListener{
         @Override
         public void onClick(View view) {
@@ -100,7 +195,7 @@ public class FragmentMy extends Fragment {
                 case R.id.ll_fragment_name:
                     Log.e("fragmetn","intent");
                     intent = new Intent(getContext(), ActivityPersonInfo.class);
-                    startActivity(intent);
+                    startActivityForResult(intent,100);
                     break;
                 case R.id.ll_fragment_my_child:
                     intent = new Intent(getContext(), KidsActivity.class);
