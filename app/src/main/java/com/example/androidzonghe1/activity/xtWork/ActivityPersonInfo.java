@@ -3,7 +3,9 @@ package com.example.androidzonghe1.activity.xtWork;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.EventLog;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,6 +19,8 @@ import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.lsbWork.SearchActivity;
 import com.makeramen.roundedimageview.RoundedImageView;
+
+import java.security.Key;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -113,5 +117,19 @@ public class ActivityPersonInfo extends AppCompatActivity {
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            Intent response = new Intent();
+            response.putExtra("name", tvName.getText().toString().trim());
+            response.putExtra("addressUsual", btnAddressUsual.getText().toString().trim());
+            response.putExtra("addressChild", btnAddressChild.getText().toString().trim());
+            setResult(1, response);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
