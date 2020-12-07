@@ -2,7 +2,7 @@
 <com.scwang.smartrefresh.layout.SmartRefreshLayout
     android:id="@+id/first_refreshLayout"
     android:layout_width="match_parent"
-    android:padding="5dp"
+    android:padding="8dp"
     android:layout_height="match_parent"
     app:srlEnableFooterFollowWhenLoadFinished="true"
     app:srlEnableScrollContentWhenLoaded="true"

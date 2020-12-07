@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.lsbWork.SearchActivity;
 
@@ -64,7 +65,6 @@ public class ActivityPersonInfo extends AppCompatActivity {
             public void onClick(View v) {
                 Log.e("ActivityPersonInfo", "imgBack onClicked");
                 Intent response = new Intent();
-
                 setResult(1, response);
                 finish();
             }
@@ -83,12 +83,19 @@ public class ActivityPersonInfo extends AppCompatActivity {
                 break;
             case USUAL_ADDRESS_REQUESTCODD:
                 if (resultCode == 0){
-
+                    SuggestionResult.SuggestionInfo info = data.getExtras().getParcelable("suggestionInfo");
+                    Log.e("suggestionInfo",info.toString());
+                    String schoolName =  info.key;
+                    btnAddressUsual.setText(schoolName);
+//                    tvSchoolName.setTextSize(18);
                 }
                 break;
             case CHILD_ADDRESS_REQUEST_CODD:
                 if (resultCode == 0){
-
+                    SuggestionResult.SuggestionInfo info = data.getExtras().getParcelable("suggestionInfo");
+                    Log.e("suggestionInfo",info.toString());
+                    String schoolName =  info.key;
+                    btnAddressChild.setText(schoolName);
                 }
                 break;
         }
