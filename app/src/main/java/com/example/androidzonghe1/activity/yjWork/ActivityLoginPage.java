@@ -58,7 +58,7 @@ public class ActivityLoginPage extends AppCompatActivity {
                 case 1:
                     String s = (String) msg.obj;
                     Log.e("yj",s);
-                    if (s.equals("Yes")){
+                    if(s.equals("Yes")){
                         //登陆界面，发送验证码
                         SMSSDK.getVerificationCode("86", phoneNum);
                         Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
@@ -103,6 +103,7 @@ public class ActivityLoginPage extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+
                                 Toast.makeText(ActivityLoginPage.this,"验证码已发送",Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -141,10 +142,7 @@ public class ActivityLoginPage extends AppCompatActivity {
                 if(!phoneNum.isEmpty()){
                     if(Utils.checkTel(phoneNum)){ //利用正则表达式获取检验手机号
                         //判断是否注册
-                        //JudgeIsRegister("http://192.168.43.232:8080/DingDong/JudgeIsRegisterServlet?tel="+phoneNum);
-                        SMSSDK.getVerificationCode("86", phoneNum);
-                        Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-                        intent.putExtra("phoneNum",phoneNum);
+                        JudgeIsRegister("http://192.168.43.232:8080/DingDong/JudgeIsRegisterServlet?tel="+phoneNum);
                     }else{
                         Toast.makeText(getApplicationContext(),"请输入有效的手机号",Toast.LENGTH_LONG).show();
                         return;

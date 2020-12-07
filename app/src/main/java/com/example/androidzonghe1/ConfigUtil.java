@@ -19,6 +19,9 @@ public class ConfigUtil {
     public static String userName = "";
     //当前手机号
     public static String phone="";
+    //当前支付密码
+    public static String pwd ="";
+    //当前用户类
     public static Parent parent = new Parent();
     //徐婷连接到服务器
     public static final String xt = "http://192.168.43.115:8080/Dingdongg/";

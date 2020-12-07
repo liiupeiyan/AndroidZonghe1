@@ -40,6 +40,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="请输入孩子的学校"/>
+        <EditText
+            android:id="@+id/register_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入支付密码(6位)"/>
 
         <TextView
             android:layout_width="match_parent"
