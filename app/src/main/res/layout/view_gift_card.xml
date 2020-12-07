@@ -46,6 +46,7 @@
                 android:textSize="20sp" />
 
             <TextView
+                android:id="@+id/tv_word"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="100"
@@ -71,7 +72,9 @@
             android:id="@+id/btn_get"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="点击领取" />
+            android:text="点击领取"
+            android:textColor="@android:color/white"
+            android:background="@drawable/shape"/>
     </LinearLayout>
 
     <ImageView
