@@ -89,8 +89,14 @@ public class RecycleAdapterDriver extends RecyclerView.Adapter<RecyclerView.View
                     .load(R.drawable.driver_img)
                     .into(((Myholder)holder).img);
             ((Myholder) holder).name.setText(drivers.get(position-1).getName());
-            ((Myholder) holder).age.setText(drivers.get(position-1).getAge()+"");
-            ((Myholder) holder).state.setText(drivers.get(position-1).getStatus());
+            ((Myholder) holder).age.setText(drivers.get(position-1).getAge()+"岁");
+            if (drivers.get(position-1).getStatus().equals("0")){
+                ((Myholder) holder).state.setText("空闲");
+            }else if(drivers.get(position-1).getStatus().equals("1")){
+                ((Myholder) holder).state.setText("忙碌");
+            }else {
+                ((Myholder) holder).state.setText(drivers.get(position-1).getStatus());
+            }
             ((Myholder) holder).car.setText(drivers.get(position-1).getCar());
             ((Myholder) holder).style.setText(drivers.get(position-1).getStyle());
             ((Myholder) holder).experience.setText(drivers.get(position-1).getExperience());
