@@ -18,11 +18,15 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.entity.yyWork.DataMmoney;
 
@@ -44,11 +48,21 @@ public class MoneyDialog extends DialogFragment {
                     money = edtMoney.getText()+"";
                     DataMmoney.setMoney(money);
                     Log.e("钱",money);
-                    final PayPasswordDialog dialog = new PayPasswordDialog(getContext(),R.style.mydialog,2,getDialog(),money);
+                    final PayPasswordDialog dialog = new PayPasswordDialog(getContext(),R.style.mydialog,4,getDialog(),money);
                     dialog.setDialogClick(new PayPasswordDialog.DialogClick() {
                         @Override
                         public void doConfirm(String password) {
                             dialog.dismiss();
+                            if(ConfigUtil.isLogin){ //已经登录
+                                if(password.equals(ConfigUtil.pwd)){ //密码正确
+                                    EventBus.getDefault().post(money);
+                                    dismiss();
+                                }else{
+                                    Log.e("error",password);
+                                    //显示密码错误
+                                    showErrorDialog();
+                                }
+                            }
                             Log.e("输入密码为：",password);
                             Log.e("qian",money);
                         }
@@ -62,6 +76,17 @@ public class MoneyDialog extends DialogFragment {
     }
     public String getMyMoney(){
         return money;
+    }
+    private void showErrorDialog(){
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        ErrorDialog errorDialog = new ErrorDialog();
+        if(!errorDialog.isAdded()){
+            transaction.add(errorDialog,"dialog_tag");
+
+        }
+        transaction.show(errorDialog);
+        transaction.commit();
     }
 
 }

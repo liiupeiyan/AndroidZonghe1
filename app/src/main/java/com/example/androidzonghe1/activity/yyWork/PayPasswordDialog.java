@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyboardShortcutGroup;
 import android.view.LayoutInflater;
@@ -103,10 +104,7 @@ public class PayPasswordDialog extends Dialog implements View.OnClickListener {
                 if (dialogClick!=null){
                     dialogClick.doConfirm(password);
                 }
-                if(code==1){
-                    //判断pwd.equals(password)。弹出支付成功界面
-                    showCustomeDialog();
-                }else if(code==2){
+                if(code==2){
                     //返回WalletActivity
                     //从数据库查询密码，进行判断
                     if(ConfigUtil.isLogin){ //已经登录
@@ -114,11 +112,12 @@ public class PayPasswordDialog extends Dialog implements View.OnClickListener {
                             EventBus.getDefault().post(money);
                             mDia.dismiss();
                         }else{
-                            Toast.makeText(context,"密码错误",Toast.LENGTH_SHORT);
+                            Log.e("error",password);
+                            //显示密码错误
+//                            showErrorDialog();
+
                         }
                     }
-                    //判断pwd.equals(password)。相等关闭Fragment
-//                    showMoneyDialog();
                 }
             }
         });
@@ -154,7 +153,6 @@ public class PayPasswordDialog extends Dialog implements View.OnClickListener {
         transaction.show(dialog);
         transaction.commit();
         //结束OrderDetailsActivity
-//        activity.finish();
     }
 
     private void initView() {
