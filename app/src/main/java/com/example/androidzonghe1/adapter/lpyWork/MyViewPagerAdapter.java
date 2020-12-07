@@ -9,8 +9,8 @@ import java.util.List;
 
 public class MyViewPagerAdapter extends FragmentPagerAdapter {
     private long baseId = 0;
-    private final List<Fragment> mFragments = new ArrayList<>();
-    private final List<String> fragmentTitles = new ArrayList<>();
+    private  List<Fragment> mFragments = new ArrayList<>();
+    private List<String> fragmentTitles = new ArrayList<>();
     public MyViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -40,5 +40,10 @@ public class MyViewPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         //这里返回的标题就是TabLayout的标题
         return fragmentTitles.get(position);
+    }
+
+    public void removeAllFragment(){
+        mFragments = new ArrayList<>();
+        fragmentTitles = new ArrayList<>();
     }
 }
