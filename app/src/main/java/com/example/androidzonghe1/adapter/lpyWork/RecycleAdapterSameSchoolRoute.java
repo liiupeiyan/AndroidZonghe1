@@ -81,7 +81,7 @@ public class RecycleAdapterSameSchoolRoute extends RecyclerView.Adapter<Recycler
             ((Myholder) holder).schoolName.setText(routes.get(position-1).getSchool());
             ((Myholder) holder).peopleNow.setText(routes.get(position-1).getPeopleNow()+"");
             ((Myholder) holder).peopleTotal.setText(routes.get(position-1).getPeopleTotal()+"");
-            ((Myholder) holder).routeState.setText(routes.get(position-1).getRouteState());
+//            ((Myholder) holder).routeState.setText(routes.get(position-1).getRouteState());
             ((Myholder) holder).communityFirst.setText(routes.get(position-1).getCommunityFirst());
             ((Myholder) holder).community1Distance.setText(routes.get(position-1).getDistanceCommunityFirst()+"");
             ((Myholder) holder).communitySecond.setText(routes.get(position-1).getCommunitySecond());

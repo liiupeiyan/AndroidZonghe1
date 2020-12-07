@@ -34,11 +34,11 @@ import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteLine;
 import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
+import com.example.androidzonghe1.JavaClass.lpyWork.DrivingRouteOverlay;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.adapter.lpyWork.RouteLineAdapter;
-import com.example.androidzonghe1.entity.lpyWork.DrivingRouteOverlay;
-import com.example.androidzonghe1.entity.lpyWork.OverlayManager;
-import com.example.androidzonghe1.entity.lpyWork.WalkingRouteOverlay;
+import com.example.androidzonghe1.JavaClass.lpyWork.OverlayManager;
+import com.example.androidzonghe1.JavaClass.lpyWork.WalkingRouteOverlay;
 
 import android.app.Activity;
 import android.app.AlertDialog;

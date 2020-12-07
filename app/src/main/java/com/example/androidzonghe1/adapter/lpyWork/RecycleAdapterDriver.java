@@ -99,8 +99,8 @@ public class RecycleAdapterDriver extends RecyclerView.Adapter<RecyclerView.View
             }
             ((Myholder) holder).car.setText(drivers.get(position-1).getCar());
             ((Myholder) holder).style.setText(drivers.get(position-1).getStyle());
-            ((Myholder) holder).experience.setText(drivers.get(position-1).getExperience());
-            ((Myholder) holder).phone.setText(drivers.get(position-1).getPhone());
+            ((Myholder) holder).experience.setText("驾龄："+drivers.get(position-1).getExperience());
+            ((Myholder) holder).phone.setText("电话："+drivers.get(position-1).getPhone());
             //查看订单详情的点击事件
             ((Myholder) holder).driverCall.setOnClickListener(new View.OnClickListener(){
                 @Override

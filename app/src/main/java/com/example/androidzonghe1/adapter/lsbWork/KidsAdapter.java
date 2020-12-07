@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.entity.xtWork.Child;
+import com.example.androidzonghe1.entity.xtWork.Contactor;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -38,6 +39,13 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
 //        this.context = context;
 //        this.data = data;
 //    }
+
+    //添加
+    public void insertData(){
+        this.data.add(new Child());
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
