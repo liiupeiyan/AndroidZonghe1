@@ -86,8 +86,8 @@ public class RoutePlanDemo extends Activity implements BaiduMap.OnMapClickListen
 
     int nowSearchType = -1; // 当前进行的检索，供判断浏览节点时结果使用。
 
-    String startNodeStr = "西二旗地铁站";
-    String endNodeStr = "百度科技园";
+    String startNodeStr = "河北师范大学";
+    String endNodeStr = "石家庄站";
     boolean hasShownDialogue = false;
 
 
@@ -287,15 +287,38 @@ public class RoutePlanDemo extends Activity implements BaiduMap.OnMapClickListen
 
         @Override
         public void onGetDrivingRouteResult(DrivingRouteResult drivingRouteResult) {
-            //创建DrivingRouteOverlay实例
-            DrivingRouteOverlay overlay = new DrivingRouteOverlay(mBaidumap);
-            if (drivingRouteResult.getRouteLines().size() > 0) {
-                //获取路径规划数据,(以返回的第一条路线为例）
-                //为DrivingRouteOverlay实例设置数据
-                overlay.setData(drivingRouteResult.getRouteLines().get(0));
-                //在地图上绘制DrivingRouteOverlay
-                overlay.addToMap();
+
+            if (drivingRouteResult == null || drivingRouteResult.error !=   SearchResult.ERRORNO.NO_ERROR) {
+                Toast.makeText(RoutePlanDemo.this, "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
             }
+            if (drivingRouteResult.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+                // 起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+                drivingRouteResult.getSuggestAddrInfo();
+                return;
+            }
+            if (drivingRouteResult.error == SearchResult.ERRORNO.NO_ERROR) {
+                if (drivingRouteResult.getRouteLines().size() >= 1) {
+//                        DrivingRouteLine route = drivingRouteResult.getRouteLines().get(0);
+                    DrivingRouteOverlay overlay = new DrivingRouteOverlay(mBaidumap);
+                    routeOverlay = overlay;
+                    mBaidumap.setOnMarkerClickListener(overlay);
+                    overlay.setData(drivingRouteResult.getRouteLines().get(0));
+                    overlay.addToMap();
+                    overlay.zoomToSpan();
+                } else {
+                    Log.d("route result", "结果数<0");
+                    return;
+                }
+            }
+//            //创建DrivingRouteOverlay实例
+//            DrivingRouteOverlay overlay = new DrivingRouteOverlay(mBaidumap);
+//            if (drivingRouteResult.getRouteLines().size() > 0) {
+//                //获取路径规划数据,(以返回的第一条路线为例）
+//                //为DrivingRouteOverlay实例设置数据
+//                overlay.setData(drivingRouteResult.getRouteLines().get(0));
+//                //在地图上绘制DrivingRouteOverlay
+//                overlay.addToMap();
+//            }
         }
 
         @Override
