@@ -74,16 +74,16 @@ public class FragmentHomePage extends Fragment {
                     ConfigUtil.routes = gson.fromJson(resp, collectionType);
 
 
-                    adapter.removeAllFragment();
-                    adapter.addFragment(new FragmentDayTrip(),"今日行程");
-                    Log.e("ConfigUtil.routes.size",ConfigUtil.routes.size()+"");
-                    if(ConfigUtil.routes.size() == 0){
-                        adapter.addFragment(new FragmentNoDataSchoolRoute(),"同校路线");
-                    }else {
-                        adapter.addFragment(new FragmentSameSchoolRoute(),"同校路线");
-                    }
-                    adapter.addFragment(new FragmentSameSchoolParents(),"同校家长");
-                    adapter.addFragment(new FragmentDriver(),"接送员");
+//                    adapter.removeAllFragment();
+//                    adapter.addFragment(new FragmentDayTrip(),"今日行程");
+//                    Log.e("ConfigUtil.routes.size",ConfigUtil.routes.size()+"");
+//                    if(ConfigUtil.routes.size() == 0){
+//                        adapter.addFragment(new FragmentNoDataSchoolRoute(),"同校路线");
+//                    }else {
+//                        adapter.addFragment(new FragmentSameSchoolRoute(),"同校路线");
+//                    }
+//                    adapter.addFragment(new FragmentSameSchoolParents(),"同校家长");
+//                    adapter.addFragment(new FragmentDriver(),"接送员");
                     adapter.changeId(1);
                     adapter.notifyDataSetChanged();
                     //为ViewPager绑定Adapter
@@ -223,6 +223,11 @@ public class FragmentHomePage extends Fragment {
                 ConfigUtil.school = schoolName;
                 //获取同校路线
                 getSameSchoolRoute(ConfigUtil.Url+"GetSameRouteServlet?school="+schoolName);
+                FragmentSameSchoolParents fragmentSameSchoolParents = new FragmentSameSchoolParents();
+//                adapter.changeId(1);
+//                adapter.notifyDataSetChanged();
+//                //为ViewPager绑定Adapter
+//                myViewPager.setAdapter(adapter);
                 tvSchoolName.setText(schoolName);
                 tvSchoolName.setTextSize(18);
             }
