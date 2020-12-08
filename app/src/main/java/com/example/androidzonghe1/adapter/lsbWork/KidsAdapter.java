@@ -1,6 +1,8 @@
 package com.example.androidzonghe1.adapter.lsbWork;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.entity.xtWork.Child;
+import com.example.androidzonghe1.entity.xtWork.Contactor;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -25,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> implements View.OnClickListener{
-    int resLayout;
+    private int resLayout;
     private List<Child> data;
     private RecyclerView recyclerView;
     private OnItemClickListener onItemClickListener;
@@ -34,15 +37,29 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
         this.context = context;
         data = childs;
     }
-//    public KidsAdapter(List<Child> data, Context context){
+//    public KidsAdapter(Context context){
 //        this.context = context;
-//        this.data = data;
 //    }
+
+    //添加
+    public void insertData(){
+        Child child = new Child();
+        this.data.add(child);
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.kid_list_item, parent, false);
         return new ViewHolder(view);
+    }
+    //添加
+    public void insertData(){
+        this.data.add(new Child());
+        Log.e("lll","llll");
+
+        notifyDataSetChanged();
     }
 
     @Override
@@ -87,6 +104,38 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
                         holder.rbBoy.setChecked(false);
                         break;
                 }
+            }
+        });
+        //设置孩子姓名
+        holder.etName.addTextChangedListener(new TextWatcher() {
+            private String oldName;
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                oldName = s.toString();
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(holder.etName.getText().toString().trim().equals("") && holder.etName.getText().toString().trim().equals("请输入孩子姓名")){
+                    holder.etName.getText().toString().trim();
+                }else {
+                   holder.etName.setText(oldName);
+                }
+            }
+        });
+        //设置班级
+        holder.etClasses.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }

@@ -31,8 +31,8 @@ import java.util.List;
 public class RegisterActivity extends AppCompatActivity {
     private ImageView back;
     private TextView text_ship;
-    private EditText text_name,text_school;
-    private String name,school,ship,phoneNum;
+    private EditText text_name,text_school,text_pwd;
+    private String name,school,ship,phoneNum,pwd;
     private Button btn;
     private WheelView wheel_view;
     @Override
@@ -45,6 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
         text_name = findViewById(R.id.register_child_name);
         text_ship = findViewById(R.id.register_child_ship);
         text_school = findViewById(R.id.register_child_school);
+        text_pwd = findViewById(R.id.register_child_pwd);
         btn = findViewById(R.id.btn_register);
         wheel_view = findViewById(R.id.register_wheel);
         text_ship.setOnClickListener(new View.OnClickListener() {
@@ -100,10 +101,11 @@ public class RegisterActivity extends AppCompatActivity {
                 name = text_name.getText().toString();
                 ship = text_ship.getText().toString();
                 school = text_school.getText().toString();
-                String s = "phoneNum="+phoneNum+"&name="+name+"&ship="+ship+"&school="+school;
+                pwd = text_pwd.getText().toString();
+                String s = "phoneNum="+phoneNum+"&name="+name+"&ship="+ship+"&school="+school+"&pwd="+pwd;
                 Log.e("yj",s);
                 ConfigUtil.userName = name+ship;
-                RegisterByPhone("http://192.168.43.232:8080/DingDong/RegisterServlet?"+s);
+                RegisterByPhone("http://10.7.90.141:8080/Dingdongg/RegisterServlet?"+s);
                 ConfigUtil.isLogin =true;
                 Intent intent = new Intent(getApplicationContext(), MyTheActivity.class);
                 startActivity(intent);

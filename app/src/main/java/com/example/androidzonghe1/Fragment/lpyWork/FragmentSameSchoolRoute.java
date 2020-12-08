@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,6 +43,7 @@ import java.util.List;
 
 public class FragmentSameSchoolRoute extends Fragment {
     private RecyclerView recyclerView;
+    public static LinearLayout top;
     private SmartRefreshLayout refreshLayout;
     private View view;
     public static RecycleAdapterSameSchoolRoute adapter;
@@ -83,10 +85,12 @@ public class FragmentSameSchoolRoute extends Fragment {
     }
 
     private void findViews(){
+        top = view.findViewById(R.id.rjx);
         recyclerView = view.findViewById(R.id.rv_first);
         refreshLayout = view.findViewById(R.id.first_refreshLayout);
-        if (ConfigUtil.routes.size() == 0){
-            ConfigUtil.initRoutes();
+        if (ConfigUtil.routes.size() != 0){
+//            ConfigUtil.initRoutes();
+            top.setVisibility(View.GONE);
         }
         //给recycleview设置标题
         List<RecycleviewTitle> title = new ArrayList<>();

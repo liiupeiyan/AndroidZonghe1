@@ -73,11 +73,21 @@ public class FragmentHomePage extends Fragment {
                     Type collectionType = new TypeToken<ArrayList<SameSchoolRoute>>() {}.getType();
                     ConfigUtil.routes = gson.fromJson(resp, collectionType);
 
-                    InitUiAndDatas();
-//                    adapter.changeId(2);
-//                    adapter.notifyDataSetChanged();
+
+                    adapter.removeAllFragment();
+                    adapter.addFragment(new FragmentDayTrip(),"今日行程");
+                    Log.e("ConfigUtil.routes.size",ConfigUtil.routes.size()+"");
+                    if(ConfigUtil.routes.size() == 0){
+                        adapter.addFragment(new FragmentNoDataSchoolRoute(),"同校路线");
+                    }else {
+                        adapter.addFragment(new FragmentSameSchoolRoute(),"同校路线");
+                    }
+                    adapter.addFragment(new FragmentSameSchoolParents(),"同校家长");
+                    adapter.addFragment(new FragmentDriver(),"接送员");
+                    adapter.changeId(1);
+                    adapter.notifyDataSetChanged();
                     //为ViewPager绑定Adapter
-//                    myViewPager.setAdapter(adapter);
+                    myViewPager.setAdapter(adapter);
                     break;
             }
         }
@@ -147,13 +157,13 @@ public class FragmentHomePage extends Fragment {
 //            adapter.addFragment(new FragmentDayTrip(),"今日行程");
 //        }
         adapter.addFragment(new FragmentDayTrip(),"今日行程");
-        if(ConfigUtil.routes.size() == 0){
-            adapter.addFragment(new FragmentNoDataSchoolRoute(),"同校路线");
-        }else {
+        Log.e("ConfigUtil.routes.size",ConfigUtil.routes.size()+"");
+//        if(ConfigUtil.routes.size() == 0){
+//            adapter.addFragment(new FragmentNoDataSchoolRoute(),"同校路线");
+//        }else {
             adapter.addFragment(new FragmentSameSchoolRoute(),"同校路线");
 //            FragmentSameSchoolRoute.adapter.notifyDataSetChanged();
-
-        }
+//        }
         adapter.addFragment(new FragmentSameSchoolParents(),"同校家长");
 //        if (ConfigUtil.drivers.size() == 0){
 //            adapter.addFragment(new FragmentNoDataDriver(),"接送员");
@@ -204,6 +214,7 @@ public class FragmentHomePage extends Fragment {
             Toast.makeText(getContext(),"未选中任何地点",Toast.LENGTH_SHORT).show();
             tvSchoolName.setText("选择学校");
             tvSchoolName.setTextSize(16);
+            FragmentSameSchoolRoute.top.setVisibility(View.VISIBLE);
         } else {
             if(requestCode == REQUEST_SEARCH_CODE && resultCode == 0){
                 SuggestionResult.SuggestionInfo info = data.getExtras().getParcelable("suggestionInfo");
