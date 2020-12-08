@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ZoomControls;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -118,6 +119,17 @@ public class FragmentSameSchoolParents extends Fragment {
         MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(16.0f);
         baiduMap.setMapStatus(msu);
         baiduMap.setMaxAndMinZoomLevel(19,13);
+        //隐藏百度图标
+        View logo = mapView.getChildAt(1);
+        if (logo != null && (logo instanceof ImageView || logo instanceof ZoomControls)){
+            logo.setVisibility(View.INVISIBLE);
+        }
+        //设置指南针不显示
+        baiduMap.setCompassEnable(false);
+        //设置不显示比例尺
+        mapView.showScaleControl(false);
+        //设置放大缩小不显示
+        mapView.showZoomControls(false);
     }
 
     @Override
