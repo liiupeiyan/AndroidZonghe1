@@ -1,11 +1,13 @@
-package com.example.androidzonghe1.Fragment.lpyWork;
+    package com.example.androidzonghe1.Fragment.lpyWork;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterSameSchoolRoute;
+import com.example.androidzonghe1.entity.lpyWork.Driver;
 import com.example.androidzonghe1.entity.lpyWork.RecycleviewTitle;
+import com.example.androidzonghe1.entity.lpyWork.SameSchoolRoute;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.mob.tools.network.HttpConnection;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -24,14 +31,22 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentSameSchoolRoute extends Fragment {
     private RecyclerView recyclerView;
+    public static LinearLayout top;
     private SmartRefreshLayout refreshLayout;
     private View view;
-    private RecycleAdapterSameSchoolRoute adapter;
+    public static RecycleAdapterSameSchoolRoute adapter;
     private final int REFRESH = 0;
     private final int LOADMORE = 1;
     private Handler handler = new Handler(){
@@ -49,6 +64,7 @@ public class FragmentSameSchoolRoute extends Fragment {
                     adapter.notifyDataSetChanged();
                     refreshLayout.finishLoadMore();
                     break;
+
             }
         }
     };
@@ -56,6 +72,9 @@ public class FragmentSameSchoolRoute extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_same_school_route, container, false);
+
+
+
         findViews();
         //设置刷新头和加载更多的样式
         refreshLayout.setRefreshHeader(new ClassicsHeader(getActivity()));
@@ -66,10 +85,12 @@ public class FragmentSameSchoolRoute extends Fragment {
     }
 
     private void findViews(){
+        top = view.findViewById(R.id.rjx);
         recyclerView = view.findViewById(R.id.rv_first);
         refreshLayout = view.findViewById(R.id.first_refreshLayout);
-        if (ConfigUtil.routes.size() == 0){
-            ConfigUtil.initRoutes();
+        if (ConfigUtil.routes.size() != 0){
+//            ConfigUtil.initRoutes();
+            top.setVisibility(View.GONE);
         }
         //给recycleview设置标题
         List<RecycleviewTitle> title = new ArrayList<>();
@@ -128,4 +149,6 @@ public class FragmentSameSchoolRoute extends Fragment {
             }
         });
     }
+
+
 }

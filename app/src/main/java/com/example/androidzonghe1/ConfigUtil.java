@@ -20,6 +20,10 @@ public class ConfigUtil {
     public static String userName = "";
     //当前手机号
     public static String phone="";
+    //当前搜索学校
+    public static String school="";
+    //dang
+//    public static String
     public static Parent parent = new Parent();
     //徐婷连接到服务器
     public static final String xt = "http://10.7.90.141:8080/Dingdongg/";

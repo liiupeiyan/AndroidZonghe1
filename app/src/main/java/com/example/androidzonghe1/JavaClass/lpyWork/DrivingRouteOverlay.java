@@ -1,4 +1,4 @@
-package com.example.androidzonghe1.entity.lpyWork;
+package com.example.androidzonghe1.JavaClass.lpyWork;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -61,7 +61,7 @@ public class DrivingRouteOverlay extends OverlayManager {
                                                     .rotate((360 - step.getDirection()))
                                                             .extraInfo(b)
                                                                     .icon(BitmapDescriptorFactory
-                                                                            .fromResource(R.drawable.boy)));
+                                                                            .fromResource(R.drawable.icon_line_node)));
                 }
                 // 最后路段绘制出口点
                 if (mRouteLine.getAllStep().indexOf(step) == (mRouteLine
@@ -71,7 +71,7 @@ public class DrivingRouteOverlay extends OverlayManager {
                                     .anchor(0.5f, 0.5f)
                                             .zIndex(10)
                                                     .icon(BitmapDescriptorFactory
-                                                            .fromResource(R.drawable.boy)));
+                                                            .fromResource(R.drawable.icon_line_node)));
 
                 }
             }
@@ -82,7 +82,7 @@ public class DrivingRouteOverlay extends OverlayManager {
                     .position(mRouteLine.getStarting().getLocation())
                             .icon(getStartMarker() != null ? getStartMarker() :
                                     BitmapDescriptorFactory
-                                            .fromResource(R.drawable.boy)).zIndex(10));
+                                            .fromResource(R.drawable.icon_line_node)).zIndex(10));
         }
         if (mRouteLine.getTerminal() != null) {
             overlayOptionses
@@ -90,7 +90,7 @@ public class DrivingRouteOverlay extends OverlayManager {
                             .position(mRouteLine.getTerminal().getLocation())
                                     .icon(getTerminalMarker() != null ? getTerminalMarker() :
                                             BitmapDescriptorFactory
-                                                    .fromResource(R.drawable.boy))
+                                                    .fromResource(R.drawable.icon_line_node))
                                                             .zIndex(10));
         }
         // poly line

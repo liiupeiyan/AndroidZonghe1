@@ -38,6 +38,13 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
 //    public KidsAdapter(Context context){
 //        this.context = context;
 //    }
+
+    //添加
+    public void insertData(){
+        this.data.add(new Child());
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
