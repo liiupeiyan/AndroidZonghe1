@@ -89,7 +89,7 @@ public class MyTheActivity extends AppCompatActivity {
                 sharedPreferences.edit().commit();
             }
             changeTab(fragmentMy);
-            tabInt();
+            tabMyInit();
             currentFragment = fragmentMy;
         }else {
             changeTab(fragmentHomePage);
@@ -150,6 +150,15 @@ public class MyTheActivity extends AppCompatActivity {
         Drawable drawableHomePage = getResources().getDrawable(R.drawable.home_page_clicked);
         drawableHomePage.setBounds(0, 0, drawableHomePage.getMinimumWidth(), drawableHomePage.getMinimumHeight());
         btnHomePage.setCompoundDrawables(null,drawableHomePage,null,null);
+    }
+
+    private void tabMyInit(){
+//        btnMy.
+        btnMy.setTextColor(Color.BLACK);
+
+        Drawable drawableHomePage = getResources().getDrawable(R.drawable.my_clicked);
+        drawableHomePage.setBounds(0, 0, drawableHomePage.getMinimumWidth(), drawableHomePage.getMinimumHeight());
+        btnMy.setCompoundDrawables(null,drawableHomePage,null,null);
     }
 
     private void btnHomePageClicked(){
