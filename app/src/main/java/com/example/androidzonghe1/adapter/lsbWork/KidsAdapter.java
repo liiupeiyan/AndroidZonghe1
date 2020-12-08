@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.entity.xtWork.Child;
+import com.example.androidzonghe1.entity.xtWork.Contactor;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> implements View.OnClickListener{
-    int resLayout;
+    private int resLayout;
     private List<Child> data;
     private RecyclerView recyclerView;
     private OnItemClickListener onItemClickListener;
@@ -34,15 +35,21 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
         this.context = context;
         data = childs;
     }
-//    public KidsAdapter(List<Child> data, Context context){
+//    public KidsAdapter(Context context){
 //        this.context = context;
-//        this.data = data;
 //    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.kid_list_item, parent, false);
         return new ViewHolder(view);
+    }
+    //添加
+    public void insertData(){
+        this.data.add(new Child());
+        Log.e("lll","llll");
+
+        notifyDataSetChanged();
     }
 
     @Override

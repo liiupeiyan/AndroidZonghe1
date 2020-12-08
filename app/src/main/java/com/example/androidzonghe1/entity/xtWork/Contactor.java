@@ -29,4 +29,14 @@ public class Contactor {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    @Override
+    public String toString() {
+        return "Contactor{" +
+                "id=" + id +
+                ", relat='" + relat + '\'' +
+                ", phone='" + phone + '\'' +
+                ", child_id=" + child_id +
+                '}';
+    }
 }

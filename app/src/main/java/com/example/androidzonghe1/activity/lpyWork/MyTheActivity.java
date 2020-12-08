@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -45,49 +46,56 @@ public class MyTheActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_the);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        //判断用户是否领券
-        Boolean ticket = sharedPreferences.getBoolean("ticket", false);
-        if (!ticket){
-            //弹出优惠券
-            new EasyDialog(this, R.layout.view_gift_card) {
-                @Override
-                public void onBindViewHolder(DialogViewHolder holder) {
-                    ImageView imageView = holder.getView(R.id.img_close);
-                    imageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dismiss();
-                        }
-                    });
-                    Button button = holder.getView(R.id.btn_get);
-                    button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //领取代金券
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putBoolean("ticket",true);
-                            editor.apply();
-                            dismiss();
-                        }
-                    });
-                }
-            }.backgroundLight(0.2)
-                    .setCanceledOnTouchOutside(false)
-                    .setCancelAble(true)
-                    .fromTopToMiddle()
-                    .setCustomAnimations(AnimatorHelper.TOP_IN_ANIM, AnimatorHelper.TOP_OUT_ANIM)
-                    .showDialog(true);
-        }
-
-
         findViews();
 
         fragmentHomePage = new FragmentHomePage();
         fragmentLaunchRoute = new FragmentLaunchRoute();
         fragmentMy = new FragmentMy();
-        changeTab(fragmentHomePage);
-        tabInt();
-        currentFragment = fragmentHomePage;
+        Log.e("是否登录",ConfigUtil.isLogin+"");
+        if(ConfigUtil.isLogin){
+            //判断用户是否领券
+            Boolean ticket = sharedPreferences.getBoolean("ticket", false);
+            if (!ticket){
+                //弹出优惠券
+                new EasyDialog(this, R.layout.view_gift_card) {
+                    @Override
+                    public void onBindViewHolder(DialogViewHolder holder) {
+                        ImageView imageView = holder.getView(R.id.img_close);
+                        imageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dismiss();
+                            }
+                        });
+                        Button button = holder.getView(R.id.btn_get);
+                        button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //领取代金券
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putBoolean("ticket",true);
+                                editor.apply();
+                                dismiss();
+                            }
+                        });
+                    }
+                }.backgroundLight(0.2)
+                        .setCanceledOnTouchOutside(false)
+                        .setCancelAble(true)
+                        .fromTopToMiddle()
+                        .setCustomAnimations(AnimatorHelper.TOP_IN_ANIM, AnimatorHelper.TOP_OUT_ANIM)
+                        .showDialog(true);
+                sharedPreferences.edit().putBoolean("ticket",true);
+                sharedPreferences.edit().commit();
+            }
+            changeTab(fragmentMy);
+            tabInt();
+            currentFragment = fragmentMy;
+        }else {
+            changeTab(fragmentHomePage);
+            tabInt();
+            currentFragment = fragmentHomePage;
+        }
     }
 
     private void findViews(){
@@ -125,7 +133,7 @@ public class MyTheActivity extends AppCompatActivity {
                 break;
             case R.id.my:
 //                fragmentMy = new FragmentMy();
-                if(!ConfigUtil.isLogin){
+                if(ConfigUtil.isLogin){
                     changeTab(fragmentMy);
                     btnMyClicked();
                 } else {

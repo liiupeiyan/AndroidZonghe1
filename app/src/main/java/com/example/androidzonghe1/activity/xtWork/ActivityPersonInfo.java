@@ -26,6 +26,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.lsbWork.SearchActivity;
@@ -64,18 +65,47 @@ public class ActivityPersonInfo extends AppCompatActivity {
     private String name;
     private String relation;
     private String str;
+    private String strs;
     private TextView tvPhone;
+    private String schoolName;
+    private StringBuffer stringBuffer;
+    private String homeName;
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             switch (msg.what){
                 case 1:
-                    ivTou.setImageBitmap((Bitmap) msg.obj);
+                    RequestOptions options = new RequestOptions().circleCrop();
+                    Glide.with(ActivityPersonInfo.this)
+                            .load(msg.obj)
+                            .apply(options)
+                            .into(ivTou);
                     break;
                 case 2:
                     if(!str.equals("false")){
                         tvName.setText(str);
+                    }
+                    break;
+                case 3:
+                    if(!stringBuffer.toString().equals("false")){
+                        try {
+                            JSONObject object = new JSONObject(stringBuffer.toString());
+                            btnAddressUsual.setText(object.getString("address"));
+                            btnAddressChild.setText(object.getString("destinction"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    break;
+                case 4:
+                    if(str.equals("true")){
+                        btnAddressUsual.setText(schoolName);
+                    }
+                    break;
+                case 5:
+                    if(str.equals("true")){
+                        btnAddressChild.setText(homeName);
                     }
                     break;
             }
@@ -99,9 +129,16 @@ public class ActivityPersonInfo extends AppCompatActivity {
 //        Log.e("parent",ConfigUtil.parent.getRelat());
 //        tvName.setText(Html.fromHtml("<u>" + ConfigUtil.parent.getChild_name() + ConfigUtil.parent.getRelat() + "</u>"));
 
-        tvPhone.setText(ConfigUtil.phone);
-        getUserImage();
-        getInfo();
+        Log.e("地址zzz",ConfigUtil.parent.getId()+"");
+        if(ConfigUtil.isLogin){
+            tvPhone.setText(ConfigUtil.phone);
+            getAddress();
+            getUserImage();
+            getInfo();
+        }else {
+
+        }
+//        getAddress();
         llName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -143,13 +180,42 @@ public class ActivityPersonInfo extends AppCompatActivity {
         });
     }
 
+    private void getAddress() {
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    URL url = new URL(ConfigUtil.xt+"ShowAddressParent?id="+ConfigUtil.parent.getId());
+                    InputStream is = url.openStream();
+                    int len = 0;
+                    byte[] b = new byte[1024];
+                    stringBuffer = new StringBuffer();
+                    while ((len = is.read(b))!=-1){
+                        strs = new String(b,0,len,"UTF-8");
+                        stringBuffer.append(strs);
+                    }
+                    Log.e("查看地址结果",stringBuffer.toString());
+                    Message message = new Message();
+                    message.what=3;
+                    handler.sendMessage(message);
+                    is.close();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
     private void getInfo() {
         new Thread(){
             @Override
             public void run() {
                 super.run();
                 try {
-                    URL url = new URL(ConfigUtil.xt+"ShowParentNameServlet?"+ConfigUtil.parent.getId());
+                    URL url = new URL(ConfigUtil.xt+"ShowParentNameServlet?id="+ConfigUtil.parent.getId());
                     InputStream inputStream = url.openStream();
                     int len = 0;
                     byte[] b=new byte[1024];
@@ -192,8 +258,10 @@ public class ActivityPersonInfo extends AppCompatActivity {
                     null,null,null);
             if(cursor.moveToFirst()){
                 String imagePath = cursor.getString(cursor.getColumnIndex("_data"));
+                RequestOptions options = new RequestOptions().circleCrop();
                 Glide.with(this)
                         .load(imagePath)
+                        .apply(options)
                         .into(ivTou);
                 uploadFile(imagePath);
             }
@@ -212,8 +280,10 @@ public class ActivityPersonInfo extends AppCompatActivity {
                 if (resultCode == 0){
                     SuggestionResult.SuggestionInfo info = data.getExtras().getParcelable("suggestionInfo");
                     Log.e("suggestionInfo",info.toString());
-                    String schoolName =  info.key;
-                    btnAddressUsual.setText(schoolName);
+                    schoolName =  info.key;
+                    //修改数据库
+                    updateDestinction();
+//                    btnAddressUsual.setText(schoolName);
 //                    tvSchoolName.setTextSize(18);
                 }
                 break;
@@ -221,11 +291,68 @@ public class ActivityPersonInfo extends AppCompatActivity {
                 if (resultCode == 0){
                     SuggestionResult.SuggestionInfo info = data.getExtras().getParcelable("suggestionInfo");
                     Log.e("suggestionInfo",info.toString());
-                    String schoolName =  info.key;
-                    btnAddressChild.setText(schoolName);
+                    homeName =  info.key;
+                    //修改数据库
+                    updateHome();
+//                    btnAddressChild.setText(schoolName);
                 }
                 break;
         }
+    }
+
+    private void updateHome() {
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    URL url = new URL(ConfigUtil.xt+"UpdateParentAddressServlet?id="+ConfigUtil.parent.getId()+"&address="+homeName);
+                    InputStream is = url.openStream();
+                    int len = 0;
+                    byte[] b = new byte[512];
+                    if((len=is.read(b))!=-1){
+                        str = new String(b,0,len,"UTF-8");
+                    }
+                    Log.e("修改目的地结果",str);
+                    Message message = new Message();
+                    message.what =5;
+                    handler.sendMessage(message);
+                    is.close();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    private void updateDestinction() {
+        //目的地
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    URL url = new URL(ConfigUtil.xt+"UpdateParentDistinctionServlet?id="+ConfigUtil.parent.getId()+"&address="+schoolName);
+                    InputStream is = url.openStream();
+                    int len = 0;
+                    byte[] b = new byte[512];
+                    if((len=is.read(b))!=-1){
+                        str = new String(b,0,len,"UTF-8");
+                    }
+                    Log.e("修改目的地结果",str);
+                    Message message = new Message();
+                    message.what =4;
+                    handler.sendMessage(message);
+                    is.close();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 
     private void uploadFile(String imagePath) {

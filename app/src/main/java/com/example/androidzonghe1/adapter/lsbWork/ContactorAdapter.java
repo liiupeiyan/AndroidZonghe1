@@ -260,6 +260,7 @@ public class ContactorAdapter extends RecyclerView.Adapter<ContactorAdapter.View
 
             }
         });
+
     }
 
     @Override

@@ -51,13 +51,17 @@ public class LoginActivity extends AppCompatActivity {
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what){
                 case 1:
-                    String name = (String) msg.obj;
+                    String str = (String) msg.obj;
+                    String[] all = str.split(":");
+                    ConfigUtil.isLogin = true;
                     Intent intent = new Intent(getApplicationContext(), MyTheActivity.class);
                     startActivity(intent);
-                    ConfigUtil.isLogin = true;
                     ConfigUtil.phone = phoneNum;
-                    ConfigUtil.userName = name;
-                    ConfigUtil.parent.setName(name);
+                    ConfigUtil.userName = all[0];
+                    ConfigUtil.parent.setName(all[0]);
+                    String id = all[2];
+                    ConfigUtil.parent.setId(Integer.parseInt(id));
+                    ConfigUtil.pwd = all[1];
                     countDownTimer.cancel();
                     break;
             }
@@ -92,14 +96,8 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
-                                //GetParentId("http://192.168.43.232:8080/DingDong/LoginServlet?tel="+phoneNum);
-                                Intent intent = new Intent(getApplicationContext(), MyTheActivity.class);
-                                startActivity(intent);
-                                ConfigUtil.isLogin = true;
-                                ConfigUtil.phone = phoneNum;
-                                ConfigUtil.userName = "杨颖妈妈";
-                                ConfigUtil.parent.setName("杨颖妈妈");
-                                countDownTimer.cancel();
+                               // GetParentId("http://192.168.43.232:8080/DingDong/LoginServlet?tel="+phoneNum);
+
                             }
                         });
                     }else if (event == SMSSDK.EVENT_GET_VOICE_VERIFICATION_CODE){
@@ -145,6 +143,7 @@ public class LoginActivity extends AppCompatActivity {
                 SMSSDK.submitVerificationCode("86", phoneNum, verifyCodeView.getEditContent());
                 InputMethodManager manager = ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE));
                 manager.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+                GetParentId("http://10.7.90.141:8080/Dingdongg/LoginServlet?tel="+phoneNum);
             }
 
             @Override

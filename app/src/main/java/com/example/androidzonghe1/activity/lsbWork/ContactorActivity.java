@@ -112,6 +112,7 @@ public class ContactorActivity extends AppCompatActivity {
                 bottomSheetDialog.show();
             }
         });
+//        recyclerView.setAdapter(null);
         recyclerView.setAdapter(contactorAdapter);
     }
 
@@ -140,8 +141,10 @@ public class ContactorActivity extends AppCompatActivity {
                         con.setRelat(jsonObject.getString("relat"));
                         con.setPhone(jsonObject.getString("contactor_phone"));
                         con.setChild_id(jsonObject.getInt("user_id"));
+                        Log.e("hhhhhh",con.toString());
                         contactors.add(con);
                     }
+//                    Log.e("亲属",contactors.get(0).toString());
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (ProtocolException e) {
