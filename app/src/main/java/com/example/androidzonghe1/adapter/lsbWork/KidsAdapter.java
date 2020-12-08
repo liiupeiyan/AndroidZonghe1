@@ -42,11 +42,11 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
 //    }
 
     //添加
-    public void insertData(){
-        Child child = new Child();
-        this.data.add(child);
-        notifyDataSetChanged();
-    }
+//    public void insertData(){
+//        Child child = new Child();
+//        this.data.add(child);
+//        notifyDataSetChanged();
+//    }
 
     @NonNull
     @Override

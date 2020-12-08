@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 
 import com.example.androidzonghe1.ConfigUtil;
@@ -17,6 +18,12 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class ActivityMyMessage extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -33,6 +40,8 @@ public class ActivityMyMessage extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                     refreshLayout.finishRefresh();
                     break;
+                case 10://接收到消息数据
+                    break;
             }
         }
     };
@@ -41,6 +50,7 @@ public class ActivityMyMessage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_message);
+        showAllMessages(ConfigUtil.Url+"GetAllMessageServlet?userId=");
         findViews();
         //设置刷新头和加载更多的样式
         refreshLayout.setRefreshHeader(new ClassicsHeader(this));
@@ -87,4 +97,38 @@ public class ActivityMyMessage extends AppCompatActivity {
         });
     }
 
+    //网络流获取消息数据
+    public void showAllMessages(String s){
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(s);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    //设置http请求方式，get、post、put、...(默认get请求)
+                    connection.setRequestMethod("POST");//设置请求方式
+
+                    //从服务器段获取响应
+                    InputStream is = connection.getInputStream();
+                    byte[] bytes = new byte[512];
+                    int len = is.read(bytes);//将数据保存在bytes中，长度保存在len中
+                    String resp = new String(bytes,0,len);
+                    Log.e("所有消息",resp);
+
+                    //借助Message传递数据
+                    Message message = new Message();
+                    //设置Message对象的参数
+                    message.what = 10;
+                    message.obj = resp;
+                    //发送Message
+                    handler.sendMessage(message);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }.start();
+    }
 }
