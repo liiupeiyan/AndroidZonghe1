@@ -48,5 +48,16 @@ public class Child {
         this.banji = banji;
     }
 
+    @Override
+    public String toString() {
+        return "Child{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", sex='" + sex + '\'' +
+                ", banji='" + banji + '\'' +
+                ", school='" + school + '\'' +
+                ", img='" + img + '\'' +
+                '}';
+    }
 }
 

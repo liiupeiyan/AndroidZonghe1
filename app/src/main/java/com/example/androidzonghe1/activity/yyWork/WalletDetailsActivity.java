@@ -49,7 +49,7 @@ public class WalletDetailsActivity extends AppCompatActivity {
                 case 1:
                     try {
                         JSONArray jsonArray = new JSONArray(stringBuffer.toString());
-                        wallets.clear();
+//                        wallets.clear();
                         for(int i =0;i<jsonArray.length();i++){
                             JSONObject object = new JSONObject(jsonArray.getJSONObject(i).toString());
                             Order order = new Order();
