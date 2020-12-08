@@ -207,11 +207,8 @@ public class ContactorAdapter extends RecyclerView.Adapter<ContactorAdapter.View
         });
         //点击保存按钮,可以添加数据
         holder.hold.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View view) {
-
-
                 Thread thread=new Thread(){
                     @Override
                     public void run() {

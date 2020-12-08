@@ -1,6 +1,8 @@
 package com.example.androidzonghe1.adapter.lsbWork;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +43,8 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
 
     //添加
     public void insertData(){
-        this.data.add(new Child());
+        Child child = new Child();
+        this.data.add(child);
         notifyDataSetChanged();
     }
 
@@ -101,6 +104,38 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
                         holder.rbBoy.setChecked(false);
                         break;
                 }
+            }
+        });
+        //设置孩子姓名
+        holder.etName.addTextChangedListener(new TextWatcher() {
+            private String oldName;
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                oldName = s.toString();
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(holder.etName.getText().toString().trim().equals("") && holder.etName.getText().toString().trim().equals("请输入孩子姓名")){
+                    holder.etName.getText().toString().trim();
+                }else {
+                   holder.etName.setText(oldName);
+                }
+            }
+        });
+        //设置班级
+        holder.etClasses.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }

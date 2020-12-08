@@ -164,7 +164,7 @@
                     android:textColor="@color/gray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="据您"/>
+                    android:text="距您"/>
                 <TextView
                     android:textSize="16sp"
                     android:textColor="@color/gray"

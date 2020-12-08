@@ -54,12 +54,16 @@ public class RvAdapterNoTitleDriver extends RecyclerView.Adapter<RecyclerView.Vi
                 .load(R.drawable.driver_img)
                 .into(((Myholder)holder).img);
         ((Myholder) holder).name.setText(drivers.get(position).getName());
-        ((Myholder) holder).age.setText(drivers.get(position).getAge()+"");
-        ((Myholder) holder).state.setText(drivers.get(position).getStatus());
+        ((Myholder) holder).age.setText(drivers.get(position).getAge()+"岁");
+        if (drivers.get(position).getStatus().equals("0")){
+            ((Myholder) holder).state.setText("空闲");
+        }else if(drivers.get(position).getStatus().equals("1")){
+            //忙碌的司机不显示
+        }
         ((Myholder) holder).car.setText(drivers.get(position).getCar());
         ((Myholder) holder).style.setText(drivers.get(position).getStyle());
-        ((Myholder) holder).experience.setText(drivers.get(position).getExperience());
-        ((Myholder) holder).phone.setText(drivers.get(position).getPhone());
+        ((Myholder) holder).experience.setText("驾龄："+drivers.get(position).getExperience());
+        ((Myholder) holder).phone.setText("电话："+drivers.get(position).getPhone());
         //查看订单详情的点击事件
         ((Myholder) holder).driverCall.setOnClickListener(new View.OnClickListener(){
             @Override

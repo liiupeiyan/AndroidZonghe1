@@ -157,9 +157,6 @@ public class ContactorActivity extends AppCompatActivity {
 
             }
         }.start();
-
-
-
     }
 
 }
