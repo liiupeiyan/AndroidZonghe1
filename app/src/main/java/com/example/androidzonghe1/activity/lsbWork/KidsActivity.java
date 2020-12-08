@@ -77,6 +77,7 @@ public class KidsActivity extends AppCompatActivity {
         //网络连接
         getChildInfo(ConfigUtil.Url+"GetChildServlet" );
 
+        //点击添加
         btnInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,6 +106,7 @@ public class KidsActivity extends AppCompatActivity {
         }
     }
 
+    //获取孩子信息
     public void getChildInfo(final String s){
         new Thread(){
             @Override

@@ -28,8 +28,9 @@
                     android:scaleType="fitXY"
                     android:id="@+id/img_photo"
                     android:layout_width="60dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/people" />
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/people"
+                    android:layout_gravity="center_vertical"/>
 
                 <Button
                     android:id="@+id/btn_relation"
@@ -54,7 +55,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#333333"/>
+                android:background="#eee"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -94,7 +95,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#333333"/>
+                android:background="#eee"/>
             <LinearLayout
                 android:orientation="horizontal"
                 android:gravity="center"
@@ -164,7 +165,7 @@
 
         <Button
             android:id="@+id/btn_delete"
-            android:layout_width="60dp"
+            android:layout_width="80dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="20dp"
             android:background="@android:color/holo_red_light"
