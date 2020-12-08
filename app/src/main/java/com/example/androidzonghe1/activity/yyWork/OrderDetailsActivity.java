@@ -347,7 +347,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
     private String toBalance(){
         JSONObject object = new JSONObject();
         try {
-            object.put("id",ConfigUtil.phone);
+            object.put("id",ConfigUtil.parent.getId());
             object.put("price",20+"");
         } catch (JSONException e) {
             e.printStackTrace();

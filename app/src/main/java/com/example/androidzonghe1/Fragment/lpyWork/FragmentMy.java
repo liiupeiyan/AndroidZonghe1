@@ -21,6 +21,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.lsbWork.ContactorActivity;
@@ -58,7 +60,12 @@ public class FragmentMy extends Fragment {
             super.handleMessage(msg);
             switch (msg.what){
                 case 1:
-                    imageView.setImageBitmap((Bitmap) msg.obj);
+                    RequestOptions options = new RequestOptions().circleCrop();
+                    Glide.with(getContext())
+                            .load(msg.obj)
+                            .apply(options)
+                            .into(imageView);
+//                    imageView.setImageBitmap((Bitmap) msg.obj);
                     break;
                 case 2:
                     if(!str.equals("false")){
@@ -106,13 +113,17 @@ public class FragmentMy extends Fragment {
         llNewGetTicket = view.findViewById(R.id.ll_fragment_new_get_ticket);
         myName = view.findViewById(R.id.my_name);
         imageView = view.findViewById(R.id.iv_img);
-        //根据id获取头像
-        getUserImage();
-        getInfo();
         if(ConfigUtil.isLogin){
-            myName.setText(ConfigUtil.parent.getName());
+            //根据id获取头像
+            getUserImage();
+            getInfo();
         }else {
             myName.setText("昵称");
+            RequestOptions options = new RequestOptions().circleCrop();
+            Glide.with(getContext())
+                    .load(R.drawable.father)
+                    .apply(options)
+                    .into(imageView);
         }
     }
 
@@ -122,7 +133,7 @@ public class FragmentMy extends Fragment {
             public void run() {
                 super.run();
                 try {
-                    URL url = new URL(ConfigUtil.xt+"ShowParentNameServlet?"+ConfigUtil.parent.getId());
+                    URL url = new URL(ConfigUtil.xt+"ShowParentNameServlet?id="+ConfigUtil.parent.getId());
                     InputStream inputStream = url.openStream();
                     int len = 0;
                     byte[] b=new byte[1024];

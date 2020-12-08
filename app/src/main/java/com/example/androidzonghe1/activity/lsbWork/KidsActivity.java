@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.yjWork.LoginActivity;
 import com.example.androidzonghe1.adapter.lsbWork.KidsAdapter;
 import com.example.androidzonghe1.entity.xtWork.Child;
 import com.google.gson.Gson;
@@ -47,14 +48,13 @@ public class KidsActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     Type collectionType = new TypeToken<ArrayList<Child>>(){}.getType();
                     childs = gson.fromJson(jsonStr,collectionType);
-
                     LinearLayoutManager manager = new LinearLayoutManager(getBaseContext());
                     recyclerView.setLayoutManager(manager);
                     kidsAdapter = new KidsAdapter(getApplicationContext(),childs);
                     kidsAdapter.setOnItemClickListener(new KidsAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(RecyclerView parent, View view, int position, Child data) {
-                            Log.e("ContactorActivity", "item onClick position:" + position);
+                            Log.e("KidsActivity", "item onClick position:" + position);
                             Intent request = new Intent(getApplicationContext(), SearchActivity.class);
                             startActivityForResult(request, 1);
                         }
@@ -69,14 +69,12 @@ public class KidsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kids);
-
         recyclerView = findViewById(R.id.list_view);
         imgBack = findViewById(R.id.img_back);
         btnInsert = findViewById(R.id.btn_insert);
-
         //网络连接
-        getChildInfo(ConfigUtil.Url+"GetChildServlet" );
-
+        getChildInfo(ConfigUtil.Url+"GetChildServlet?id="+ConfigUtil.parent.getId() );
+        //点击添加按钮
         btnInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,7 +109,8 @@ public class KidsActivity extends AppCompatActivity {
             public void run() {
                 super.run();
                 try {
-                    URL url = new URL(s+"?pId=1");
+                    URL url = new URL(s);
+                    Log.e("urllll",s);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     //设置http请求方式，get、post、put、...(默认get请求)
                     connection.setRequestMethod("POST");//设置请求方式

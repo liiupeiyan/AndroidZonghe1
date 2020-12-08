@@ -3,15 +3,18 @@ package com.example.androidzonghe1.entity.yyWork;
 public class Order {
     private String orderName;
     private String time; //交易时间
-    private double balance;//余额
-    private double spend;//花费
+    private String balance;//余额
+    private String spend;//花费
+    private String dName;
     public Order() {
     }
-    public Order(String orderName, String time, double balance, double spend) {
+
+    public Order(String orderName, String time, String balance, String spend, String dName) {
         this.orderName = orderName;
         this.time = time;
         this.balance = balance;
         this.spend = spend;
+        this.dName = dName;
     }
 
     public String getOrderName() {
@@ -30,20 +33,28 @@ public class Order {
         this.time = time;
     }
 
-    public double getBalance() {
+    public String getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(String balance) {
         this.balance = balance;
     }
 
-    public double getSpend() {
+    public String getSpend() {
         return spend;
     }
 
-    public void setSpend(double spend) {
+    public void setSpend(String spend) {
         this.spend = spend;
+    }
+
+    public String getdName() {
+        return dName;
+    }
+
+    public void setdName(String dName) {
+        this.dName = dName;
     }
 
     @Override
@@ -51,8 +62,9 @@ public class Order {
         return "Order{" +
                 "orderName='" + orderName + '\'' +
                 ", time='" + time + '\'' +
-                ", balance=" + balance +
-                ", spend=" + spend +
+                ", balance='" + balance + '\'' +
+                ", spend='" + spend + '\'' +
+                ", dName='" + dName + '\'' +
                 '}';
     }
 }

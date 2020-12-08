@@ -1,6 +1,5 @@
 package com.example.androidzonghe1.activity.lpyWork;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -10,17 +9,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.Fragment.lpyWork.FragmentHomePage;
@@ -29,20 +24,9 @@ import com.example.androidzonghe1.Fragment.lpyWork.FragmentMy;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.yjWork.ActivityLoginPage;
 import com.example.androidzonghe1.activity.yjWork.RegisterActivity;
-import com.example.androidzonghe1.entity.lpyWork.Driver;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.lanren.easydialog.AnimatorHelper;
 import com.lanren.easydialog.DialogViewHolder;
 import com.lanren.easydialog.EasyDialog;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Type;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
 
 public class MyTheActivity extends AppCompatActivity {
 
@@ -53,19 +37,6 @@ public class MyTheActivity extends AppCompatActivity {
     private Button btnHomePage;
     private Button btnLaunchRoute;
     private Button btnMy;
-    private Handler handler = new Handler(){
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            switch (msg.what){
-                case 10://接收到同校路线的数据
-                    String jsonStr = (String) msg.obj;
-                    Gson gson = new Gson();
-                    Type collectionType = new TypeToken<ArrayList<Driver>>(){}.getType();
-                    ConfigUtil.drivers = gson.fromJson(jsonStr,collectionType);
-                    break;
-            }
-        }
-    };
 
 //    private ViewPager viewPager;
 //    private TabLayout tabLayout;
@@ -75,52 +46,56 @@ public class MyTheActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_the);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        //判断用户是否领券
-        Boolean ticket = sharedPreferences.getBoolean("ticket", false);
-        if (!ticket){
-            //弹出优惠券
-            new EasyDialog(this, R.layout.view_gift_card) {
-                @Override
-                public void onBindViewHolder(DialogViewHolder holder) {
-                    TextView textView = holder.getView(R.id.tv_word);
-                    textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                    ImageView imageView = holder.getView(R.id.img_close);
-                    imageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dismiss();
-                        }
-                    });
-                    Button button = holder.getView(R.id.btn_get);
-                    button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //领取代金券
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putBoolean("ticket",true);
-                            editor.apply();
-                            dismiss();
-                        }
-                    });
-                }
-            }.backgroundLight(0.2)
-                    .setCanceledOnTouchOutside(false)
-                    .setCancelAble(true)
-                    .fromTopToMiddle()
-                    .setCustomAnimations(AnimatorHelper.TOP_IN_ANIM, AnimatorHelper.TOP_OUT_ANIM)
-                    .showDialog(true);
-        }
-
-        //获取司机数据
-        getAllDrivers(ConfigUtil.Url+"GetDriverServlet");
         findViews();
 
         fragmentHomePage = new FragmentHomePage();
         fragmentLaunchRoute = new FragmentLaunchRoute();
         fragmentMy = new FragmentMy();
-        changeTab(fragmentHomePage);
-        tabInt();
-        currentFragment = fragmentHomePage;
+        Log.e("是否登录",ConfigUtil.isLogin+"");
+        if(ConfigUtil.isLogin){
+            //判断用户是否领券
+            Boolean ticket = sharedPreferences.getBoolean("ticket", false);
+            if (!ticket){
+                //弹出优惠券
+                new EasyDialog(this, R.layout.view_gift_card) {
+                    @Override
+                    public void onBindViewHolder(DialogViewHolder holder) {
+                        ImageView imageView = holder.getView(R.id.img_close);
+                        imageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dismiss();
+                            }
+                        });
+                        Button button = holder.getView(R.id.btn_get);
+                        button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //领取代金券
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putBoolean("ticket",true);
+                                editor.apply();
+                                dismiss();
+                            }
+                        });
+                    }
+                }.backgroundLight(0.2)
+                        .setCanceledOnTouchOutside(false)
+                        .setCancelAble(true)
+                        .fromTopToMiddle()
+                        .setCustomAnimations(AnimatorHelper.TOP_IN_ANIM, AnimatorHelper.TOP_OUT_ANIM)
+                        .showDialog(true);
+                sharedPreferences.edit().putBoolean("ticket",true);
+                sharedPreferences.edit().commit();
+            }
+            changeTab(fragmentMy);
+            tabInt();
+            currentFragment = fragmentMy;
+        }else {
+            changeTab(fragmentHomePage);
+            tabInt();
+            currentFragment = fragmentHomePage;
+        }
     }
 
     private void findViews(){
@@ -158,7 +133,7 @@ public class MyTheActivity extends AppCompatActivity {
                 break;
             case R.id.my:
 //                fragmentMy = new FragmentMy();
-                if(!ConfigUtil.isLogin){
+                if(ConfigUtil.isLogin){
                     changeTab(fragmentMy);
                     btnMyClicked();
                 } else {
@@ -222,40 +197,4 @@ public class MyTheActivity extends AppCompatActivity {
         btnHomePage.setCompoundDrawables(null,drawableHomePage,null,null);
     }
 
-    //获取司机数据
-    private void getAllDrivers(String s) {
-        new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    URL url = new URL(s);
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    //设置http请求方式，get、post、put、...(默认get请求)
-                    connection.setRequestMethod("POST");//设置请求方式
-
-                    //从服务器段获取响应
-                    InputStream is = connection.getInputStream();
-                    byte[] bytes = new byte[1024];
-                    int len = is.read(bytes);//将数据保存在bytes中，长度保存在len中
-                    String resp = new String(bytes,0,len);
-                    Log.e("所有司机",resp);
-
-                    //借助Message传递数据
-                    Message message = new Message();
-                    //设置Message对象的参数
-                    message.what = 10;
-                    message.obj = resp;
-                    //发送Message
-                    handler.sendMessage(message);
-
-                    is.close();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
 }

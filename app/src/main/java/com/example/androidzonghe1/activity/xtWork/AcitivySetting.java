@@ -2,16 +2,21 @@ package com.example.androidzonghe1.activity.xtWork;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.yjWork.ActivityLoginPage;
+import com.example.androidzonghe1.activity.yjWork.LoginActivity;
 import com.example.androidzonghe1.activity.yjWork.PolicyActivity;
 import com.example.androidzonghe1.activity.yjWork.ServiceAgreementActivity;
 import com.example.androidzonghe1.activity.yjWork.UserAgreementActivity;
@@ -67,7 +72,15 @@ public class AcitivySetting extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.btn_log_off://退出登录
                 Log.e("ActivitySetting", "btnLogOff onClicked");
-
+                if(ConfigUtil.isLogin){
+                    ConfigUtil.isLogin = false;
+                    //跳转到登录页面
+                    Intent intent = new Intent(AcitivySetting.this, ActivityLoginPage.class);
+                    startActivity(intent);
+//                    finish();
+                }else {
+                    Toast.makeText(this,"请先登录",Toast.LENGTH_SHORT);
+                }
                 break;
             case R.id.ll_good_reputation://给叮咚好评
                 Log.e("ActivitySetting", "lGoodReputation onClicked");
