@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigUtil {
-    //当前密码
-    public static String pwd="";
     //判断当前用户是否登录
     public static boolean isLogin = false;
     //当前用户名

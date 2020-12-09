@@ -29,7 +29,6 @@
             android:hint="请输入孩子的昵称"/>
         <TextView
             android:textSize="18sp"
-            android:textStyle="bold"
             android:id="@+id/register_child_ship"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

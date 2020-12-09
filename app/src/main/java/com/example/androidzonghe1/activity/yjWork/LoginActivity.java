@@ -59,6 +59,8 @@ public class LoginActivity extends AppCompatActivity {
                     ConfigUtil.phone = phoneNum;
                     ConfigUtil.userName = all[0];
                     ConfigUtil.parent.setName(all[0]);
+                    String id = all[2];
+                    ConfigUtil.parent.setId(Integer.parseInt(id));
                     ConfigUtil.pwd = all[1];
                     countDownTimer.cancel();
                     break;
@@ -143,6 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                 SMSSDK.submitVerificationCode("86", phoneNum, verifyCodeView.getEditContent());
                 InputMethodManager manager = ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE));
                 manager.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+                GetParentId("http://192.168.43.232:8080/DingDong/LoginServlet?tel="+phoneNum);
             }
 
             @Override
