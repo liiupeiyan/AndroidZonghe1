@@ -1,5 +1,7 @@
 package com.example.androidzonghe1.adapter.yjWork;
 
+import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyTripAdapter extends BaseAdapter {
-    private MyTripActivity mContext;
+    private Context mContext;
     private List<DayTrip> trips = new ArrayList<>();
     private int itemLayoutRes;
 
-    public MyTripAdapter(MyTripActivity mContext, List<DayTrip> trips, int itemLayoutRes) {
+    public MyTripAdapter(Context mContext, List<DayTrip> trips, int itemLayoutRes) {
         this.mContext = mContext;
         this.trips = trips;
         this.itemLayoutRes = itemLayoutRes;

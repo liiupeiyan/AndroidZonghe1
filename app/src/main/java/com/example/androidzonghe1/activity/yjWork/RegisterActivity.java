@@ -44,7 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
         text_name = findViewById(R.id.register_child_name);
         text_ship = findViewById(R.id.register_child_ship);
         text_school = findViewById(R.id.register_child_school);
-        text_pwd = findViewById(R.id.register_pwd);
+        text_pwd = findViewById(R.id.register_child_pwd);
         name = text_name.getText().toString();
         ship = text_ship.getText().toString();
         school = text_school.getText().toString();
