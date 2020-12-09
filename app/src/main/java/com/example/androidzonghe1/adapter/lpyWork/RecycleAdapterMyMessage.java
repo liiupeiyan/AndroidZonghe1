@@ -16,8 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
-import com.example.androidzonghe1.activity.lpyWork.ActivityMyMessage;
-import com.example.androidzonghe1.activity.lsbWork.KidsActivity;
 import com.example.androidzonghe1.entity.lpyWork.Messages;
 
 import java.io.IOException;
@@ -62,13 +60,14 @@ public class RecycleAdapterMyMessage extends RecyclerView.Adapter<RecyclerView.V
             public void onClick(View view) {
                 Log.e("这里是点击每一行item的响应事件",""+position);
             }
-                Intent intent = new Intent(mContext, KidsActivity.class);
+//                Intent intent = new Intent(mContext, .class);
         });
         //点击删除
         ((Myholder) holder).delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteMessage((ConfigUtil.Url + "DeleteMessageServlet?userId=" + ConfigUtil.parent.getId()));
+//                deleteMessage(ConfigUtil.Url + "DeleteMessageServlet?userId=" + ConfigUtil.parent.getId());
+                deleteMessage(ConfigUtil.Url + "DeleteMessageServlet?userId=1");
                 messages.remove(position);
                 notifyDataSetChanged();
             }

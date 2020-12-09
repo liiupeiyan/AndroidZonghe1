@@ -351,6 +351,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
         }.start();
     }
 
+    //添加消息
     public void addMessage(String s){
         new Thread(){
             @Override
