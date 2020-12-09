@@ -139,7 +139,8 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     OutputStream os = connection.getOutputStream();
-                    os.write(ConfigUtil.phone.getBytes());
+                    Log.e("mmmmmmm",ConfigUtil.parent.getId()+"");
+                    os.write((ConfigUtil.parent.getId()+"").getBytes());
                     InputStream is =connection.getInputStream();
                     byte[] buffer = new byte[512];
                     int len = 0;
@@ -189,7 +190,7 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
                 super.run();
                 try {
                     //
-                    URL url = new URL(ConfigUtil.xt+"UpdateMoneyServlet?money="+nMoney+"&phone="+ConfigUtil.phone);
+                    URL url = new URL(ConfigUtil.xt+"UpdateMoneyServlet?money="+nMoney+"&id="+ConfigUtil.parent.getId());
                     InputStream is =url.openStream();
                     byte[] buffer = new byte[512];
                     int len = 0;

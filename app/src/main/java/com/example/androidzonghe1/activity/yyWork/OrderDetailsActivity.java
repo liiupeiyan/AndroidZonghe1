@@ -331,11 +331,56 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                     Log.e("结果",str);
                     if(str.equals("true")){
                         //下单成功。跳转到FragmentLaunchRoute
-                        //结束当前activity
-                        finish();
+                        //减少该用户的余额
+                        reduceBalance();
                     }
                     os.close();
                     is.close();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+    private String toBalance(){
+        JSONObject object = new JSONObject();
+        try {
+            object.put("id",ConfigUtil.parent.getId());
+            object.put("price",20+"");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return object.toString();
+    }
+
+    private void reduceBalance() {
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    URL url = new URL(ConfigUtil.xt+"OrderChangeMoneyServlet");
+                    //根据id修改该用户余额
+                    //传递id 和 订单价格
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    OutputStream os = connection.getOutputStream();
+                    os.write(toBalance().getBytes());
+                    InputStream is = connection.getInputStream();
+                    int len = 0;
+                    byte[] b = new byte[512];
+                    if((len=is.read(b))!=-1){
+                        str = new String(b,0,len,"UTF-8");
+                        Log.e("修改余额结果",str);
+                    }
+                    if(str.equals("true")){
+                        //结束当前activity
+                        finish();
+                    }
+                    is.close();
+                    os.close();
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -443,6 +488,8 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 if(minute==0){
                     tv.setText(hourOfDay+":"+minute+"0");
+                }else if(minute>0&&minute<10){
+                    tv.setText(hourOfDay+":0"+minute);
                 }else{
                     tv.setText(hourOfDay+":"+minute);
                 }

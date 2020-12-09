@@ -5,6 +5,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,10 +35,22 @@ import com.example.androidzonghe1.activity.lpyWork.ActivityMyMessage;
 import com.example.androidzonghe1.activity.lsbWork.SearchActivity;
 import com.example.androidzonghe1.adapter.lpyWork.ImageAdapter;
 import com.example.androidzonghe1.adapter.lpyWork.MyViewPagerAdapter;
+import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterSameSchoolRoute;
 import com.example.androidzonghe1.entity.lpyWork.DataBean;
+import com.example.androidzonghe1.entity.lpyWork.SameSchoolRoute;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.youth.banner.Banner;
 import com.youth.banner.indicator.CircleIndicator;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 
 public class FragmentHomePage extends Fragment {
     private CoordinatorLayout coordinatorLayout;
@@ -47,6 +62,36 @@ public class FragmentHomePage extends Fragment {
     private TextView tvSchoolName;
     private final int REQUEST_SEARCH_CODE = 100;
     private View view;
+    private MyViewPagerAdapter adapter;
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            switch (msg.what){
+                case 10://接收到数据
+                    String resp = (String) msg.obj;
+                    Gson gson = new Gson();
+                    Type collectionType = new TypeToken<ArrayList<SameSchoolRoute>>() {}.getType();
+                    ConfigUtil.routes = gson.fromJson(resp, collectionType);
+
+
+//                    adapter.removeAllFragment();
+//                    adapter.addFragment(new FragmentDayTrip(),"今日行程");
+//                    Log.e("ConfigUtil.routes.size",ConfigUtil.routes.size()+"");
+//                    if(ConfigUtil.routes.size() == 0){
+//                        adapter.addFragment(new FragmentNoDataSchoolRoute(),"同校路线");
+//                    }else {
+//                        adapter.addFragment(new FragmentSameSchoolRoute(),"同校路线");
+//                    }
+//                    adapter.addFragment(new FragmentSameSchoolParents(),"同校家长");
+//                    adapter.addFragment(new FragmentDriver(),"接送员");
+                    adapter.changeId(1);
+                    adapter.notifyDataSetChanged();
+                    //为ViewPager绑定Adapter
+                    myViewPager.setAdapter(adapter);
+                    break;
+            }
+        }
+    };
 
     @Nullable
     @Override
@@ -102,19 +147,23 @@ public class FragmentHomePage extends Fragment {
         tvSchoolName = view.findViewById(R.id.home_page_school_name);
     }
 
-
-
     private void InitUiAndDatas(){
         //初始化viewPager的adapter代码
-        MyViewPagerAdapter adapter = new MyViewPagerAdapter(getFragmentManager());
+        adapter = new MyViewPagerAdapter(getFragmentManager());
         //为Adapter添加Aapter和标题
 //        if (ConfigUtil.trips.size() == 0){
 //            adapter.addFragment(new FragmentNoDataDayTrip(),"今日行程");
 //        } else {
 //            adapter.addFragment(new FragmentDayTrip(),"今日行程");
-//        }m
+//        }
         adapter.addFragment(new FragmentDayTrip(),"今日行程");
-        adapter.addFragment(new FragmentSameSchoolRoute(),"同校路线");
+        Log.e("ConfigUtil.routes.size",ConfigUtil.routes.size()+"");
+//        if(ConfigUtil.routes.size() == 0){
+//            adapter.addFragment(new FragmentNoDataSchoolRoute(),"同校路线");
+//        }else {
+            adapter.addFragment(new FragmentSameSchoolRoute(),"同校路线");
+//            FragmentSameSchoolRoute.adapter.notifyDataSetChanged();
+//        }
         adapter.addFragment(new FragmentSameSchoolParents(),"同校家长");
 //        if (ConfigUtil.drivers.size() == 0){
 //            adapter.addFragment(new FragmentNoDataDriver(),"接送员");
@@ -125,6 +174,7 @@ public class FragmentHomePage extends Fragment {
 
         //为ViewPager绑定Adapter
         myViewPager.setAdapter(adapter);
+//        tab_layout.setTabMode(TableLayout.MOOE_FIX);
         //为TabLayout添加标签，注意这里我们传入了标签名称，但demo运行时显示的标签名称并不是我们添加的，那么为什么呢？卖个官子...
         tab_layout.addTab(tab_layout.newTab().setText("今日行程").setIcon(R.drawable.trip4));
         tab_layout.addTab(tab_layout.newTab().setText("同校路线").setIcon(R.drawable.route2));
@@ -132,11 +182,12 @@ public class FragmentHomePage extends Fragment {
         tab_layout.addTab(tab_layout.newTab().setText("接送员").setIcon(R.drawable.driver));
         //给tabLayout设置ViewPage，如果设置关联了Viewpage，那么ViewpagAdapter中getPageTitle返回的就是Tab上标题(上面疑问的回答)
         //为ViewPager 和Tablelayout进行绑定，从而实现滑动标签切换Fragment的目的
+//        tab_layout.getTabAt(3);
         tab_layout.setupWithViewPager(myViewPager);
-        if (ConfigUtil.flagChooseDriver){
-            myViewPager.setCurrentItem(3);
-            ConfigUtil.flagChooseDriver = false;
-        }
+//        if (ConfigUtil.flagChooseDriver){
+//            myViewPager.setCurrentItem(3);
+//            ConfigUtil.flagChooseDriver = false;
+//        }
     }
 
     //轮播图的使用
@@ -163,15 +214,61 @@ public class FragmentHomePage extends Fragment {
             Toast.makeText(getContext(),"未选中任何地点",Toast.LENGTH_SHORT).show();
             tvSchoolName.setText("选择学校");
             tvSchoolName.setTextSize(16);
+            FragmentSameSchoolRoute.top.setVisibility(View.VISIBLE);
         } else {
             if(requestCode == REQUEST_SEARCH_CODE && resultCode == 0){
                 SuggestionResult.SuggestionInfo info = data.getExtras().getParcelable("suggestionInfo");
                 Log.e("suggestionInfo",info.toString());
                 String schoolName =  info.key;
+                ConfigUtil.school = schoolName;
+                //获取同校路线
+                getSameSchoolRoute(ConfigUtil.Url+"GetSameRouteServlet?school="+schoolName);
+                FragmentSameSchoolParents fragmentSameSchoolParents = new FragmentSameSchoolParents();
+//                adapter.changeId(1);
+//                adapter.notifyDataSetChanged();
+//                //为ViewPager绑定Adapter
+//                myViewPager.setAdapter(adapter);
                 tvSchoolName.setText(schoolName);
                 tvSchoolName.setTextSize(18);
             }
         }
 
+    }
+
+    //网络操作 获取同校路线
+    public void getSameSchoolRoute(String s){
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    URL url = new URL(s);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");//设置请求方式
+
+                    //从服务器段获取响应
+                    InputStream is = connection.getInputStream();
+                    byte[] bytes = new byte[1024];
+                    int len = is.read(bytes);//将数据保存在bytes中，长度保存在len中
+                    String resp = new String(bytes,0,len);
+                    Log.e("搜索结果",resp);
+
+                    is.close();
+
+                    //借助Message传递数据
+                    Message message = new Message();
+                    //设置Message对象的参数
+                    message.what = 10;
+                    message.obj = resp;
+                    //发送Message
+                    handler.sendMessage(message);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }.start();
     }
 }

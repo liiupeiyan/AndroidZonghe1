@@ -135,20 +135,20 @@
                 android:layout_height="32dp"
                 android:orientation="horizontal">
                 <TextView
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textColor="@color/gray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="据您"/>
+                    android:text="距您"/>
                 <TextView
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textColor="@color/gray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2"
                     android:id="@+id/ss_route_distance1"/>
                 <TextView
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textColor="@color/gray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -160,20 +160,20 @@
                 android:layout_height="32dp"
                 android:orientation="horizontal">
                 <TextView
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textColor="@color/gray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="据您"/>
+                    android:text="距您"/>
                 <TextView
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textColor="@color/gray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2"
                     android:id="@+id/ss_route_distance2"/>
                 <TextView
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textColor="@color/gray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -189,9 +189,11 @@
             <Button
                 android:layout_marginBottom="2dp"
                 android:id="@+id/item_ss_school_btn_route_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="查看详情"/>
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:text="查看详情"
+                android:background="@drawable/shape"
+                android:textColor="@android:color/white"/>
         </LinearLayout>
     </LinearLayout>
 

@@ -1,12 +1,15 @@
 package com.example.androidzonghe1.activity.lsbWork;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,6 +44,17 @@ public class ContactorActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Button btnInsert;
     private ContactorAdapter contactorAdapter;
+    private Handler handler= new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 1:
+                    contactorAdapter.notifyDataSetChanged();
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,22 +65,6 @@ public class ContactorActivity extends AppCompatActivity {
         btnInsert = findViewById(R.id.btn_insert);
         //准备数据源
         add();
-        //点击添加
-        btnInsert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("ContactorActivity", "btnInsert onClick");
-                contactorAdapter.insertData();
-            }
-        });
-        //点击返回
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("COntactorActivity", "imgBack onClick");
-                finish();
-            }
-        });
         //点击选择关系
         LinearLayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
@@ -113,6 +111,22 @@ public class ContactorActivity extends AppCompatActivity {
             }
         });
         recyclerView.setAdapter(contactorAdapter);
+        //点击添加
+        btnInsert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("ContactorActivity", "btnInsert onClick");
+                contactorAdapter.insertData();
+            }
+        });
+        //点击返回
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("COntactorActivity", "imgBack onClick");
+                finish();
+            }
+        });
     }
 
     private void add() {
@@ -140,8 +154,14 @@ public class ContactorActivity extends AppCompatActivity {
                         con.setRelat(jsonObject.getString("relat"));
                         con.setPhone(jsonObject.getString("contactor_phone"));
                         con.setChild_id(jsonObject.getInt("user_id"));
+                        Log.e("hhhhhh",con.toString());
                         contactors.add(con);
                     }
+                    Message message = new Message();
+                    message.what = 1;
+                    handler.sendMessage(message);
+                    inputStream.close();
+//                    Log.e("亲属",contactors.get(0).toString());
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (ProtocolException e) {
@@ -154,9 +174,6 @@ public class ContactorActivity extends AppCompatActivity {
 
             }
         }.start();
-
-
-
     }
 
 }

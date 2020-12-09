@@ -12,8 +12,8 @@ import com.example.androidzonghe1.R;
 
 public class WalletActivity extends AppCompatActivity {
     private String name;
-    private double spend;
-    private double balance;
+    private String spend;
+    private String balance;
     private String time;
     private TextView oName;
     private TextView oSpend;
@@ -21,23 +21,26 @@ public class WalletActivity extends AppCompatActivity {
     private TextView oNo;
     private TextView oBalance;
     private TextView oDriver;
+    private String driver;
     ImageView imgBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet2);
+        getViews();
         Intent response = getIntent();
         name = response.getStringExtra("name");
-        spend = response.getDoubleExtra("spend",0.0);
-        balance = response.getDoubleExtra("balance",0.0);
+        spend = response.getStringExtra("spend");
+        balance = response.getStringExtra("balance");
         time = response.getStringExtra("time");
+        driver = response.getStringExtra("driver");
         //查询数据库获取信息 获取司机和订单编号
-        getViews();
         oName.setText(name);
-        oSpend.setText(spend+"");
-        oBalance.setText(balance+"");
+        oSpend.setText(spend);
+        oBalance.setText(balance);
         oTime.setText(time);
+        oDriver.setText(driver);
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

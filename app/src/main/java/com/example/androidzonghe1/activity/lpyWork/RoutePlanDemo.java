@@ -34,10 +34,11 @@ import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteLine;
 import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
+import com.example.androidzonghe1.JavaClass.lpyWork.DrivingRouteOverlay;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.adapter.lpyWork.RouteLineAdapter;
-import com.example.androidzonghe1.entity.lpyWork.DrivingRouteOverlay;
-import com.example.androidzonghe1.entity.lpyWork.OverlayManager;
+import com.example.androidzonghe1.JavaClass.lpyWork.OverlayManager;
+import com.example.androidzonghe1.JavaClass.lpyWork.WalkingRouteOverlay;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -53,6 +54,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 /**
  * 此demo用来展示如何进行驾车、步行、公交、骑行、跨城综合路线搜索并在地图使用RouteOverlay、TransitOverlay绘制
@@ -87,9 +89,8 @@ public class RoutePlanDemo extends Activity implements BaiduMap.OnMapClickListen
     int nowSearchType = -1; // 当前进行的检索，供判断浏览节点时结果使用。
 
     String startNodeStr = "河北师范大学";
-    String endNodeStr = "石家庄站";
+    String endNodeStr = "天安门";
     boolean hasShownDialogue = false;
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +108,7 @@ public class RoutePlanDemo extends Activity implements BaiduMap.OnMapClickListen
         mBaidumap.setOnMapClickListener(this);
         // 初始化搜索模块，注册事件监听
         mSearch = RoutePlanSearch.newInstance();
-        mSearch.setOnGetRoutePlanResultListener(listener);
+        mSearch.setOnGetRoutePlanResultListener(this);
     }
 
     /**
@@ -123,7 +124,7 @@ public class RoutePlanDemo extends Activity implements BaiduMap.OnMapClickListen
         mBaidumap.clear();
         // 处理搜索按钮响应
         // 设置起终点信息，对于tranist search 来说，城市名无意义
-        PlanNode stNode = PlanNode.withCityNameAndPlaceName("北京", startNodeStr);
+        PlanNode stNode = PlanNode.withCityNameAndPlaceName("石家庄", startNodeStr);
         PlanNode enNode = PlanNode.withCityNameAndPlaceName("北京", endNodeStr);
 
         // 实际使用中请对起点终点城市进行正确的设定
@@ -268,174 +269,329 @@ public class RoutePlanDemo extends Activity implements BaiduMap.OnMapClickListen
         mBaidumap.showInfoWindow(new InfoWindow(popupText, nodeLocation, 0));
     }
 
+    /**
+     * 切换路线图标，刷新地图使其生效
+     * 注意： 起终点图标使用中心对齐.
+     */
+    public void changeRouteIcon(View v) {
+        if (routeOverlay == null) {
+            return;
+        }
+        if (useDefaultIcon) {
+            ((Button) v).setText("自定义起终点图标");
+            Toast.makeText(this,
+                    "将使用系统起终点图标",
+                    Toast.LENGTH_SHORT).show();
 
-    OnGetRoutePlanResultListener listener = new OnGetRoutePlanResultListener() {
-        @Override
-        public void onGetWalkingRouteResult(WalkingRouteResult walkingRouteResult) {
+        } else {
+            ((Button) v).setText("系统起终点图标");
+            Toast.makeText(this,
+                    "将使用自定义起终点图标",
+                    Toast.LENGTH_SHORT).show();
 
         }
+        useDefaultIcon = !useDefaultIcon;
+        routeOverlay.removeFromMap();
+        routeOverlay.addToMap();
+    }
 
-        @Override
-        public void onGetTransitRouteResult(TransitRouteResult transitRouteResult) {
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onGetWalkingRouteResult(WalkingRouteResult result) {
+        if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+            Toast.makeText(RoutePlanDemo.this, "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
         }
-
-        @Override
-        public void onGetMassTransitRouteResult(MassTransitRouteResult massTransitRouteResult) {
-
+        if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+            // 起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+            // result.getSuggestAddrInfo()
+            AlertDialog.Builder builder = new AlertDialog.Builder(RoutePlanDemo.this);
+            builder.setTitle("提示");
+            builder.setMessage("检索地址有歧义，请重新设置。\n可通过getSuggestAddrInfo()接口获得建议查询信息");
+            builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.create().show();
+            return;
         }
+        if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+            nodeIndex = -1;
+            mBtnPre.setVisibility(View.VISIBLE);
+            mBtnNext.setVisibility(View.VISIBLE);
 
-        @Override
-        public void onGetDrivingRouteResult(DrivingRouteResult drivingRouteResult) {
+            if (result.getRouteLines().size() > 1) {
+                nowResultwalk = result;
+                if (!hasShownDialogue) {
+                    MyTransitDlg myTransitDlg = new MyTransitDlg(RoutePlanDemo.this,
+                            result.getRouteLines(),
+                            RouteLineAdapter.Type.WALKING_ROUTE);
+                    myTransitDlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            hasShownDialogue = false;
+                        }
+                    });
+                    myTransitDlg.setOnItemInDlgClickLinster(new OnItemInDlgClickListener() {
+                        public void onItemClick(int position) {
+                            route = nowResultwalk.getRouteLines().get(position);
+                            WalkingRouteOverlay overlay = new MyWalkingRouteOverlay(mBaidumap);
+                            mBaidumap.setOnMarkerClickListener(overlay);
+                            routeOverlay = overlay;
+                            overlay.setData(nowResultwalk.getRouteLines().get(position));
+                            overlay.addToMap();
+                            overlay.zoomToSpan();
+                        }
 
-            if (drivingRouteResult == null || drivingRouteResult.error !=   SearchResult.ERRORNO.NO_ERROR) {
-                Toast.makeText(RoutePlanDemo.this, "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
-            }
-            if (drivingRouteResult.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
-                // 起终点或途经点地址有岐义，通过以下接口获取建议查询信息
-                drivingRouteResult.getSuggestAddrInfo();
+                    });
+                    myTransitDlg.show();
+                    hasShownDialogue = true;
+                }
+            } else if (result.getRouteLines().size() == 1) {
+                // 直接显示
+                route = result.getRouteLines().get(0);
+                WalkingRouteOverlay overlay = new MyWalkingRouteOverlay(mBaidumap);
+                mBaidumap.setOnMarkerClickListener(overlay);
+                routeOverlay = overlay;
+                overlay.setData(result.getRouteLines().get(0));
+                overlay.addToMap();
+                overlay.zoomToSpan();
+
+            } else {
+                Log.d("route result", "结果数<0");
                 return;
             }
-            if (drivingRouteResult.error == SearchResult.ERRORNO.NO_ERROR) {
-                if (drivingRouteResult.getRouteLines().size() >= 1) {
-//                        DrivingRouteLine route = drivingRouteResult.getRouteLines().get(0);
-                    DrivingRouteOverlay overlay = new DrivingRouteOverlay(mBaidumap);
-                    routeOverlay = overlay;
-                    mBaidumap.setOnMarkerClickListener(overlay);
-                    overlay.setData(drivingRouteResult.getRouteLines().get(0));
-                    overlay.addToMap();
-                    overlay.zoomToSpan();
-                } else {
-                    Log.d("route result", "结果数<0");
-                    return;
+
+        }
+
+    }
+
+    @Override
+    public void onGetTransitRouteResult(TransitRouteResult result) {
+
+        if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+            Toast.makeText(RoutePlanDemo.this, "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
+        }
+        if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+            // 起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+            // result.getSuggestAddrInfo()
+            return;
+        }
+        if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+            nodeIndex = -1;
+            mBtnPre.setVisibility(View.VISIBLE);
+            mBtnNext.setVisibility(View.VISIBLE);
+
+
+            if (result.getRouteLines().size() > 1) {
+                nowResultransit = result;
+                if (!hasShownDialogue) {
+                    MyTransitDlg myTransitDlg = new MyTransitDlg(RoutePlanDemo.this,
+                            result.getRouteLines(),
+                            RouteLineAdapter.Type.TRANSIT_ROUTE);
+                    myTransitDlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            hasShownDialogue = false;
+                        }
+                    });
+                    myTransitDlg.setOnItemInDlgClickLinster(new OnItemInDlgClickListener() {
+                        public void onItemClick(int position) {
+
+//                            route = nowResultransit.getRouteLines().get(position);
+//                            TransitRouteOverlay overlay = new MyTransitRouteOverlay(mBaidumap);
+//                            mBaidumap.setOnMarkerClickListener(overlay);
+//                            routeOverlay = overlay;
+//                            overlay.setData(nowResultransit.getRouteLines().get(position));
+//                            overlay.addToMap();
+//                            overlay.zoomToSpan();
+                        }
+
+                    });
+                    myTransitDlg.show();
+                    hasShownDialogue = true;
                 }
-            }
-//            //创建DrivingRouteOverlay实例
-//            DrivingRouteOverlay overlay = new DrivingRouteOverlay(mBaidumap);
-//            if (drivingRouteResult.getRouteLines().size() > 0) {
-//                //获取路径规划数据,(以返回的第一条路线为例）
-//                //为DrivingRouteOverlay实例设置数据
-//                overlay.setData(drivingRouteResult.getRouteLines().get(0));
-//                //在地图上绘制DrivingRouteOverlay
+            } else if (result.getRouteLines().size() == 1) {
+                // 直接显示
+//                route = result.getRouteLines().get(0);
+//                TransitRouteOverlay overlay = new MyTransitRouteOverlay(mBaidumap);
+//                mBaidumap.setOnMarkerClickListener(overlay);
+//                routeOverlay = overlay;
+//                overlay.setData(result.getRouteLines().get(0));
 //                overlay.addToMap();
-//            }
-        }
+//                overlay.zoomToSpan();
 
-        @Override
-        public void onGetIndoorRouteResult(IndoorRouteResult indoorRouteResult) {
+            } else {
+                Log.d("route result", "结果数<0");
+                return;
+            }
 
-        }
-
-        @Override
-        public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
 
         }
-    };
-
-    @Override
-    public void onGetWalkingRouteResult(WalkingRouteResult walkingRouteResult) {
-
     }
 
     @Override
-    public void onGetTransitRouteResult(TransitRouteResult transitRouteResult) {
-
-    }
-
-    @Override
-    public void onGetMassTransitRouteResult(MassTransitRouteResult massTransitRouteResult) {
-
-    }
-
-    @Override
-    public void onGetDrivingRouteResult(DrivingRouteResult drivingRouteResult) {
-
-    }
-
-    @Override
-        public void onGetIndoorRouteResult(IndoorRouteResult indoorRouteResult) {
-
-        }
-
-        @Override
-        public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
-
-        }
-
-    @Override
-    public void onMapClick(LatLng latLng) {
-
-    }
-
-    @Override
-    public void onMapPoiClick(MapPoi mapPoi) {
-
-    }
-};
-//    /**
-//     * 切换路线图标，刷新地图使其生效
-//     * 注意： 起终点图标使用中心对齐.
-//     */
-//    public void changeRouteIcon(View v) {
-//        if (routeOverlay == null) {
+    public void onGetMassTransitRouteResult(MassTransitRouteResult result) {
+//        if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+//            Toast.makeText(RoutePlanDemo.this, "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
+//        }
+//        if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+//            // 起终点模糊，获取建议列表
+//            result.getSuggestAddrInfo();
 //            return;
 //        }
-//        if (useDefaultIcon) {
-//            ((Button) v).setText("自定义起终点图标");
-//            Toast.makeText(this,
-//                    "将使用系统起终点图标",
-//                    Toast.LENGTH_SHORT).show();
+//        if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+//            nowResultmass = result;
 //
-//        } else {
-//            ((Button) v).setText("系统起终点图标");
-//            Toast.makeText(this,
-//                    "将使用自定义起终点图标",
-//                    Toast.LENGTH_SHORT).show();
+//            nodeIndex = -1;
+//            mBtnPre.setVisibility(View.VISIBLE);
+//            mBtnNext.setVisibility(View.VISIBLE);
 //
+//            if (!hasShownDialogue) {
+//                // 列表选择
+//                MyTransitDlg myTransitDlg = new MyTransitDlg(RoutePlanDemo.this,
+//                        result.getRouteLines(),
+//                        RouteLineAdapter.Type.MASS_TRANSIT_ROUTE);
+//                nowResultmass = result;
+//                myTransitDlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//                    @Override
+//                    public void onDismiss(DialogInterface dialog) {
+//                        hasShownDialogue = false;
+//                    }
+//                });
+//                myTransitDlg.setOnItemInDlgClickLinster(new OnItemInDlgClickListener() {
+//                    public void onItemClick(int position) {
+//
+//                        MyMassTransitRouteOverlay overlay = new MyMassTransitRouteOverlay(mBaidumap);
+//                        mBaidumap.setOnMarkerClickListener(overlay);
+//                        routeOverlay = overlay;
+//                        massroute = nowResultmass.getRouteLines().get(position);
+//                        overlay.setData(nowResultmass.getRouteLines().get(position));
+//
+//                        MassTransitRouteLine line = nowResultmass.getRouteLines().get(position);
+//                        overlay.setData(line);
+//                        if (nowResultmass.getOrigin().getCityId() == nowResultmass.getDestination().getCityId()) {
+//                            // 同城
+//                            overlay.setSameCity(true);
+//                        } else {
+//                            // 跨城
+//                            overlay.setSameCity(false);
+//
+//                        }
+//                        mBaidumap.clear();
+//                        overlay.addToMap();
+//                        overlay.zoomToSpan();
+//                    }
+//
+//                });
+//
+//                /* 防止多次进入退出，Activity已经释放，但是Dialog仍然弹出，导致的异常释放崩溃 */
+//                if (!isFinishing()) {
+//                    myTransitDlg.show();
+//                    hasShownDialogue = true;
+//                }
+//            }
 //        }
-//        useDefaultIcon = !useDefaultIcon;
-//        routeOverlay.removeFromMap();
-//        routeOverlay.addToMap();
-//    }
+    }
 
 
-//    @Override
-//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-//        super.onRestoreInstanceState(savedInstanceState);
-//    }
-//
-//    @Override
-//    public void onGetWalkingRouteResult(WalkingRouteResult walkingRouteResult) {
-//
-//
-//    }
-//
-//    @Override
-//    public void onGetTransitRouteResult(TransitRouteResult transitRouteResult) {
-//
-//    }
+    @Override
+    public void onGetDrivingRouteResult(DrivingRouteResult result) {
+        if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+            Toast.makeText(RoutePlanDemo.this, "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
+        }
+        if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+            // 起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+            // result.getSuggestAddrInfo()
+            return;
+        }
+        if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+            nodeIndex = -1;
 
-//    @Override
-//    public void onGetMassTransitRouteResult(MassTransitRouteResult massTransitRouteResult) {
-//
-//    }
-//
-//    @Override
-//    public void onGetDrivingRouteResult(DrivingRouteResult result) {
+
+            if (result.getRouteLines().size() > 1) {
+                nowResultdrive = result;
+                if (!hasShownDialogue) {
+                    MyTransitDlg myTransitDlg = new MyTransitDlg(RoutePlanDemo.this,
+                            result.getRouteLines(),
+                            RouteLineAdapter.Type.DRIVING_ROUTE);
+                    myTransitDlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            hasShownDialogue = false;
+                        }
+                    });
+                    myTransitDlg.setOnItemInDlgClickLinster(new OnItemInDlgClickListener() {
+                        public void onItemClick(int position) {
+                            route = nowResultdrive.getRouteLines().get(position);
+                            DrivingRouteOverlay overlay = new DrivingRouteOverlay(mBaidumap);
+                            mBaidumap.setOnMarkerClickListener(overlay);
+                            routeOverlay = overlay;
+                            overlay.setData(nowResultdrive.getRouteLines().get(position));
+                            overlay.addToMap();
+                            overlay.zoomToSpan();
+                        }
+
+                    });
+                    myTransitDlg.show();
+                    hasShownDialogue = true;
+                }
+            } else if (result.getRouteLines().size() == 1) {
+                route = result.getRouteLines().get(0);
+                DrivingRouteOverlay overlay = new DrivingRouteOverlay(mBaidumap);
+                routeOverlay = overlay;
+                mBaidumap.setOnMarkerClickListener(overlay);
+                overlay.setData(result.getRouteLines().get(0));
+                overlay.addToMap();
+                overlay.zoomToSpan();
+                mBtnPre.setVisibility(View.VISIBLE);
+                mBtnNext.setVisibility(View.VISIBLE);
+            } else {
+                Log.d("route result", "结果数<0");
+                return;
+            }
+
+        }
+    }
+
+    @Override
+    public void onGetIndoorRouteResult(IndoorRouteResult indoorRouteResult) {
+
+    }
+
+    @Override
+    public void onGetBikingRouteResult(BikingRouteResult result) {
 //        if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
 //            Toast.makeText(RoutePlanDemo.this, "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
 //        }
 //        if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
 //            // 起终点或途经点地址有岐义，通过以下接口获取建议查询信息
 //            // result.getSuggestAddrInfo()
+//            AlertDialog.Builder builder = new AlertDialog.Builder(RoutePlanDemo.this);
+//            builder.setTitle("提示");
+//            builder.setMessage("检索地址有歧义，请重新设置。\n可通过getSuggestAddrInfo()接口获得建议查询信息");
+//            builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.dismiss();
+//                }
+//            });
+//            builder.create().show();
 //            return;
 //        }
 //        if (result.error == SearchResult.ERRORNO.NO_ERROR) {
 //            nodeIndex = -1;
-//
+//            mBtnPre.setVisibility(View.VISIBLE);
+//            mBtnNext.setVisibility(View.VISIBLE);
 //
 //            if (result.getRouteLines().size() > 1) {
-//                nowResultdrive = result;
+//                nowResultbike = result;
 //                if (!hasShownDialogue) {
 //                    MyTransitDlg myTransitDlg = new MyTransitDlg(RoutePlanDemo.this,
 //                            result.getRouteLines(),
@@ -448,11 +604,11 @@ public class RoutePlanDemo extends Activity implements BaiduMap.OnMapClickListen
 //                    });
 //                    myTransitDlg.setOnItemInDlgClickLinster(new OnItemInDlgClickListener() {
 //                        public void onItemClick(int position) {
-//                            route = nowResultdrive.getRouteLines().get(position);
-//                            DrivingRouteOverlay overlay = new MyDrivingRouteOverlay(mBaidumap);
+//                            route = nowResultbike.getRouteLines().get(position);
+//                            BikingRouteOverlay overlay = new MyBikingRouteOverlay(mBaidumap);
 //                            mBaidumap.setOnMarkerClickListener(overlay);
 //                            routeOverlay = overlay;
-//                            overlay.setData(nowResultdrive.getRouteLines().get(position));
+//                            overlay.setData(nowResultbike.getRouteLines().get(position));
 //                            overlay.addToMap();
 //                            overlay.zoomToSpan();
 //                        }
@@ -463,7 +619,7 @@ public class RoutePlanDemo extends Activity implements BaiduMap.OnMapClickListen
 //                }
 //            } else if (result.getRouteLines().size() == 1) {
 //                route = result.getRouteLines().get(0);
-//                DrivingRouteOverlay overlay = new MyDrivingRouteOverlay(mBaidumap);
+//                BikingRouteOverlay overlay = new MyBikingRouteOverlay(mBaidumap);
 //                routeOverlay = overlay;
 //                mBaidumap.setOnMarkerClickListener(overlay);
 //                overlay.setData(result.getRouteLines().get(0));
@@ -479,16 +635,6 @@ public class RoutePlanDemo extends Activity implements BaiduMap.OnMapClickListen
 //        }
 //    }
 //
-//    @Override
-//    public void onGetIndoorRouteResult(IndoorRouteResult indoorRouteResult) {
-//
-//    }
-//
-//    @Override
-//    public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
-//
-//    }
-//
 //    // 定制RouteOverly
 //    private class MyDrivingRouteOverlay extends DrivingRouteOverlay {
 //
@@ -499,7 +645,7 @@ public class RoutePlanDemo extends Activity implements BaiduMap.OnMapClickListen
 //        @Override
 //        public BitmapDescriptor getStartMarker() {
 //            if (useDefaultIcon) {
-//                return BitmapDescriptorFactory.fromResource(R.drawable.icon_st_map);
+//                return BitmapDescriptorFactory.fromResource(R.drawable.icon_st);
 //            }
 //            return null;
 //        }
@@ -507,42 +653,146 @@ public class RoutePlanDemo extends Activity implements BaiduMap.OnMapClickListen
 //        @Override
 //        public BitmapDescriptor getTerminalMarker() {
 //            if (useDefaultIcon) {
-//                return BitmapDescriptorFactory.fromResource(R.drawable.icon_en_map);
+//                return BitmapDescriptorFactory.fromResource(R.drawable.icon_en);
+//            }
+//            return null;
+//        }
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+    private class MyWalkingRouteOverlay extends WalkingRouteOverlay {
+
+        public MyWalkingRouteOverlay(BaiduMap baiduMap) {
+            super(baiduMap);
+        }
+
+        @Override
+        public BitmapDescriptor getStartMarker() {
+            if (useDefaultIcon) {
+                return BitmapDescriptorFactory.fromResource(R.drawable.icon_st_map);
+            }
+            return null;
+        }
+
+        @Override
+        public BitmapDescriptor getTerminalMarker() {
+            if (useDefaultIcon) {
+                return BitmapDescriptorFactory.fromResource(R.drawable.icon_en_map);
+            }
+            return null;
+        }
+    }
+
+//    private class MyTransitRouteOverlay extends TransitRouteOverlay {
+//
+//        public MyTransitRouteOverlay(BaiduMap baiduMap) {
+//            super(baiduMap);
+//        }
+//
+//        @Override
+//        public BitmapDescriptor getStartMarker() {
+//            if (useDefaultIcon) {
+//                return BitmapDescriptorFactory.fromResource(R.drawable.icon_st);
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        public BitmapDescriptor getTerminalMarker() {
+//            if (useDefaultIcon) {
+//                return BitmapDescriptorFactory.fromResource(R.drawable.icon_en);
 //            }
 //            return null;
 //        }
 //    }
-
-//    @Override
-//    public void onMapClick(LatLng point) {
-//        mBaidumap.hideInfoWindow();
-//    }
 //
-//    @Override
-//    public void onMapPoiClick(MapPoi poi) {
-//        Log.e("RoutePlanDemo","onMapPoiClick");
-//    }
-
-//    @Override
-//    protected void onPause() {
-//        mMapView.onPause();
-//        super.onPause();
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        mMapView.onResume();
-//        super.onResume();
-//    }
-//
-//    @Override
-//    protected void onDestroy() {
-//        if (mSearch != null) {
-//            mSearch.destroy();
+//    private class MyBikingRouteOverlay extends BikingRouteOverlay {
+//        public MyBikingRouteOverlay(BaiduMap baiduMap) {
+//            super(baiduMap);
 //        }
-//        mMapView.onDestroy();
-//        super.onDestroy();
+//
+//        @Override
+//        public BitmapDescriptor getStartMarker() {
+//            if (useDefaultIcon) {
+//                return BitmapDescriptorFactory.fromResource(R.drawable.icon_st);
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        public BitmapDescriptor getTerminalMarker() {
+//            if (useDefaultIcon) {
+//                return BitmapDescriptorFactory.fromResource(R.drawable.icon_en);
+//            }
+//            return null;
+//        }
+
+
 //    }
+
+//    private class MyMassTransitRouteOverlay extends MassTransitRouteOverlay {
+//        public MyMassTransitRouteOverlay(BaiduMap baiduMap) {
+//            super(baiduMap);
+//        }
+//
+//        @Override
+//        public BitmapDescriptor getStartMarker() {
+//            if (useDefaultIcon) {
+//                return BitmapDescriptorFactory.fromResource(R.drawable.icon_st);
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        public BitmapDescriptor getTerminalMarker() {
+//            if (useDefaultIcon) {
+//                return BitmapDescriptorFactory.fromResource(R.drawable.icon_en);
+//            }
+//            return null;
+//        }
+//
+//
+//    }
+
+    @Override
+    public void onMapClick(LatLng point) {
+        mBaidumap.hideInfoWindow();
+    }
+
+    @Override
+    public void onMapPoiClick(MapPoi mapPoi) {
+
+    }
+
+//    @Override
+//    public boolean onMapPoiClick(MapPoi poi) {
+//        return false;
+//    }
+
+    @Override
+    protected void onPause() {
+        mMapView.onPause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        mMapView.onResume();
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mSearch != null) {
+            mSearch.destroy();
+        }
+        mMapView.onDestroy();
+        super.onDestroy();
+    }
 
     // 响应DLg中的List item 点击
     interface OnItemInDlgClickListener {
@@ -588,10 +838,10 @@ public class RoutePlanDemo extends Activity implements BaiduMap.OnMapClickListen
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     onItemInDlgClickListener.onItemClick(position);
-//                    mBtnPre.setVisibility(View.VISIBLE);
-//                    mBtnNext.setVisibility(View.VISIBLE);
-//                    dismiss();
-//                    hasShownDialogue = false;
+                    mBtnPre.setVisibility(View.VISIBLE);
+                    mBtnNext.setVisibility(View.VISIBLE);
+                    dismiss();
+                    hasShownDialogue = false;
                 }
             });
         }
@@ -600,5 +850,5 @@ public class RoutePlanDemo extends Activity implements BaiduMap.OnMapClickListen
             onItemInDlgClickListener = itemListener;
         }
 
-//    }
+    }
 }

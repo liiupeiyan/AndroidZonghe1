@@ -53,7 +53,7 @@ public class WalletDetailsAdapter extends BaseAdapter {
             holder.balance = convertView.findViewById(R.id.balance);
             holder.order = convertView.findViewById(R.id.name);
             holder.spend = convertView.findViewById(R.id.spend);
-            holder.time = convertView.findViewById(R.id.spend);
+            holder.time = convertView.findViewById(R.id.time);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder) convertView.getTag();

@@ -61,22 +61,6 @@ public class FragmentDriver extends Fragment {
                     adapter.notifyDataSetChanged();
                     refreshLayout.finishLoadMore();
                     break;
-                case 10://接收到数据
-                    String jsonStr = (String) msg.obj;
-                    Gson gson = new Gson();
-                    Type collectionType = new TypeToken<ArrayList<Driver>>(){}.getType();
-                    ConfigUtil.drivers = gson.fromJson(jsonStr,collectionType);
-
-                    //给recycleview设置标题
-                    List<RecycleviewTitle> title = new ArrayList<>();
-                    title.add(new RecycleviewTitle("接送员"));
-                    data = new ArrayList<>();
-                    data.add(title);
-                    data.add(ConfigUtil.drivers);
-                    adapter = new RecycleAdapterDriver(data);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    recyclerView.setAdapter(adapter);
-                    break;
             }
         }
     };
@@ -84,8 +68,6 @@ public class FragmentDriver extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_driver, container, false);
-
-        getAllDrivers(ConfigUtil.Url+"GetDriverServlet");
         findViews();
         //设置刷新头和加载更多的样式
         refreshLayout.setRefreshHeader(new ClassicsHeader(getActivity()));
@@ -101,6 +83,15 @@ public class FragmentDriver extends Fragment {
         if(ConfigUtil.drivers.size() == 0){
             ConfigUtil.initDrivers();
         }
+        //给recycleview设置标题
+        List<RecycleviewTitle> title = new ArrayList<>();
+        title.add(new RecycleviewTitle("接送员"));
+        data = new ArrayList<>();
+        data.add(title);
+        data.add(ConfigUtil.drivers);
+        adapter = new RecycleAdapterDriver(data);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adapter);
 
     }
 
@@ -151,38 +142,6 @@ public class FragmentDriver extends Fragment {
         });
     }
 
-    private void getAllDrivers(String s) {
-        new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    URL url = new URL(s);
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    //设置http请求方式，get、post、put、...(默认get请求)
-                    connection.setRequestMethod("POST");//设置请求方式
 
-                    //从服务器段获取响应
-                    InputStream is = connection.getInputStream();
-                    byte[] bytes = new byte[1024];
-                    int len = is.read(bytes);//将数据保存在bytes中，长度保存在len中
-                    String resp = new String(bytes,0,len);
-                    Log.e("所有司机",resp);
-
-                    //借助Message传递数据
-                    Message message = new Message();
-                    //设置Message对象的参数
-                    message.what = 10;
-                    message.obj = resp;
-                    //发送Message
-                    handler.sendMessage(message);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
 
 }
