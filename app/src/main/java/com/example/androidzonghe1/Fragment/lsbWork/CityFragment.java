@@ -3,8 +3,10 @@ package com.example.androidzonghe1.Fragment.lsbWork;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +35,11 @@ import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.entity.lsbWork.CityEntity;
 import com.example.androidzonghe1.Utils.lsbWork.JsonReadUtil;
 import com.example.androidzonghe1.View.lsbWork.ViewBinder;
+import com.example.androidzonghe1.entity.rjxWork.History;
 import com.example.androidzonghe1.others.LetterListView;
 import com.example.androidzonghe1.others.ScrollWithGridView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,6 +50,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -77,6 +84,47 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
     public static List<SuggestionResult.SuggestionInfo> hotCityList = new ArrayList<>();
     protected CityListAdapter cityListAdapter;
     protected SearchCityListAdapter searchCityListAdapter;
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 1:
+                    String jsonList = msg.obj.toString();
+                    Gson gson = new Gson();
+                    Type collectionType = new TypeToken<List<History>>() {}.getType();
+                    List<History> histories = gson.fromJson(jsonList, collectionType);
+                    for (History history: histories) {
+                        SuggestionResult.SuggestionInfo suggestionInfo = new SuggestionResult.SuggestionInfo();
+                        suggestionInfo.setKey(history.getKey());
+                        suggestionInfo.setCity(history.getCity());
+//                        suggestionInfo.setDistrict("裕华区");
+                        suggestionInfo.setPt(new LatLng(history.getLatitude(), history.getLongitude()));
+//                        suggestionInfo.setUid("42362707d679c71f5cbe86c3");
+//                        suggestionInfo.setTag("高校");
+//                        suggestionInfo.setAddress("石家庄市-裕华区-南二环东路20号");
+                        hotCityList.add(suggestionInfo);
+                    };
+                    adapter = new HotCityListAdapter(getContext(), hotCityList);
+                    Log.e("size",hotCityList.size()+"");
+//        adapter.notifyDataSetChanged();
+                    hotCityGv.setAdapter(adapter);
+                    hotCityGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent response = new Intent();
+                            Bundle b = new Bundle();
+                            Log.e("info",hotCityList.get(position).toString());
+                            b.putParcelable("suggestionInfo", hotCityList.get(position));
+                            response.putExtras(b);
+                            getActivity().setResult(0, response);
+                            getActivity().finish();
+                        }
+                    });
+                    break;
+            }
+        }
+    };
 
     View view;
 
@@ -94,8 +142,10 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
         tvLocation = view.findViewById(R.id.tv_location);
         hotCityGv = view.findViewById(R.id.recent_city_gv);
         clearHistory = view.findViewById(R.id.clear_all);
-
+//        ConfigUtil.phone = "123456";
         initView();
+
+
         setUsePosition();
 
         clearHistory.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +153,7 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
             public void onClick(View view) {
                 hotCityList.clear();
                 //清除数据库所有数据
-//                clearHistorys(ConfigUtil.Url);
+                clearHistorys(ConfigUtil.Url+"DeleteHistoryServlet");
             }
         });
 
@@ -142,29 +192,17 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
     public void setUsePosition(){
         hotCityList.clear();
         //获取所有的
-        SuggestionResult.SuggestionInfo suggestionInfo = new SuggestionResult.SuggestionInfo();
-        suggestionInfo.setKey("河北师范大学");
-        suggestionInfo.setCity("石家庄市");
+        getHistorys(ConfigUtil.Url+"GetHistoryServlet");
+//        SuggestionResult.SuggestionInfo suggestionInfo = new SuggestionResult.SuggestionInfo();
+//        suggestionInfo.setKey("河北师范大学");
+//        suggestionInfo.setCity("石家庄市");
 //        suggestionInfo.setDistrict("裕华区");
-        suggestionInfo.setPt(new LatLng(38.003617, 114.526421));
+//        suggestionInfo.setPt(new LatLng(38.003617, 114.526421));
 //        suggestionInfo.setUid("42362707d679c71f5cbe86c3");
 //        suggestionInfo.setTag("高校");
 //        suggestionInfo.setAddress("石家庄市-裕华区-南二环东路20号");
-        suggestionInfo.setPoiChildrenInfoList(null);
-        hotCityList.add(suggestionInfo);
-        adapter = new HotCityListAdapter(getContext(), hotCityList);
-        hotCityGv.setAdapter(adapter);
-        hotCityGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent response = new Intent();
-                Bundle b = new Bundle();
-                b.putParcelable("suggestionInfo", hotCityList.get(position));
-                response.putExtras(b);
-                getActivity().setResult(0, response);
-                getActivity().finish();
-            }
-        });
+//        suggestionInfo.setPoiChildrenInfoList(null);
+//        hotCityList.add(suggestionInfo);
     }
 
 
@@ -468,7 +506,7 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
         super.onDestroy();
     }
 
-    //增加历史搜索记录提交到服务端
+    //删除所有搜索记录
     private void clearHistorys(final String str){
         new Thread(){
             @Override
@@ -477,7 +515,7 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
                 //获取搜索地址名和城市名和当前用户名手机号
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put("clear","all");
+                    jsonObject.put("phone",ConfigUtil.phone);
                     URL url = new URL(str);
                     //获取网络连接对象URLConnection
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -505,4 +543,42 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
         }.start();
     }
 
+    //获取用户搜索记录
+    private void getHistorys(final String str) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                //获取搜索地址名和城市名和当前用户名手机号
+                try {
+                    URL url = new URL(str+"?phone=123456");
+                    //获取网络连接对象URLConnection
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//                    OutputStream os = connection.getOutputStream();
+//                    Gson gson
+//                    os.write();
+                    //获取网络输入流
+                    InputStream is = connection.getInputStream();
+                    connection.setRequestMethod("POST");
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                    String historyList = reader.readLine();
+                    System.out.println(historyList);
+                    Message message = new Message();
+                    message.what = 1;
+                    message.obj = historyList;
+                    handler.sendMessage(message);
+                    Log.e("list",hotCityList.toString());
+                    is.close();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
 }
