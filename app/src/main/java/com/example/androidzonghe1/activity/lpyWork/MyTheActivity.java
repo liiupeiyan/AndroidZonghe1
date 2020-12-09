@@ -47,7 +47,6 @@ public class MyTheActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_the);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         findViews();
-
         fragmentHomePage = new FragmentHomePage();
         fragmentLaunchRoute = new FragmentLaunchRoute();
         fragmentMy = new FragmentMy();

@@ -22,6 +22,7 @@ import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.adapter.lsbWork.SiteAdapter;
 import com.example.androidzonghe1.entity.lsbWork.CityEntity;
 import com.example.androidzonghe1.entity.rjxWork.History;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,8 +65,8 @@ public class SiteFragment extends Fragment {
                 info = data;
                 b.putParcelable("suggestionInfo", data);
                 response.putExtras(b);
-//                addUsePosition();
-//                uploadHistory(ConfigUtil.Url+"");
+                addUsePosition();
+                uploadHistory(ConfigUtil.Url+"AddHistoryServlet");
                 getActivity().setResult(0, response);
                 getActivity().finish();
             });
@@ -80,26 +81,21 @@ public class SiteFragment extends Fragment {
             public void run() {
                 super.run();
                 //获取搜索地址名和城市名和当前用户名手机号
-                JSONObject jsonObject = new JSONObject();
                 History history = new History();
                 history.setUserPhone("123456");//假数据
-//                history.setUserPhone(ConfigUtil.phone);
                 history.setCity(info.city);
                 history.setKey(info.key);
                 history.setLatitude(info.getPt().latitude);
                 history.setLongitude(info.getPt().longitude);
                 try {
-                    jsonObject.put("phone",history.getUserPhone());
-                    jsonObject.put("city",history.getCity());
-                    jsonObject.put("key",history.getKey());
-                    jsonObject.put("latitude",history.getLatitude());
-                    jsonObject.put("longitude",history.getLongitude());
+                    Gson gson = new Gson();
+                    String jsonObject = gson.toJson(history);
                     URL url = new URL(str);
                     //获取网络连接对象URLConnection
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     OutputStream os = connection.getOutputStream();
-                    os.write(jsonObject.toString().getBytes());
+                    os.write(jsonObject.getBytes());
                     os.flush();
                     //获取网络输入流
                     InputStream is = connection.getInputStream();
@@ -108,8 +104,6 @@ public class SiteFragment extends Fragment {
                     System.out.println(deleteFlag);
                     is.close();
                     os.close();
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (ProtocolException e) {
