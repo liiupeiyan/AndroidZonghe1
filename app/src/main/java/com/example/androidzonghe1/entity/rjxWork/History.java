@@ -5,8 +5,8 @@ public class History {
     private String userPhone;
     private String city;
     private String key;
-    private long latitude;
-    private long longitude;
+    private double latitude;
+    private double longitude;
     private int count;
     public int getId() {
         return id;
@@ -32,22 +32,54 @@ public class History {
     public void setKey(String key) {
         this.key = key;
     }
-    public long getLatitude() {
+
+    public double getLatitude() {
         return latitude;
     }
-    public void setLatitude(long latitude) {
+
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
-    public long getLongitude() {
+
+    public double getLongitude() {
         return longitude;
     }
-    public void setLongitude(long longitude) {
+
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+
     public int getCount() {
         return count;
     }
+
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public History(int id, String userPhone, String city, String key, double latitude, double longitude, int count) {
+        this.id = id;
+        this.userPhone = userPhone;
+        this.city = city;
+        this.key = key;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.count = count;
+    }
+
+    public History() {
+    }
+
+    @Override
+    public String toString() {
+        return "History{" +
+                "id=" + id +
+                ", userPhone='" + userPhone + '\'' +
+                ", city='" + city + '\'' +
+                ", key='" + key + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", count=" + count +
+                '}';
     }
 }
