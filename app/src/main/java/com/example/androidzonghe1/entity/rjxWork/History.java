@@ -5,6 +5,9 @@ public class History {
     private String userPhone;
     private String city;
     private String key;
+    private long latitude;
+    private long longitude;
+    private int count;
     public int getId() {
         return id;
     }
@@ -28,5 +31,23 @@ public class History {
     }
     public void setKey(String key) {
         this.key = key;
+    }
+    public long getLatitude() {
+        return latitude;
+    }
+    public void setLatitude(long latitude) {
+        this.latitude = latitude;
+    }
+    public long getLongitude() {
+        return longitude;
+    }
+    public void setLongitude(long longitude) {
+        this.longitude = longitude;
+    }
+    public int getCount() {
+        return count;
+    }
+    public void setCount(int count) {
+        this.count = count;
     }
 }

@@ -2,7 +2,7 @@ package com.example.androidzonghe1;
 
 import com.example.androidzonghe1.entity.lpyWork.DayTrip;
 import com.example.androidzonghe1.entity.lpyWork.Driver;
-import com.example.androidzonghe1.entity.lpyWork.Message;
+import com.example.androidzonghe1.entity.lpyWork.Messages;
 import com.example.androidzonghe1.entity.lpyWork.Order;
 import com.example.androidzonghe1.entity.lpyWork.SameSchoolRoute;
 import com.example.androidzonghe1.entity.xtWork.RvFragmentMy;
@@ -101,10 +101,10 @@ public class ConfigUtil {
         }
     }
 
-    public static List<Message> messages = new ArrayList<>();
+    public static List<Messages> messages = new ArrayList<>();
     public static void initMessages(){
         for(int i = 0; i < 10 ; i++){
-            Message message = new Message();
+            Messages message = new Messages();
             message.setTitle("这春节是放多少天假啊？？？31？？？？？？？61？？？？");
             message.setDate("2020-11-16");
             message.setType("本地资讯");
