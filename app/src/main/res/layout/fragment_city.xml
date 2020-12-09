@@ -44,12 +44,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
+        <LinearLayout
+            android:gravity="center"
+            android:paddingRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="常用地点"
-            android:textColor="@color/black"
-            android:textSize="26sp"/>
+            android:orientation="horizontal">
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="常用地点"
+                android:textColor="@color/black"
+                android:textSize="26sp"/>
+            <Button
+                android:id="@+id/clear_all"
+                android:layout_marginRight="5dp"
+                android:layout_width="wrap_content"
+                android:background="@drawable/none_style"
+                android:layout_height="wrap_content"
+                android:text="清空所有搜索记录"/>
+        </LinearLayout>
+
         <com.example.androidzonghe1.others.ScrollWithGridView
             android:id="@+id/recent_city_gv"
             android:layout_width="match_parent"
