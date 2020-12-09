@@ -20,6 +20,7 @@ public class ConfigUtil {
     public static String userName = "";
     //当前手机号
     public static String phone="";
+
     //当前搜索学校
     public static String school="";
     //搜索学校的经纬度
