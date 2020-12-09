@@ -1,13 +1,17 @@
 package com.example.androidzonghe1.entity.lpyWork;
 
 public class Message {
-    private String Title;
+    private int id;
+    private int userId;
+    private String title;
     private String date;
     private String type;
     private String img;
 
-    public Message(String title, String date, String type, String img) {
-        Title = title;
+    public Message(int id, int userId, String title, String date, String type, String img) {
+        this.id = id;
+        this.userId = userId;
+        this.title = title;
         this.date = date;
         this.type = type;
         this.img = img;
@@ -16,12 +20,28 @@ public class Message {
     public Message() {
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     public String getTitle() {
-        return Title;
+        return title;
     }
 
     public void setTitle(String title) {
-        Title = title;
+        this.title = title;
     }
 
     public String getDate() {
@@ -51,7 +71,9 @@ public class Message {
     @Override
     public String toString() {
         return "Message{" +
-                "Title='" + Title + '\'' +
+                "id=" + id +
+                ", userId=" + userId +
+                ", title='" + title + '\'' +
                 ", date='" + date + '\'' +
                 ", type='" + type + '\'' +
                 ", img='" + img + '\'' +
