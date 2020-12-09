@@ -68,6 +68,7 @@ public class ContactorAdapter extends RecyclerView.Adapter<ContactorAdapter.View
         //给控件赋值
         holder.btnRelation.setText(data.get(position).getRelat());
         holder.etPhone.setText(data.get(position).getPhone());
+//        notifyDataSetChanged();
         //点击删除按钮
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
