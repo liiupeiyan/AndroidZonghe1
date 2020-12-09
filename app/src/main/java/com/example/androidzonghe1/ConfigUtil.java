@@ -91,7 +91,7 @@ public class ConfigUtil {
         for(int i = 0; i < 10 ; i++){
             DayTrip dayTrip = new DayTrip();
             dayTrip.setGoOrCome("放学"+i);
-            dayTrip.setDate("2020-06-11");
+            dayTrip.setDate("2020-12-11");
             dayTrip.setTimeBegin("16:40");
             dayTrip.setTripState("运行中");
             dayTrip.setTimeEnd("17:00");
