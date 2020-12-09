@@ -12,15 +12,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigUtil {
+    //当前密码
+    public static String pwd="";
     //判断当前用户是否登录
     public static boolean isLogin = false;
     //当前用户名
     public static String userName = "";
     //当前手机号
     public static String phone="";
-    //当前支付密码
-    public static String pwd ="";
-    //当前用户类
+
+    //当前搜索学校
+    public static String school="";
+    //搜索学校的经纬度
+    public static double latitude = 0;
+    public static double longitude = 0;
     public static Parent parent = new Parent();
     //徐婷连接到服务器
     public static final String xt = "http://10.7.90.141:8080/Dingdongg/";
@@ -86,7 +91,7 @@ public class ConfigUtil {
         for(int i = 0; i < 10 ; i++){
             DayTrip dayTrip = new DayTrip();
             dayTrip.setGoOrCome("放学"+i);
-            dayTrip.setDate("2020-06-11");
+            dayTrip.setDate("2020-12-11");
             dayTrip.setTimeBegin("16:40");
             dayTrip.setTripState("运行中");
             dayTrip.setTimeEnd("17:00");
@@ -108,4 +113,6 @@ public class ConfigUtil {
     }
 
     public static List<RvFragmentMy> mys = new ArrayList<>();
+
+
 }
