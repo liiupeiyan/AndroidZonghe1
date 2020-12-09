@@ -12,8 +12,8 @@
         <ImageView
             android:id="@+id/trip_back"
             android:layout_alignParentLeft="true"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_margin="10dp"
             android:src="@drawable/back"/>
         <TextView
@@ -34,6 +34,7 @@
             android:src="@drawable/calendar"/>
     </RelativeLayout>
     <LinearLayout
+        android:id="@+id/trip_none"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -48,6 +49,11 @@
             android:textStyle="bold"
             android:text="未查到您的历史行程"/>
     </LinearLayout>
+    <ListView
+        android:id="@+id/my_trip_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 
 
 </LinearLayout>
