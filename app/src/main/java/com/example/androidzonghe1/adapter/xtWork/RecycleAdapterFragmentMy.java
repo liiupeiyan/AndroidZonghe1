@@ -22,6 +22,7 @@ import com.example.androidzonghe1.activity.xtWork.ActivityQuestion;
 import com.example.androidzonghe1.activity.yjWork.LoginActivity;
 import com.example.androidzonghe1.activity.yjWork.MyOrderActivity;
 import com.example.androidzonghe1.activity.yjWork.MyTripActivity;
+import com.example.androidzonghe1.activity.yyWork.MyCommitActivity;
 import com.example.androidzonghe1.entity.xtWork.RvFragmentMy;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.lanren.easydialog.AnimatorHelper;
@@ -93,6 +94,16 @@ public class RecycleAdapterFragmentMy extends RecyclerView.Adapter<RecyclerView.
                 });
                 break;
             case 3:
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //查看我的评论
+                        Intent intent = new Intent(mContext, MyCommitActivity.class);
+                        mContext.startActivity(intent);
+                    }
+                });
+                break;
+            case 4:
                 holder.itemView.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view) {
@@ -126,7 +137,7 @@ public class RecycleAdapterFragmentMy extends RecyclerView.Adapter<RecyclerView.
                     }
                 });
                 break;
-            case 4:
+            case 5:
                 holder.itemView.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view) {
@@ -136,7 +147,7 @@ public class RecycleAdapterFragmentMy extends RecyclerView.Adapter<RecyclerView.
                     }
                 });
                 break;
-            case 5:
+            case 6:
                 holder.itemView.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view) {
