@@ -14,6 +14,9 @@ import android.view.View;
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterMyMessage;
+import com.example.androidzonghe1.entity.lpyWork.Messages;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
@@ -21,9 +24,12 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ActivityMyMessage extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -41,6 +47,17 @@ public class ActivityMyMessage extends AppCompatActivity {
                     refreshLayout.finishRefresh();
                     break;
                 case 10://接收到消息数据
+                    String jsonList = (String) msg.obj;
+                    Gson gson = new Gson();
+                    Type collection = new TypeToken<ArrayList<Messages>>(){}.getType();
+                    ConfigUtil.messages = gson.fromJson(jsonList,collection);
+
+                    if(ConfigUtil.messages.size() == 0){
+                        ConfigUtil.initMessages();
+                    }
+                    adapter = new RecycleAdapterMyMessage(ConfigUtil.messages);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+                    recyclerView.setAdapter(adapter);
                     break;
             }
         }
@@ -50,7 +67,8 @@ public class ActivityMyMessage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_message);
-        showAllMessages(ConfigUtil.Url+"GetAllMessageServlet?userId=");
+        //网络请求
+        showAllMessages(ConfigUtil.Url+"GetAllMessageServlet?userId=" + ConfigUtil.parent.getId());
         findViews();
         //设置刷新头和加载更多的样式
         refreshLayout.setRefreshHeader(new ClassicsHeader(this));
@@ -64,12 +82,7 @@ public class ActivityMyMessage extends AppCompatActivity {
     private void findViews(){
         recyclerView = findViewById(R.id.rv_my_message);
         refreshLayout = findViewById(R.id.first_refreshLayout);
-        if(ConfigUtil.messages.size() == 0){
-            ConfigUtil.initMessages();
-        }
-        adapter = new RecycleAdapterMyMessage(ConfigUtil.messages);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+
     }
 
     private void setListener(){

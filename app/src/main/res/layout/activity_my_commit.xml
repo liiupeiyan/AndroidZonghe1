@@ -9,28 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/white"
-        app:title="我的订单"
+        app:title="我的评价"
         app:titleTextColor="@color/black"
         app:contentInsetLeft="0dp"
         android:gravity="center"
         app:contentInsetStart="160dp"
         app:navigationIcon="@drawable/back"/>
-    <LinearLayout
+    <ListView
+        android:id="@+id/listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/null_content"/>
-        <TextView
-            android:id="@+id/tv_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="暂无订单"/>
-    </LinearLayout>
-
-
+        android:layout_height="wrap_content"/>
 </LinearLayout>

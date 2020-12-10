@@ -114,8 +114,14 @@ public class FragmentHomePage extends Fragment {
         ivMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ActivityMyMessage.class);
-                startActivity(intent);
+//                if (ConfigUtil.isLogin){
+//
+                    Intent intent = new Intent(getActivity(), ActivityMyMessage.class);
+                    startActivity(intent);
+//                }else {
+                    //先登录
+//                }
+
             }
         });
         et_search.setOnClickListener(new View.OnClickListener() {
