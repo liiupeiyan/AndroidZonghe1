@@ -32,8 +32,10 @@ import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterDriver;
 import com.example.androidzonghe1.adapter.lpyWork.RvAdapterNoTitleDriver;
 import com.example.androidzonghe1.adapter.rjxWork.DriverAdapter;
 import com.example.androidzonghe1.entity.lpyWork.Driver;
+import com.example.androidzonghe1.entity.lpyWork.Messages;
 import com.example.androidzonghe1.entity.yyWork.DriverOrder;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -44,12 +46,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -278,6 +282,8 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                                 ivOrderSuccess.setImageResource(R.drawable.spot1);
                                 //将数据传递给服务端
                                 commitOrder();
+                                //添加一条消息
+                                addMessage(ConfigUtil.Url+"AddMessageSerlvet");
                                 Log.e("订单",order.toString());
                                 Log.e("输入密码为：",password);
                             }else {
@@ -344,6 +350,50 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
             }
         }.start();
     }
+
+    //添加消息
+    public void addMessage(String s){
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(s);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    //设置http请求方式，get、post、put、...(默认get请求)
+                    connection.setRequestMethod("POST");//设置请求方式
+                    Messages messages = new Messages();
+                    messages.setTitle("您有一条新的订单");
+                    messages.setType("叮咚科技");
+                    messages.setUserId(ConfigUtil.parent.getId());
+                    String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
+                    messages.setDate(date);
+
+                    Gson gson = new Gson();
+                    String jsonStr = gson.toJson(Messages.class);
+                    //获取输出流对象
+                    OutputStream os = connection.getOutputStream();
+                    os.write(jsonStr.getBytes());
+
+                    //从服务器段获取响应
+                    InputStream is = connection.getInputStream();
+                    byte[] bytes = new byte[256];
+                    int len = is.read(bytes);//将数据保存在bytes中，长度保存在len中
+                    Log.e("登录的结果",new String(bytes,0,len));
+
+                    os.close();
+                    is.close();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }.start();
+    }
+
     private String toBalance(){
         JSONObject object = new JSONObject();
         try {

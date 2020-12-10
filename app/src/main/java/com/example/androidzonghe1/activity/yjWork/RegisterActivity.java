@@ -40,12 +40,15 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         phoneNum = getIntent().getStringExtra("phoneNum");
-        Log.e("yj",phoneNum);
         back = findViewById(R.id.back_register);
         text_name = findViewById(R.id.register_child_name);
         text_ship = findViewById(R.id.register_child_ship);
         text_school = findViewById(R.id.register_child_school);
         text_pwd = findViewById(R.id.register_child_pwd);
+        name = text_name.getText().toString();
+        ship = text_ship.getText().toString();
+        school = text_school.getText().toString();
+        pwd = text_pwd.getText().toString();
         btn = findViewById(R.id.btn_register);
         wheel_view = findViewById(R.id.register_wheel);
         text_ship.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +97,12 @@ public class RegisterActivity extends AppCompatActivity {
                 finish();
             }
         });
+        //设置特殊情况无法点击
+        if ((name!=null&&ship!=null&&school!=null&&pwd!=null)||(!name.equals("")&&!ship.equals("")&&!school.equals("")&&!pwd.equals(""))){
+            btn.setEnabled(true);
+        }else {
+            btn.setEnabled(false);
+        }
         //注册提交按钮
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,8 +114,12 @@ public class RegisterActivity extends AppCompatActivity {
                 String s = "phoneNum="+phoneNum+"&name="+name+"&ship="+ship+"&school="+school+"&pwd="+pwd;
                 Log.e("yj",s);
                 ConfigUtil.userName = name+ship;
-                RegisterByPhone("http://10.7.90.141:8080/Dingdongg/RegisterServlet?"+s);
+                RegisterByPhone("http://192.168.43.232:8080/DingDong/RegisterServlet?"+s);
                 ConfigUtil.isLogin =true;
+                ConfigUtil.userName = name;
+                ConfigUtil.phone = phoneNum;
+                ConfigUtil.pwd = pwd;
+                ConfigUtil.parent.setName(name);
                 Intent intent = new Intent(getApplicationContext(), MyTheActivity.class);
                 startActivity(intent);
             }
