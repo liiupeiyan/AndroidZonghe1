@@ -10,6 +10,15 @@ public class Driver {
     private String experience;
     private int img;
     private String status;
+    private int flag;
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
+    }
 
     public Driver(int id, String name, String phone, int age, String car, String style, String experience, int img, String status) {
         this.id = id;
@@ -21,9 +30,11 @@ public class Driver {
         this.experience = experience;
         this.img = img;
         this.status = status;
+        this.flag = 0;
     }
 
     public Driver() {
+        this.flag = 0;
     }
 
     public String getName() {

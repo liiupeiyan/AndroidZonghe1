@@ -219,12 +219,12 @@ public class FragmentSameSchoolParents extends Fragment {
         locationClient.registerLocationListener(new BDAbstractLocationListener() {
             @Override
             public void onReceiveLocation(BDLocation bdLocation) {
-//                //定位成功后自动执行，定位成功后位置信息保存在BDLocation对象中
+    //                //定位成功后自动执行，定位成功后位置信息保存在BDLocation对象中
                 double latitude1 = latitude;//纬度
                 double longitude1 = longitude;//经度
-//                Log.e("定位错误码：",bdLocation.getLocType()+"");
-//                Log.e("定位成功","纬度："+latitude +
-//                        "经度："+longitude);
+    //                Log.e("定位错误码：",bdLocation.getLocType()+"");
+    //                Log.e("定位成功","纬度："+latitude +
+    //                        "经度："+longitude);
 
 
                 //移动地图界面显示到当前位置
@@ -254,8 +254,6 @@ public class FragmentSameSchoolParents extends Fragment {
         //6.启动定位
         locationClient.start();
     }
-
-
 
 
     //添加标注覆盖物（在地图界面某个坐标点显示小图标）
