@@ -132,7 +132,7 @@ public class MyTheActivity extends AppCompatActivity {
                 break;
             case R.id.my:
 //                fragmentMy = new FragmentMy();
-                if(ConfigUtil.isLogin){
+                if(!ConfigUtil.isLogin){
                     changeTab(fragmentMy);
                     btnMyClicked();
                 } else {

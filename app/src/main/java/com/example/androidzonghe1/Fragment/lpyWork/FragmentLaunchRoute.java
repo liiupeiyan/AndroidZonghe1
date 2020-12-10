@@ -318,6 +318,7 @@ public class FragmentLaunchRoute extends Fragment {
         switch (requestCode){
             case END_CODE:
                 if (resultCode == 0){
+
                     enSuggestionInfo = data.getExtras().getParcelable("suggestionInfo");
                     Log.e("FragmentLaunchRoute", "suggestionInfo" + enSuggestionInfo.toString());
                     btnEnd.setText(enSuggestionInfo.key);

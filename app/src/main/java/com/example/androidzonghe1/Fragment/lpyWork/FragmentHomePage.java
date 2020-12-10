@@ -221,6 +221,8 @@ public class FragmentHomePage extends Fragment {
                 Log.e("suggestionInfo",info.toString());
                 String schoolName =  info.key;
                 ConfigUtil.school = schoolName;
+                ConfigUtil.latitude = info.getPt().latitude;
+                ConfigUtil.longitude = info.getPt().longitude;
                 //获取同校路线
                 getSameSchoolRoute(ConfigUtil.Url+"GetSameRouteServlet?school="+schoolName);
                 FragmentSameSchoolParents fragmentSameSchoolParents = new FragmentSameSchoolParents();

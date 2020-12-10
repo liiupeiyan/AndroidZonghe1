@@ -9,6 +9,7 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -111,7 +112,7 @@ public class SearchActivity extends AppCompatActivity {
 
 
         btnCancel.setOnClickListener(v -> {
-            cityFragment.onDestroy();
+//            cityFragment.onDestroy();
             Intent response = new Intent();
             this.setResult(-1, response);
             finish();
@@ -273,6 +274,19 @@ public class SearchActivity extends AppCompatActivity {
         super.onDestroy();
 //        cityFragment.onDestroy();
 //        siteFragment.onDestroy();
+    }
+    /**
+     * 屏蔽物理返回键
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            Intent response = new Intent();
+            this.setResult(-1, response);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }
