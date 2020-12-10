@@ -56,6 +56,7 @@ public class FragmentDayTrip extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_day_trip, container, false);
+
         findViews();
         //设置刷新头和加载更多的样式
         refreshLayout.setRefreshHeader(new ClassicsHeader(getActivity()));

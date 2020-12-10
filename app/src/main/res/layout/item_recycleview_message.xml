@@ -24,7 +24,6 @@
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:text="重磅！春节放31天假。。。。。。。。。"
-
                     android:textColor="@color/black"/>
                 <TextView
                     android:layout_below="@id/item_msg_title"

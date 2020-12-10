@@ -1,6 +1,8 @@
 package com.example.androidzonghe1.adapter.lpyWork;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.rjxWork.TravelDetailActivity;
 import com.example.androidzonghe1.entity.lpyWork.DayTrip;
 import com.example.androidzonghe1.entity.lpyWork.RecycleviewTitle;
 
@@ -96,6 +99,11 @@ public class RecycleAdapterDayTrip extends RecyclerView.Adapter<RecyclerView.Vie
                     @Override
                     public void onClick(View view) {
                         Log.e("RecycleAdapter","查看订单详情");
+                        //跳转界面
+                        Intent intent = new Intent(mContext, TravelDetailActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("","");
+                        intent.putExtra("bundle",bundle);
                     }
                 });
                 ((Myholder) holder).itemView.setOnClickListener(new View.OnClickListener(){
