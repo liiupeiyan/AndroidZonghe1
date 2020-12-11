@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,17 +15,26 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.entity.lpyWork.Driver;
 import com.example.androidzonghe1.entity.yyWork.DriverOrder;
+import com.google.gson.Gson;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 public class TravelDetailActivity extends AppCompatActivity {
     private ImageView driverImg;
-    public  static TextView driverName;
+    public  TextView driverName;
     private TextView chooseState;
     private Button callDriver;
     private Button driverVideo;
@@ -45,11 +55,19 @@ public class TravelDetailActivity extends AppCompatActivity {
     private Button over;
     private TextView tvHope;
     private Bundle bundle;
+    private Driver driver;
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what){
                 case 10:
+                    String str = (String) msg.obj;
+                    Gson gson = new Gson();
+                    driver = gson.fromJson(str,Driver.class);
+                    Glide.with(getBaseContext())
+                            .load(ConfigUtil.xt+driver.getImg())
+                            .into(driverImg);
+                    driverName.setText(driver.getName());
                     break;
             }
         }
@@ -66,7 +84,7 @@ public class TravelDetailActivity extends AppCompatActivity {
         bundle = intent.getBundleExtra("bundle");
         setViews();
         //获取司机信息
-        getDriverInfo(ConfigUtil.Url);
+        getDriverInfo(ConfigUtil.xt+"ShowDriverServlet?id="+bundle.get("id"));
 
         setListener();
     }
@@ -124,7 +142,8 @@ public class TravelDetailActivity extends AppCompatActivity {
         callDriver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+driver.getPhone()));
+                startActivity(callIntent);
             }
         });
         //视频监控
@@ -153,16 +172,34 @@ public class TravelDetailActivity extends AppCompatActivity {
         new Thread(){
             @Override
             public void run() {
+                try {
+                    URL url = new URL(s);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    //设置http请求方式，get、post、put、...(默认get请求)
+                    connection.setRequestMethod("POST");//设置请求方式
 
+                    //从服务器段获取响应
+                    InputStream is = connection.getInputStream();
+                    byte[] bytes = new byte[256];
+                    int len = is.read(bytes);//将数据保存在bytes中，长度保存在len中
+                    String resp = new String(bytes,0,len);
+
+                    //借助Message传递数据
+                    Message message = new Message();
+                    //设置Message对象的参数
+                    message.what = 10;
+                    message.obj = resp;
+                    //发送Message
+                    handler.sendMessage(message);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         };
     }
-//    private void getTravelDetails(String s){
-//        new Thread(){
-//            @Override
-//            public void run() {
-//
-//            }
-//        };
-//    }
+
 }

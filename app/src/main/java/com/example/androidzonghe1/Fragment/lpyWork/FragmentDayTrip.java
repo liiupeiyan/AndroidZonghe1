@@ -21,6 +21,7 @@ import com.example.androidzonghe1.entity.lpyWork.Order;
 import com.example.androidzonghe1.entity.lpyWork.RecycleviewTitle;
 import com.example.androidzonghe1.entity.yyWork.DriverOrder;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -28,6 +29,10 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -62,22 +67,39 @@ public class FragmentDayTrip extends Fragment {
                     refreshLayout.finishLoadMore();
                     break;
                 case 10:
-                    if(!msg.obj.equals("")){
+                    if(msg.obj != null){
                         String json = (String) msg.obj;
-                        Gson gson = new Gson();
-                        Type collestion = new TypeToken<ArrayList<DriverOrder>>(){}.getType();
-                        ConfigUtil.trips = gson.fromJson(json,collestion);
+                        try {
+                            JSONArray jsonArray = new JSONArray(json);
+                            for (int i = 0;i<jsonArray.length();i++){
+                                JSONObject object = jsonArray.getJSONObject(i);
+                                DriverOrder order = new DriverOrder();
+                                order.setId(object.getInt("order_id"));
+                                order.setAddress(object.getString("address"));
+                                order.setFrom(object.getString("from"));
+                                order.setTo(object.getString("to"));
+                                order.setDate(object.getString("date"));
+                                order.setTime(object.getString("time"));
+                                order.setEndTime(object.getString("timeend"));
+                                order.setPrice(object.getDouble("price"));
 
-                        if (ConfigUtil.trips.size() == 0){
-                            ConfigUtil.initTrips();
+                                ConfigUtil.trip.add(order);
+                            }
+
+
+                            if (ConfigUtil.trip.size() == 0){
+                                ConfigUtil.initTrips();
+                            }
+                            //给recycleview设置内容
+                            data.add(ConfigUtil.trips);
+                            adapter = new RecycleAdapterDayTrip(data);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            recyclerView.setAdapter(adapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        //给recycleview设置内容
-                        data.add(ConfigUtil.trips);
-                        adapter = new RecycleAdapterDayTrip(data);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                        recyclerView.setAdapter(adapter);
                     }else {
-                        ConfigUtil.initTrips();
+                        ConfigUtil.initTrip();
                     }
 
                     break;
@@ -89,7 +111,7 @@ public class FragmentDayTrip extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_day_trip, container, false);
         //请求服务端获取数据
-        getAllTravel(ConfigUtil.xt);
+        getAllTravel(ConfigUtil.xt+"ShowWalletServlet?id="+ConfigUtil.parent.getId());
         findViews();
         //设置刷新头和加载更多的样式
         refreshLayout.setRefreshHeader(new ClassicsHeader(getActivity()));

@@ -87,8 +87,22 @@ public class ConfigUtil {
         }
     }
 
-    public static List<DriverOrder> trips = new ArrayList<>();
+    public static List<DayTrip> trips = new ArrayList<>();
     public static void initTrips(){
+        for(int i = 0; i < 10 ; i++){
+            DayTrip dayTrip = new DayTrip();
+            dayTrip.setGoOrCome("放学"+i);
+            dayTrip.setDate("2020-12-11");
+            dayTrip.setTimeBegin("16:40");
+            dayTrip.setTripState("运行中");
+            dayTrip.setTimeEnd("17:00");
+            dayTrip.setPlaceBegin("徐汇区实验小学");
+            dayTrip.setPlaceEnd("望春园西门");
+            ConfigUtil.trips.add(dayTrip);
+        }
+    }
+    public static List<DriverOrder> trip = new ArrayList<>();
+    public static void initTrip(){
         for(int i = 0; i < 10 ; i++){
             DriverOrder dayTrip = new DriverOrder();
             dayTrip.setAddress("放学"+i);
@@ -98,7 +112,7 @@ public class ConfigUtil {
             dayTrip.setEndTime("17:00");
             dayTrip.setFrom("徐汇区实验小学");
             dayTrip.setTo("望春园西门");
-            ConfigUtil.trips.add(dayTrip);
+            ConfigUtil.trip.add(dayTrip);
         }
     }
 

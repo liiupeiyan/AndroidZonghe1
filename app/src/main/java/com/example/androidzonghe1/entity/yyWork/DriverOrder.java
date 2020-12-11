@@ -1,6 +1,7 @@
 package com.example.androidzonghe1.entity.yyWork;
 
 public class DriverOrder {
+    private int id;
     private String from;//起点
     private String to;//终点
     private String driver;//司机
@@ -14,7 +15,8 @@ public class DriverOrder {
     public DriverOrder() {
     }
 
-    public DriverOrder(String from, String to, String driver, String time, String address, String date, double price, String endTime, String state) {
+    public DriverOrder(int id, String from, String to, String driver, String time, String address, String date, double price, String endTime, String state) {
+        this.id = id;
         this.from = from;
         this.to = to;
         this.driver = driver;
@@ -24,6 +26,14 @@ public class DriverOrder {
         this.price = price;
         this.endTime = endTime;
         this.state = state;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public double getPrice() {
@@ -101,6 +111,7 @@ public class DriverOrder {
     @Override
     public String toString() {
         return "DriverOrder{" +
+                "id='" + id + '\'' +
                 "from='" + from + '\'' +
                 ", to='" + to + '\'' +
                 ", driver='" + driver + '\'' +

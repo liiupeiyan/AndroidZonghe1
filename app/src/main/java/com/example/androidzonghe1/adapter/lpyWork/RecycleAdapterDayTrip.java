@@ -117,6 +117,7 @@ public class RecycleAdapterDayTrip extends RecyclerView.Adapter<RecyclerView.Vie
                         bundle.putString("endTime",endTime);
                         bundle.putString("from",from);
                         bundle.putString("to",to);
+                        bundle.putString("id",trips.get(position-1).getId()+"");
                         intent.putExtra("bundle",bundle);
                         mContext.startActivity(intent);
                     }
