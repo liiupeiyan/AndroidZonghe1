@@ -1,6 +1,7 @@
 package com.example.androidzonghe1.adapter.lsbWork;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.lsbWork.SearchActivity;
 import com.example.androidzonghe1.entity.xtWork.Child;
 import com.example.androidzonghe1.entity.xtWork.Contactor;
 
@@ -92,12 +94,8 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
                 notifyDataSetChanged();
             }
         });
-        holder.btnSchool.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onItemClickListener.onItemClick(recyclerView, v, position, data.get(position));
-            }
-        });
+        holder.btnSchool.setOnClickListener(this);
+
         holder.rgSex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -205,6 +203,7 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
 
     @Override
     public void onClick(View v) {
+        Log.e("KidsAdapter", "add onClick");
         int position = recyclerView.getChildAdapterPosition(v);
         if (onItemClickListener != null){
             onItemClickListener.onItemClick(recyclerView, v, position, data.get(position));
@@ -280,4 +279,5 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
             e.printStackTrace();
         }
     }
+
 }
