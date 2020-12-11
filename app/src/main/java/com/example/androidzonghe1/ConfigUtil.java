@@ -7,6 +7,7 @@ import com.example.androidzonghe1.entity.lpyWork.Order;
 import com.example.androidzonghe1.entity.lpyWork.SameSchoolRoute;
 import com.example.androidzonghe1.entity.xtWork.RvFragmentMy;
 import com.example.androidzonghe1.entity.yjWork.Parent;
+import com.example.androidzonghe1.entity.yyWork.DriverOrder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,6 +99,20 @@ public class ConfigUtil {
             dayTrip.setPlaceBegin("徐汇区实验小学");
             dayTrip.setPlaceEnd("望春园西门");
             ConfigUtil.trips.add(dayTrip);
+        }
+    }
+    public static List<DriverOrder> trip = new ArrayList<>();
+    public static void initTrip(){
+        for(int i = 0; i < 10 ; i++){
+            DriverOrder dayTrip = new DriverOrder();
+            dayTrip.setAddress("放学"+i);
+            dayTrip.setDate("2020-12-11");
+            dayTrip.setTime("16:40");
+            dayTrip.setState("运行中");
+            dayTrip.setEndTime("17:00");
+            dayTrip.setFrom("徐汇区实验小学");
+            dayTrip.setTo("望春园西门");
+            ConfigUtil.trip.add(dayTrip);
         }
     }
 

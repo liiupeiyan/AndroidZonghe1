@@ -1,6 +1,8 @@
 package com.example.androidzonghe1.adapter.lpyWork;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +14,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.rjxWork.TravelDetailActivity;
 import com.example.androidzonghe1.entity.lpyWork.DayTrip;
 import com.example.androidzonghe1.entity.lpyWork.RecycleviewTitle;
+import com.example.androidzonghe1.entity.yyWork.DriverOrder;
 
 import java.util.List;
 
 public class RecycleAdapterDayTrip extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private List<List> data;
-    private List<DayTrip> trips;
+    private List<DriverOrder> trips;
     private static final int TITLE = 0;
     private static final int CONTENT = 1;
 
@@ -83,19 +87,39 @@ public class RecycleAdapterDayTrip extends RecyclerView.Adapter<RecyclerView.Vie
             ((TitleViewHolder) holder).title.setText(titles.get(position).getTitle());
         }
         if(holder instanceof Myholder) {
-            ((Myholder) holder).goOrCome.setText(trips.get(position-1).getGoOrCome());
-            ((Myholder) holder).date.setText(trips.get(position-1).getDate());
-            ((Myholder) holder).timeBegin.setText(trips.get(position-1).getTimeBegin());
-            ((Myholder) holder).tripState.setText(trips.get(position-1).getTripState());
-            ((Myholder) holder).timeBeginXia.setText(trips.get(position-1).getTimeBegin());
-            ((Myholder) holder).timeEndXia.setText(trips.get(position-1).getTimeEnd());
-            ((Myholder) holder).placeBegin.setText(trips.get(position-1).getPlaceBegin());
-            ((Myholder) holder).placeEnd.setText(trips.get(position-1).getPlaceEnd());
+            String goOrCome = trips.get(position-1).getAddress();
+            String date = trips.get(position-1).getDate();
+            String time = trips.get(position-1).getTime();
+            String state = trips.get(position-1).getState();
+            String endTime = trips.get(position-1).getEndTime();
+            String from = trips.get(position-1).getFrom();
+            String to = trips.get(position-1).getTo();
+            ((Myholder) holder).goOrCome.setText(goOrCome);
+            ((Myholder) holder).date.setText(date);
+            ((Myholder) holder).timeBegin.setText(time);
+            ((Myholder) holder).tripState.setText(state);
+            ((Myholder) holder).timeBeginXia.setText(time);
+            ((Myholder) holder).timeEndXia.setText(endTime);
+            ((Myholder) holder).placeBegin.setText(from);
+            ((Myholder) holder).placeEnd.setText(to);
                 //查看订单详情的点击事件
                 ((Myholder) holder).tripInfo.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view) {
                         Log.e("RecycleAdapter","查看订单详情");
+                        //跳转界面
+                        Intent intent = new Intent(mContext, TravelDetailActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("goOrCome",goOrCome);
+                        bundle.putString("date",date);
+                        bundle.putString("time",time);
+                        bundle.putString("state",state);
+                        bundle.putString("endTime",endTime);
+                        bundle.putString("from",from);
+                        bundle.putString("to",to);
+                        bundle.putString("id",trips.get(position-1).getId()+"");
+                        intent.putExtra("bundle",bundle);
+                        mContext.startActivity(intent);
                     }
                 });
                 ((Myholder) holder).itemView.setOnClickListener(new View.OnClickListener(){
