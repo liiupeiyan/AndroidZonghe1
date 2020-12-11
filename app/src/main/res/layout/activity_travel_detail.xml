@@ -357,7 +357,7 @@
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="期望开始日期："/>
+                android:text="开始日期："/>
             <TextView
                 android:id="@+id/tv_hope"
                 android:text="2020-12"
@@ -371,9 +371,9 @@
             android:id="@+id/btn_over_order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="确认结束行程"
+            android:text="查看实时轨迹"
             android:layout_alignParentBottom="true"
-            android:background="@android:color/holo_red_light"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:background="@android:color/holo_red_light"/>
     </RelativeLayout>
 </RelativeLayout>

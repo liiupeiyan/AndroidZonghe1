@@ -1,9 +1,13 @@
 package com.example.androidzonghe1.activity.rjxWork;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,7 +28,7 @@ public class TravelDetailActivity extends AppCompatActivity {
     private TextView chooseState;
     private Button callDriver;
     private Button driverVideo;
-    private ImageView overLine;
+    private ImageView over_line;
     private ImageView iv_over;
     private TextView tv_over;
     private TextView tvMile;
@@ -39,14 +43,30 @@ public class TravelDetailActivity extends AppCompatActivity {
     private TextView tvGo;
     private TextView tvBack;
     private Button over;
+    private TextView tvHope;
+    private Bundle bundle;
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            switch (msg.what){
+                case 10:
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_travel_detail);
         findViews();
-        //网络操作
-        getTravelDetails(ConfigUtil.Url);
+
+        //给控件赋值
+        Intent intent = getIntent();
+        bundle = intent.getBundleExtra("bundle");
+        setViews();
+        //获取司机信息
+        getDriverInfo(ConfigUtil.Url);
 
         setListener();
     }
@@ -58,7 +78,7 @@ public class TravelDetailActivity extends AppCompatActivity {
         driverVideo = findViewById(R.id.btn_look_driver);
         from = findViewById(R.id.tv_from);
         to = findViewById(R.id.tv_to);
-        overLine = findViewById(R.id.iv_over_driver_line);
+        over_line = findViewById(R.id.iv_over_driver_line);
         iv_over = findViewById(R.id.iv_over);
         tv_over = findViewById(R.id.tv_over);
         tvMile = findViewById(R.id.tv_mile);
@@ -70,7 +90,32 @@ public class TravelDetailActivity extends AppCompatActivity {
         outS0=findViewById(R.id.tv_in_s);
         tvGo = findViewById(R.id.tv_to_sch);
         tvBack = findViewById(R.id.tv_left_sch);
+        tvHope = findViewById(R.id.tv_hope);
         over = findViewById(R.id.btn_over_order);
+    }
+
+    private void setViews(){
+        from.setText(bundle.get("from").toString());
+        to.setText(bundle.get("to").toString());
+        tvGo.setText(bundle.get("time").toString());
+        tvBack.setText(bundle.get("endTime").toString());
+        tvHope.setText(bundle.get("date").toString());
+        if (bundle.get("state").equals("已完成")){
+            over_line.setImageResource(R.drawable.hline2);
+            iv_over.setImageResource(R.drawable.spot1);
+            tv_over.setTextColor(Color.RED);
+            over.setText("订单已结束");
+            over.setBackground(null);
+        }
+        if (bundle.get("state").equals("入校")){
+            inF.setImageResource(R.drawable.yes);
+            inF0.setTextColor(getResources().getColor(R.color.myColor));
+        }else {
+            outS.setImageResource(R.drawable.yes1);
+            outS0.setTextColor(getResources().getColor(R.color.gray));
+        }
+
+
     }
 
     //注册监听器
@@ -89,21 +134,22 @@ public class TravelDetailActivity extends AppCompatActivity {
 
             }
         });
-        //结束行程
-        over.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //改变行程状态
-                overLine.setImageResource(R.drawable.hline2);
-                iv_over.setImageResource(R.drawable.spot1);
-                tv_over.setTextColor(Color.RED);
-            }
-        });
+//        //结束行程
+//        over.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                //改变行程状态
+//                overLine.setImageResource(R.drawable.hline2);
+//                iv_over.setImageResource(R.drawable.spot1);
+//                tv_over.setTextColor(Color.RED);
+//            }
+//        });
 
     }
 
-    private void getTravelDetails(String s){
+    //
+    private void getDriverInfo(String s){
         new Thread(){
             @Override
             public void run() {
@@ -111,4 +157,12 @@ public class TravelDetailActivity extends AppCompatActivity {
             }
         };
     }
+//    private void getTravelDetails(String s){
+//        new Thread(){
+//            @Override
+//            public void run() {
+//
+//            }
+//        };
+//    }
 }
