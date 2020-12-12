@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,7 +22,15 @@ import android.widget.Toast;
 
 import androidx.core.content.res.ResourcesCompat;
 
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.trace.api.entity.OnEntityListener;
 import com.baidu.trace.api.fence.FenceAlarmPushInfo;
@@ -44,7 +53,12 @@ import com.example.androidzonghe1.activity.Track.TracingOptionsActivity;
 import com.example.androidzonghe1.activity.Track.TrackApplication;
 import com.example.androidzonghe1.activity.Track.TrackReceiver;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import static android.os.PowerManager.*;
+import static com.example.androidzonghe1.activity.Track.BitmapUtil.bmStart;
 
 /**
  * 轨迹追踪
@@ -105,6 +119,12 @@ public class TracingActivity extends BaseActivity implements View.OnClickListene
      */
     public int packInterval = Constants.DEFAULT_PACK_INTERVAL;
 
+    //绘制实时轨迹
+    private List<LatLng> pointList = new ArrayList<>();
+    private MapStatusUpdate msUpdate = null;
+    private OverlayOptions polyline=null;
+    private OverlayOptions overlay = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,6 +170,7 @@ public class TracingActivity extends BaseActivity implements View.OnClickListene
                 if (trackApp.isTraceStarted) {
                     trackApp.mClient.stopTrace(trackApp.mTrace, traceListener);
                     stopRealTimeLoc();
+                    pointList.clear();
                 } else {
                     trackApp.mClient.startTrace(trackApp.mTrace, traceListener);
                     if (Constants.DEFAULT_PACK_INTERVAL != packInterval) {
@@ -314,6 +335,7 @@ public class TracingActivity extends BaseActivity implements View.OnClickListene
                 if (null == currentLatLng) {
                     return;
                 }
+
                 CurrentLocation.locTime = point.getLocTime();
                 Log.e("locTime",CurrentLocation.locTime+"");
 
@@ -322,7 +344,17 @@ public class TracingActivity extends BaseActivity implements View.OnClickListene
                 CurrentLocation.longitude = currentLatLng.longitude;
                 Log.e("longitude",CurrentLocation.longitude+"");
 
-                if (null != mapUtil) {
+                LatLng latLng = new LatLng(currentLatLng.latitude,currentLatLng.longitude);
+                if(latLng != null){
+                    pointList.add(latLng);
+                    drawRealtimePoint(latLng);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "当前无轨迹点", Toast.LENGTH_LONG).show();
+                }
+
+
+                    if (null != mapUtil) {
 //                    Toast.makeText(this,"",Toast.LENGTH_LONG).show();
                     mapUtil.updateStatus(currentLatLng, true);
                 }
@@ -644,4 +676,59 @@ public class TracingActivity extends BaseActivity implements View.OnClickListene
         return R.layout.activity_tracing;
     }
 
+    /**
+     * 画出实时线路点
+     * @param point
+     */
+    private void drawRealtimePoint(LatLng point){
+        mapUtil.baiduMap.clear();
+//        if (pointList == null || pointList.size() == 0) {
+//            if (null != mapUtil.polylineOverlay) {
+//                mapUtil.polylineOverlay.remove();
+//                mapUtil.polylineOverlay = null;
+//            }
+//            return;
+//        }
+
+        if (pointList.size() == 1) {
+            OverlayOptions startOptions = new MarkerOptions().position(pointList.get(0)).icon(bmStart).zIndex(9).draggable(true);
+            mapUtil.baiduMap.addOverlay(startOptions);
+            mapUtil.animateMapStatus(pointList.get(0), 18.0f);
+            return;
+        }
+
+        MapStatus mapStatus = new MapStatus.Builder().target(point).zoom(18).build();
+        msUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus);
+        BitmapDescriptor realtimeBitmap = BitmapDescriptorFactory.fromResource(R.drawable.icon_st_map);
+        overlay = new MarkerOptions().position(point)
+                .icon(realtimeBitmap).zIndex(9).draggable(true);
+
+        if(pointList.size() >= 2  && pointList.size() <= 1000){
+            polyline = new PolylineOptions().width(10).color(Color.RED).points(pointList);
+        }
+
+//        // 添加起点图标
+//        OverlayOptions startOptions = new MarkerOptions()
+//                .position(pointList.get(0)).icon(bmStart)
+//                .zIndex(9).draggable(true);
+//        mapUtil.baiduMap.addOverlay(startOptions);
+        addMarker();
+
+    }
+
+    private void addMarker(){
+
+        if(msUpdate != null){
+            mapUtil.baiduMap.setMapStatus(msUpdate);
+        }
+
+        if(polyline != null){
+            mapUtil.baiduMap.addOverlay(polyline);
+        }
+
+        if(overlay != null){
+            mapUtil.baiduMap.addOverlay(overlay);
+        }
+
+    }
 }

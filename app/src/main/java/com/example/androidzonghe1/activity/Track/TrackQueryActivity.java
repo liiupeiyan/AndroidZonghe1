@@ -326,6 +326,22 @@ public class TrackQueryActivity extends BaseActivity implements CompoundButton.O
             historyTrackRequest.setProcessed(data.getBooleanExtra("processed", true));
         }
 
+        // 设置需要纠偏
+        historyTrackRequest.setProcessed(true);
+// 创建纠偏选项实例
+//        ProcessOption processOption = new ProcessOption();
+// 设置需要去噪
+        processOption.setNeedDenoise(true);
+// 设置需要抽稀
+        processOption.setNeedVacuate(true);
+// 设置需要绑路
+        processOption.setNeedMapMatch(true);
+// 设置精度过滤值(定位精度大于100米的过滤掉)
+        processOption.setRadiusThreshold(100);
+// 设置交通方式为驾车
+        processOption.setTransportMode(TransportMode.walking);
+// 设置纠偏选项
+        historyTrackRequest.setProcessOption(processOption);
         queryHistoryTrack();
     }
 
