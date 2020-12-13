@@ -153,17 +153,15 @@ public class TravelDetailActivity extends AppCompatActivity {
 
             }
         });
-//        //结束行程
-//        over.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                //改变行程状态
-//                overLine.setImageResource(R.drawable.hline2);
-//                iv_over.setImageResource(R.drawable.spot1);
-//                tv_over.setTextColor(Color.RED);
-//            }
-//        });
+//        //鹰眼轨迹
+        if (!bundle.get("state").equals("已完成")){
+            over.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
 
     }
 
