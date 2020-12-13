@@ -221,8 +221,8 @@ public class FragmentHomePage extends Fragment {
             tvSchoolName.setText("选择学校");
             tvSchoolName.setTextSize(16);
             FragmentSameSchoolRoute.top.setVisibility(View.VISIBLE);
-        } else {
-            if(requestCode == REQUEST_SEARCH_CODE && resultCode == 0){
+        } else if (resultCode == 0){
+            if(requestCode == REQUEST_SEARCH_CODE){
                 SuggestionResult.SuggestionInfo info = data.getExtras().getParcelable("suggestionInfo");
                 Log.e("suggestionInfo",info.toString());
                 String schoolName =  info.key;
@@ -239,8 +239,9 @@ public class FragmentHomePage extends Fragment {
                 tvSchoolName.setText(schoolName);
                 tvSchoolName.setTextSize(18);
             }
-        }
+        } else{
 
+        }
     }
 
     //网络操作 获取同校路线

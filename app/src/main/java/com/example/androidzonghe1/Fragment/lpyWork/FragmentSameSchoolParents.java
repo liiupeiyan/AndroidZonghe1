@@ -38,6 +38,7 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 import com.example.androidzonghe1.ConfigUtil;
@@ -49,7 +50,7 @@ import com.lanren.easydialog.EasyDialog;
 
 public class FragmentSameSchoolParents extends Fragment {
     private View view;
-    private MapView mapView;
+    private TextureMapView mapView;
     private BaiduMap baiduMap;
     private LocationClient locationClient;
     @Nullable
@@ -87,32 +88,9 @@ public class FragmentSameSchoolParents extends Fragment {
         mapView = view.findViewById(R.id.ss_school_map_view);
         //百度地图的控制器
         baiduMap = mapView.getMap();
-        //修改指南针位置
-        UiSettings uiSettings = baiduMap.getUiSettings();
-        uiSettings.setCompassEnabled(false);//先设置UiSettings为false
-        baiduMap.setCompassEnable(true);//baidumap为true
-        baiduMap.setCompassPosition(new Point(900,100));
     }
 
     private void mapCustom(){
-        //修改logo位置
-        mapView.setLogoPosition(LogoPosition.logoPostionCenterBottom);
-        //隐藏logo
-        //获取地图的子视图对象，判断对象不为null并且该对象是ImageView对象，删除
-//        View child = mapView.getChildAt(1);
-//        if(child != null && (child instanceof ImageView)){
-//            //隐藏子视图对象
-//            child.setVisibility(View.INVISIBLE);//切换可见不可见
-////            child.setVisibility(View.GONE);
-//        }
-        //修改指南针位置
-        UiSettings uiSettings = baiduMap.getUiSettings();
-        uiSettings.setCompassEnabled(false);//先设置UiSettings为false
-        baiduMap.setCompassEnable(true);//baidumap为true
-        baiduMap.setCompassPosition(new Point(900,100));
-        //修改图标
-//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.compass);
-//        baiduMap.setCompassIcon(bitmap);
         //比例尺
         Log.e("默认的比例尺大小",mapView.getMapLevel()+"");
         //修改比例尺

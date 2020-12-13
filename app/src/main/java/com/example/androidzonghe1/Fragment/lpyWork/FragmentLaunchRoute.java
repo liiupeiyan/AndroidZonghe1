@@ -40,6 +40,7 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.RouteLine;
 import com.baidu.mapapi.search.core.SearchResult;
@@ -70,7 +71,7 @@ import java.util.List;
 
 public class FragmentLaunchRoute extends Fragment {
     private Button order;
-    private MapView mapView;
+    private TextureMapView mapView;
     RadioGroup rgMethod;
     RadioButton rbMultiple;
     RadioButton rbSingle;

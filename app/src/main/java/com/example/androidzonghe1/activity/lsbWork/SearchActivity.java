@@ -30,8 +30,8 @@ import com.baidu.mapapi.search.sug.SuggestionSearch;
 import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import com.example.androidzonghe1.Fragment.lsbWork.CityFragment;
 import com.example.androidzonghe1.Fragment.lsbWork.SiteFragment;
-import com.example.androidzonghe1.MyApplication;
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.Track.TrackApplication;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -81,7 +81,7 @@ public class SearchActivity extends AppCompatActivity {
         suggestionSearch = SuggestionSearch.newInstance();
         setContentView(R.layout.activity_search);
 
-        MyApplication myApplication = (MyApplication) getApplication();
+        TrackApplication myApplication = (TrackApplication) getApplication();
         myApplication.setHandler(handler);
 
         locationClient = new LocationClient(getApplicationContext());

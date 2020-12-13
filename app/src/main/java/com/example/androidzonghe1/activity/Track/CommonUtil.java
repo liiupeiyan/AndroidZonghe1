@@ -24,7 +24,7 @@ public class CommonUtil {
 
     public static final double DISTANCE = 0.0001;
 
-    public static final String ENTITY_NAME = "myTrace";
+//    public static final String ENTITY_NAME = "myTrace";
 
     public static String getCurProcessName(Context context) {
         int pid = android.os.Process.myPid();
@@ -191,13 +191,13 @@ public class CommonUtil {
         editor.apply();
     }
 
-    /**
-     * 获取EntityName
-     *
-     * @return EntityName
-     */
-    public static String getEntityName() {
-        return ENTITY_NAME;
-    }
+//    /**
+//     * 获取EntityName
+//     *
+//     * @return EntityName
+//     */
+//    public static String getEntityName() {
+//        return ENTITY_NAME;
+//    }
 
 }

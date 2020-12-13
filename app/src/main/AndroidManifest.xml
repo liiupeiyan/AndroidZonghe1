@@ -82,7 +82,7 @@
         <activity android:name=".activity.yjWork.MyOrderActivity"/>
         <activity android:name=".activity.yjWork.MyTripActivity"/>
         <activity android:name=".activity.yjWork.CalendarActivity"/>
-
+        <activity android:name=".activity.yyWork.MyCommitActivity"/>
         <activity android:name=".activity.yyWork.CarPoolActivity" />
         <activity android:name=".activity.yyWork.DisActivity" />
         <activity android:name=".activity.yyWork.DisinfectActivity" />

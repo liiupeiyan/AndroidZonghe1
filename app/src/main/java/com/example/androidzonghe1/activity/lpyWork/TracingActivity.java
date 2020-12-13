@@ -170,8 +170,9 @@ public class TracingActivity extends BaseActivity implements View.OnClickListene
                 if (trackApp.isTraceStarted) {
                     trackApp.mClient.stopTrace(trackApp.mTrace, traceListener);
                     stopRealTimeLoc();
-                    pointList.clear();
+//                    pointList.clear();
                 } else {
+                    pointList.clear();
                     trackApp.mClient.startTrace(trackApp.mTrace, traceListener);
                     if (Constants.DEFAULT_PACK_INTERVAL != packInterval) {
                         stopRealTimeLoc();

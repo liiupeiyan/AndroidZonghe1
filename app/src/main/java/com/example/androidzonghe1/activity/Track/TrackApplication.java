@@ -12,8 +12,12 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.widget.Toast;
+
+import androidx.multidex.MultiDex;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.trace.LBSTraceClient;
@@ -27,7 +31,10 @@ import com.baidu.trace.api.track.OnTrackListener;
 import com.baidu.trace.model.BaseRequest;
 import com.baidu.trace.model.OnCustomAttributeListener;
 import com.baidu.trace.model.ProcessOption;
+import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.Utils.lsbWork.ScreenUtils;
+import com.example.androidzonghe1.Utils.lsbWork.ToastUtils;
 import com.example.androidzonghe1.activity.lpyWork.TracingActivity;
 
 import java.util.ArrayList;
@@ -74,7 +81,7 @@ public class TrackApplication extends Application {
     /**
      * Entity标识
      */
-    public String entityName = "myTrace";
+    public static String entityName = "lpy";
 
     public boolean isRegisterReceiver = false;
 
@@ -94,11 +101,18 @@ public class TrackApplication extends Application {
 
     public static int screenHeight = 0;
 
+    //MyApplication
+    Handler handler;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        if (ConfigUtil.driverPhone.equals("")){
+            Toast.makeText(this, "请先选择司机才能查看司机行驶轨迹！", Toast.LENGTH_LONG).show();
+        }
+        Log.e("entityName",ConfigUtil.driverPhone);
         mContext = getApplicationContext();
-        entityName = CommonUtil.getEntityName();
+//        entityName = CommonUtil.getEntityName();
 
         // 若为创建独立进程，则不初始化成员变量
         if ("com.baidu.track:remote".equals(CommonUtil.getCurProcessName(mContext))) {
@@ -106,6 +120,9 @@ public class TrackApplication extends Application {
         }
 
         SDKInitializer.initialize(mContext);
+        MultiDex.install(mContext);
+        ToastUtils.init(mContext);
+        ScreenUtils.init(mContext);
         initView();
         initNotification();
         mClient = new LBSTraceClient(mContext);
@@ -137,9 +154,9 @@ public class TrackApplication extends Application {
         request.setServiceId(serviceId);
         request.setEntityName(entityName);
         Map<String, String> columns = new HashMap<String, String>();
-        columns.put("USER_ID", "1001");
-        columns.put("USER_SEX", "男");
-        columns.put("ACC_NBR", "1234567890");
+        columns.put("district", "裕华区");
+        columns.put("city", "石家庄");
+//        columns.put("ACC_NBR", "1234567890");
         request.setColumns(columns);
        mClient.addEntity(request, new OnEntityListener() {
             @Override
@@ -270,6 +287,13 @@ public class TrackApplication extends Application {
 
     public void clear() {
         itemInfos.clear();
+    }
+
+    public void setHandler(Handler handler){
+        this.handler = handler;
+    }
+    public Handler getHandler(){
+        return handler;
     }
 
 }

@@ -53,6 +53,20 @@
 
         <Button
             android:gravity="center"
+            android:id="@+id/track"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/track"
+            android:background="@drawable/none_style"
+            android:textColor="@color/dark_gray"
+            android:textSize="14sp"
+            android:layout_gravity="center_horizontal"
+            android:onClick="tabClicked"
+            android:text="轨迹"/>
+
+        <Button
+            android:gravity="center"
             android:id="@+id/my"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

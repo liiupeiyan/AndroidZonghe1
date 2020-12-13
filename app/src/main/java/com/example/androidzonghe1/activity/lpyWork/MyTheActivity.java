@@ -24,6 +24,7 @@ import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.Fragment.lpyWork.FragmentHomePage;
 import com.example.androidzonghe1.Fragment.lpyWork.FragmentLaunchRoute;
 import com.example.androidzonghe1.Fragment.lpyWork.FragmentMy;
+import com.example.androidzonghe1.Fragment.lpyWork.FragmentTrack;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.yjWork.ActivityLoginPage;
 import com.example.androidzonghe1.activity.yjWork.RegisterActivity;
@@ -49,10 +50,12 @@ public class MyTheActivity extends AppCompatActivity {
     private Fragment currentFragment = new Fragment();
     private FragmentHomePage fragmentHomePage;
     private FragmentLaunchRoute fragmentLaunchRoute;
+    private FragmentTrack fragmentTrack;
     private FragmentMy fragmentMy;
     private Button btnHomePage;
     private Button btnLaunchRoute;
     private Button btnMy;
+    private Button btnTrack;
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -79,6 +82,7 @@ public class MyTheActivity extends AppCompatActivity {
         fragmentHomePage = new FragmentHomePage();
         fragmentLaunchRoute = new FragmentLaunchRoute();
         fragmentMy = new FragmentMy();
+        fragmentTrack = new FragmentTrack();
         Log.e("是否登录",ConfigUtil.isLogin+"");
         if(ConfigUtil.isLogin){
             //判断用户是否领券
@@ -130,6 +134,7 @@ public class MyTheActivity extends AppCompatActivity {
         btnHomePage = findViewById(R.id.home_page);
         btnLaunchRoute = findViewById(R.id.launch_route);
         btnMy = findViewById(R.id.my);
+        btnTrack = findViewById(R.id.track);
     }
 
     private void changeTab(Fragment fragment){
@@ -169,6 +174,10 @@ public class MyTheActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
                 break;
+            case R.id.track:
+                changeTab(fragmentTrack);
+                btnTrackClicked();
+                break;
         }
     }
 
@@ -194,14 +203,21 @@ public class MyTheActivity extends AppCompatActivity {
         Drawable drawableHomePage = getResources().getDrawable(R.drawable.home_page_clicked);
         drawableHomePage.setBounds(0, 0, drawableHomePage.getMinimumWidth(), drawableHomePage.getMinimumHeight());
         btnHomePage.setCompoundDrawables(null,drawableHomePage,null,null);
+
         btnLaunchRoute.setTextColor(getResources().getColor(R.color.dark_gray));
         Drawable drawableLaunch = getResources().getDrawable(R.drawable.launch_route);
         drawableLaunch.setBounds(0, 0, drawableLaunch.getMinimumWidth(), drawableLaunch.getMinimumHeight());
         btnLaunchRoute.setCompoundDrawables(null,drawableLaunch,null,null);
+
         btnMy.setTextColor(getResources().getColor(R.color.dark_gray));
         Drawable drawableMy1 = getResources().getDrawable(R.drawable.my);
         drawableMy1.setBounds(0, 0, drawableMy1.getMinimumWidth(), drawableMy1.getMinimumHeight());
         btnMy.setCompoundDrawables(null,drawableMy1,null,null);
+
+        btnTrack.setTextColor(getResources().getColor(R.color.dark_gray));
+        Drawable drawableTrack1 = getResources().getDrawable(R.drawable.track);
+        drawableTrack1.setBounds(0,0,drawableTrack1.getMinimumWidth(),drawableTrack1.getMinimumHeight());
+        btnTrack.setCompoundDrawables(null,drawableTrack1,null,null);
     }
 
     private void btnLaunchRouteClicked(){
@@ -209,14 +225,21 @@ public class MyTheActivity extends AppCompatActivity {
         Drawable drawableLaunch = getResources().getDrawable(R.drawable.launch_route_clicked);
         drawableLaunch.setBounds(0, 0, drawableLaunch.getMinimumWidth(), drawableLaunch.getMinimumHeight());
         btnLaunchRoute.setCompoundDrawables(null,drawableLaunch,null,null);
+
         btnHomePage.setTextColor(getResources().getColor(R.color.dark_gray));
         Drawable drawableHomePage = getResources().getDrawable(R.drawable.home_page);
         drawableHomePage.setBounds(0, 0, drawableHomePage.getMinimumWidth(), drawableHomePage.getMinimumHeight());
         btnHomePage.setCompoundDrawables(null,drawableHomePage,null,null);
+
         btnMy.setTextColor(getResources().getColor(R.color.dark_gray));
         Drawable drawableMy2 = getResources().getDrawable(R.drawable.my);
         drawableMy2.setBounds(0, 0, drawableMy2.getMinimumWidth(), drawableMy2.getMinimumHeight());
         btnMy.setCompoundDrawables(null,drawableMy2,null,null);
+
+        btnTrack.setTextColor(getResources().getColor(R.color.dark_gray));
+        Drawable drawableTrack1 = getResources().getDrawable(R.drawable.track);
+        drawableTrack1.setBounds(0,0,drawableTrack1.getMinimumWidth(),drawableTrack1.getMinimumHeight());
+        btnTrack.setCompoundDrawables(null,drawableTrack1,null,null);
     }
 
     private void btnMyClicked(){
@@ -224,14 +247,43 @@ public class MyTheActivity extends AppCompatActivity {
         Drawable drawableMy = getResources().getDrawable(R.drawable.my_clicked);
         drawableMy.setBounds(0, 0, drawableMy.getMinimumWidth(), drawableMy.getMinimumHeight());
         btnMy.setCompoundDrawables(null,drawableMy,null,null);
+
         btnLaunchRoute.setTextColor(getResources().getColor(R.color.dark_gray));
         Drawable drawableLaunch = getResources().getDrawable(R.drawable.launch_route);
         drawableLaunch.setBounds(0, 0, drawableLaunch.getMinimumWidth(), drawableLaunch.getMinimumHeight());
         btnLaunchRoute.setCompoundDrawables(null,drawableLaunch,null,null);
+
         btnHomePage.setTextColor(getResources().getColor(R.color.dark_gray));
         Drawable drawableHomePage = getResources().getDrawable(R.drawable.home_page);
         drawableHomePage.setBounds(0, 0, drawableHomePage.getMinimumWidth(), drawableHomePage.getMinimumHeight());
         btnHomePage.setCompoundDrawables(null,drawableHomePage,null,null);
+
+        btnTrack.setTextColor(getResources().getColor(R.color.dark_gray));
+        Drawable drawableTrack1 = getResources().getDrawable(R.drawable.track);
+        drawableTrack1.setBounds(0,0,drawableTrack1.getMinimumWidth(),drawableTrack1.getMinimumHeight());
+        btnTrack.setCompoundDrawables(null,drawableTrack1,null,null);
+    }
+
+    private void btnTrackClicked(){
+        btnTrack.setTextColor(Color.BLACK);
+        Drawable drawableTrack = getResources().getDrawable(R.drawable.track_clicked);
+        drawableTrack.setBounds(0,0,drawableTrack.getMinimumWidth(),drawableTrack.getMinimumHeight());
+        btnTrack.setCompoundDrawables(null,drawableTrack,null,null);
+
+        btnLaunchRoute.setTextColor(getResources().getColor(R.color.dark_gray));
+        Drawable drawableLaunch = getResources().getDrawable(R.drawable.launch_route);
+        drawableLaunch.setBounds(0, 0, drawableLaunch.getMinimumWidth(), drawableLaunch.getMinimumHeight());
+        btnLaunchRoute.setCompoundDrawables(null,drawableLaunch,null,null);
+
+        btnHomePage.setTextColor(getResources().getColor(R.color.dark_gray));
+        Drawable drawableHomePage = getResources().getDrawable(R.drawable.home_page);
+        drawableHomePage.setBounds(0, 0, drawableHomePage.getMinimumWidth(), drawableHomePage.getMinimumHeight());
+        btnHomePage.setCompoundDrawables(null,drawableHomePage,null,null);
+
+        btnMy.setTextColor(getResources().getColor(R.color.dark_gray));
+        Drawable drawableMy2 = getResources().getDrawable(R.drawable.my);
+        drawableMy2.setBounds(0, 0, drawableMy2.getMinimumWidth(), drawableMy2.getMinimumHeight());
+        btnMy.setCompoundDrawables(null,drawableMy2,null,null);
     }
 
     public void getAllDrivers(String s){
