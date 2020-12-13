@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="司机实时轨迹"
+        android:id="@+id/track_actual"/>
+    <item android:title="司机历史轨迹"
+        android:id="@+id/track_history"/>
+</menu>

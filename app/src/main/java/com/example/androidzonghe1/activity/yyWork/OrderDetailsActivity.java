@@ -27,6 +27,7 @@ import android.widget.TimePicker;
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.Fragment.lpyWork.FragmentDriver;
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.Track.TrackApplication;
 import com.example.androidzonghe1.activity.lpyWork.MyTheActivity;
 import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterDriver;
 import com.example.androidzonghe1.adapter.lpyWork.RvAdapterNoTitleDriver;
@@ -163,6 +164,10 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                         driverName.setText(ConfigUtil.drivers.get(myPosition).getName());
                         order.setDriver(driverName.getText()+"");
                         chooseState.setText("已选择");
+                        ConfigUtil.driverPhone = ConfigUtil.drivers.get(myPosition).getPhone();
+                        TrackApplication.entityName = ConfigUtil.driverPhone;
+                        Log.e("orderDertailsActivity",ConfigUtil.driverPhone);
+                        Log.e("entityName", TrackApplication.entityName);
                         bottomSheetDialog.dismiss();
 
                     }
