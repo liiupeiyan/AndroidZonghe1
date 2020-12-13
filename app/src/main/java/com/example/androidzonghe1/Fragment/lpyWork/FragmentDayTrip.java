@@ -85,8 +85,6 @@ public class FragmentDayTrip extends Fragment {
 
                                 ConfigUtil.trip.add(order);
                             }
-
-
                             if (ConfigUtil.trip.size() == 0){
                                 ConfigUtil.initTrips();
                             }
