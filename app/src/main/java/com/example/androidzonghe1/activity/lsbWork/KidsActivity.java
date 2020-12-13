@@ -89,7 +89,6 @@ public class KidsActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case 1:
-
                 break;
         }
     }
