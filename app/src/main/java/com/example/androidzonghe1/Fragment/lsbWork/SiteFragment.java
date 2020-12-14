@@ -100,8 +100,8 @@ public class SiteFragment extends Fragment {
                     //获取网络输入流
                     InputStream is = connection.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(is,"UTF-8"));
-                    String deleteFlag = reader.readLine();
-                    System.out.println(deleteFlag);
+                    String addFlag = reader.readLine();
+                    System.out.println(addFlag);
                     is.close();
                     os.close();
                 } catch (MalformedURLException e) {

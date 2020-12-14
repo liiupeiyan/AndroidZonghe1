@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,31 +40,90 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.lpyWork.MyTheActivity;
+import com.example.androidzonghe1.entity.rjxWork.History;
+import com.example.androidzonghe1.entity.rjxWork.Locate;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lanren.easydialog.AnimatorHelper;
 import com.lanren.easydialog.DialogViewHolder;
 import com.lanren.easydialog.EasyDialog;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FragmentSameSchoolParents extends Fragment {
     private View view;
     private TextureMapView mapView;
     private BaiduMap baiduMap;
     private LocationClient locationClient;
+    private List<Locate> locates;
+    private List<OverlayOptions> options = new ArrayList<>();
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 1:
+                    String jsonList = msg.obj.toString();
+                    Gson gson = new Gson();
+                    Type collectionType = new TypeToken<List<Locate>>() {}.getType();
+                    locates = gson.fromJson(jsonList, collectionType);
+                    for (Locate locate: locates) {
+                        switch (locate.getRelationship()){
+                            case "爷爷":
+                                locate.setImg(R.drawable.overlay_g_f);
+                                break;
+                            case "奶奶":
+                                locate.setImg(R.drawable.overlay_g_m);
+                                break;
+                            case "爸爸":
+                                locate.setImg(R.drawable.overlay_f);
+                                break;
+                            case "妈妈":
+                                locate.setImg(R.drawable.overlay_m);
+                                break;
+                            case "哥哥":
+                                locate.setImg(R.drawable.overlay_f);
+                                break;
+                            case "姐姐":
+                                locate.setImg(R.drawable.overlay_m);
+                                break;
+                        }
+                    };
+                    //添加覆盖物
+                    addMarkerOverLay();
+                    break;
+            }
+        }
+    };
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_same_school_parents, container, false);
+        getHomeAddresses(ConfigUtil.url+"GetLocateServlet");
         //获取引用
         findViews();
         //自定义百度地图
         mapCustom();
-        //添加覆盖物
-        addMarkerOverLay();
+
         //实现定位功能
         //1.创建定位客户端对象,参数要求是应用程序级别的上下文对象
         locationClient = new LocationClient(getContext().getApplicationContext());
@@ -236,41 +297,15 @@ public class FragmentSameSchoolParents extends Fragment {
 
     //添加标注覆盖物（在地图界面某个坐标点显示小图标）
     public void addMarkerOverLay(){
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.boy);
-        BitmapDescriptor icon2 = BitmapDescriptorFactory.fromResource(R.drawable.boy2);
-        BitmapDescriptor icon3 = BitmapDescriptorFactory.fromResource(R.drawable.boy3);
-        //1.定义坐标点
-        //114.524356,38.002234  师活超市
-        //   38.001082;//纬度114.53209;//经度  国培超市
-        //114.524332,38.003104 //图书馆
-        LatLng point1 = new LatLng(38.002234, 114.524356);
-        LatLng point2 = new LatLng(38.001082, 114.53209);
-        LatLng point3 = new LatLng(38.003104,114.524332);
-        //2.创建OverlayOption子类的对象
-        MarkerOptions options = new MarkerOptions()
-                .position(point1)//位置
-                .icon(icon);//指定图标
-        MarkerOptions options2 = new MarkerOptions()
-                .position(point2)//位置
-                .icon(icon2);//指定图标
-        MarkerOptions options3 = new MarkerOptions()
-                .position(point3)
-                .icon(icon3);
-        //3.将覆盖物显示到地图界面
-        Marker marker = (Marker) baiduMap.addOverlay(options);
-        Marker marker2 = (Marker) baiduMap.addOverlay(options2);
-        Marker marker3 = (Marker) baiduMap.addOverlay(options3);
-//        marker.setTitle("天安门");
-        Bundle bundle = new Bundle();
-        bundle.putString("title", "师活超市");
-        marker.setExtraInfo(bundle);
-        Bundle bundle2 = new Bundle();
-        bundle2.putString("title", "国培超市");
-        marker2.setExtraInfo(bundle2);
-        Bundle bundle3 = new Bundle();
-        bundle3.putString("title", "图书馆");
-        marker3.setExtraInfo(bundle3);
-
+        for (Locate locate: locates) {
+            BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(locate.getImg());
+            LatLng point = new LatLng(locate.getLatitude(),locate.getLongitude());
+            OverlayOptions option = new MarkerOptions()
+                    .position(point)
+                    .icon(icon);
+            options.add(option);
+            }
+        baiduMap.addOverlays(options);
         //4.添加覆盖物的事件监听器
         baiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             @Override
@@ -309,57 +344,7 @@ public class FragmentSameSchoolParents extends Fragment {
                 return false;
             }
         });
-
-//        baiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
-//            @Override
-//            public boolean onMarkerClick(Marker marker) {
-//                //处理标注覆盖物的点击事件
-//                Bundle extra = marker.getExtraInfo();
-//                String title = extra.getString("title");
-//                Log.e("点击的标注覆盖物标题为：", title);
-//                //显示弹出窗覆盖物
-//                TextView contentTV = new TextView(MyTheActivity.this);
-//                contentTV.setText(title);
-//                contentTV.setTextColor(Color.WHITE);
-//                contentTV.setTextSize(30.0f);
-//                contentTV.setBackgroundResource(R.drawable.popup);
-//                BitmapDescriptor descriptor = BitmapDescriptorFactory.fromView(contentTV);
-//                final InfoWindow window = new InfoWindow(descriptor, marker.getPosition(),
-//                        -120,
-//                        new InfoWindow.OnInfoWindowClickListener() {
-//                            @Override
-//                            public void onInfoWindowClick() {
-//                                //当点击弹出窗口时执行
-//                                //隐藏
-//                                baiduMap.hideInfoWindow();
-//                            }
-//                        });
-//                //显示弹出窗口覆盖物
-//                baiduMap.showInfoWindow(window);
-//                return false;
-//            }
-//        });
-//        //处理标注覆盖物的拖拽事件
-//        baiduMap.setOnMarkerDragListener(new BaiduMap.OnMarkerDragListener() {
-//            @Override
-//            public void onMarkerDrag(Marker marker) {
-//                Log.e("标注覆盖物", "正在拖拽");
-//            }
-//
-//            @Override
-//            public void onMarkerDragEnd(Marker marker) {
-//                Log.e("标注覆盖物", "结束拖拽"+"纬度："+
-//                        marker.getPosition().latitude+"经度："+
-//                        marker.getPosition().longitude);
-//            }
-
-
-//            @Override
-//            public void onMarkerDragStart(Marker marker) {
-//                Log.e("标注覆盖物", "拖拽开始");
-//            }
-//        });
-    }
+        };
 
     @Override
     public void onResume() {
@@ -397,5 +382,41 @@ public class FragmentSameSchoolParents extends Fragment {
             locationClient.start();
         }
 
+    }
+
+    //获取所有用户的homeAddress信息
+    private void getHomeAddresses(final String str) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                try {
+                    URL url = new URL(str+"?name="+ConfigUtil.school+"");
+                    //获取网络连接对象URLConnection
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    //获取网络输入流
+                    InputStream is = connection.getInputStream();
+                    connection.setRequestMethod("POST");
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                    String homeAddressList = reader.readLine();
+                    System.out.println(homeAddressList);
+                    Message message = new Message();
+                    message.what = 1;
+                    message.obj = homeAddressList;
+                    handler.sendMessage(message);
+                    Log.e("homeAddresslist",homeAddressList);
+                    is.close();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 }
