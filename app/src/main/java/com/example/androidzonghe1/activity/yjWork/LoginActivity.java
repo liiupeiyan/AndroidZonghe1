@@ -2,10 +2,12 @@ package com.example.androidzonghe1.activity.yjWork;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -64,6 +66,16 @@ public class LoginActivity extends AppCompatActivity {
                     ConfigUtil.parent.setId(Integer.parseInt(id));
                     ConfigUtil.pwd = all[1];
                     ConfigUtil.parent.setRelat(all[3]);
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("isLogin", ConfigUtil.isLogin);
+                    editor.putString("phone", ConfigUtil.phone);
+                    editor.putString("userName", ConfigUtil.userName);
+                    editor.putString("parentName", ConfigUtil.parent.getName());
+                    editor.putInt("parentId", ConfigUtil.parent.getId());
+                    editor.putString("pwd", ConfigUtil.pwd);
+                    editor.putString("parentRelat", ConfigUtil.parent.getRelat());
+                    editor.apply();
                     countDownTimer.cancel();
                     break;
             }
@@ -73,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         phoneNum = getIntent().getStringExtra("phoneNum");
         verifyCodeView = findViewById(R.id.verify_code_view);
         img_back = findViewById(R.id.back_login);
