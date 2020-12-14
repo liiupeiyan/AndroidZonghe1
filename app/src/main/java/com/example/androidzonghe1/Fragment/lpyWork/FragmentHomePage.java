@@ -304,7 +304,7 @@ public class FragmentHomePage extends Fragment {
                     //借助Message传递数据
                     Message message = new Message();
                     //设置Message对象的参数
-                    message.what = 10;
+                    message.what = 11;
                     message.obj = resp;
                     //发送Message
                     handler.sendMessage(message);
