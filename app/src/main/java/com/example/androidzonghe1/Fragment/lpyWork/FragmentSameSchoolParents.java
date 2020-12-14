@@ -108,6 +108,8 @@ public class FragmentSameSchoolParents extends Fragment {
                                 break;
                         }
                     };
+                    //添加覆盖物
+                    addMarkerOverLay();
                     break;
             }
         }
@@ -116,13 +118,12 @@ public class FragmentSameSchoolParents extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_same_school_parents, container, false);
-        getHomeAddresses(ConfigUtil.Url+"GetLocateServlet");
+        getHomeAddresses(ConfigUtil.url+"GetLocateServlet");
         //获取引用
         findViews();
         //自定义百度地图
         mapCustom();
-        //添加覆盖物
-        addMarkerOverLay();
+
         //实现定位功能
         //1.创建定位客户端对象,参数要求是应用程序级别的上下文对象
         locationClient = new LocationClient(getContext().getApplicationContext());

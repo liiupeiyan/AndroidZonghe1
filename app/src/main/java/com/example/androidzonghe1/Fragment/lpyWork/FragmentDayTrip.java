@@ -89,7 +89,7 @@ public class FragmentDayTrip extends Fragment {
                                 ConfigUtil.initTrips();
                             }
                             //给recycleview设置内容
-                            data.add(ConfigUtil.trips);
+                            data.add(ConfigUtil.trip);
                             adapter = new RecycleAdapterDayTrip(data);
                             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                             recyclerView.setAdapter(adapter);
