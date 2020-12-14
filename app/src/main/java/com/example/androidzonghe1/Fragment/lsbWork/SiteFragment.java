@@ -66,7 +66,7 @@ public class SiteFragment extends Fragment {
                 b.putParcelable("suggestionInfo", data);
                 response.putExtras(b);
                 addUsePosition();
-                uploadHistory(ConfigUtil.Url+"AddHistoryServlet");
+                uploadHistory(ConfigUtil.url+"AddHistoryServlet");
                 getActivity().setResult(0, response);
                 getActivity().finish();
             });

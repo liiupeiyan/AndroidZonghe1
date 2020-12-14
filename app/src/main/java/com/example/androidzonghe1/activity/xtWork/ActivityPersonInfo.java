@@ -73,7 +73,7 @@ public class ActivityPersonInfo extends AppCompatActivity {
     private String str;
     private String strs;
     private TextView tvPhone;
-    private String schoolName;
+    private String schoolName = "河北师范大学";
     private StringBuffer stringBuffer;
     private String homeName;
     private SuggestionResult.SuggestionInfo infoHome;
@@ -299,7 +299,7 @@ public class ActivityPersonInfo extends AppCompatActivity {
                     infoHome = data.getExtras().getParcelable("suggestionInfo");
                     Log.e("suggestionInfo",infoHome.toString());
                     homeName =  infoHome.key;
-                    uploadHomeAddress(ConfigUtil.Url+"AddLocateServlet");
+                    uploadHomeAddress(ConfigUtil.url+"AddLocateServlet");
                     //修改数据库
                     updateHome();
 //                    btnAddressChild.setText(schoolName);
@@ -466,10 +466,13 @@ public class ActivityPersonInfo extends AppCompatActivity {
                 //获取用户homeAddress详情
                 Locate locate = new Locate();
                 locate.setUserId(ConfigUtil.parent.getId());
-                locate.setName(infoHome.key);
+                locate.setName(schoolName);
                 locate.setLatitude(infoHome.getPt().latitude);
                 locate.setLongitude(infoHome.getPt().longitude);
-                locate.setRelationship(ConfigUtil.relationship);
+                locate.setKey(infoHome.key);
+//                locate.setRelationship(ConfigUtil.parent.);
+
+                locate.setRelationship("爸爸");
                 try {
                     Gson gson = new Gson();
                     String jsonObject = gson.toJson(locate);

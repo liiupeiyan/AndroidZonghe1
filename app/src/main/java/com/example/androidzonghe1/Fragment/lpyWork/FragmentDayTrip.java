@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,7 +51,7 @@ public class FragmentDayTrip extends Fragment {
     private RecycleAdapterDayTrip adapter;
     private final int REFRESH = 0;
     private final int LOADMORE = 1;
-    private List<List> data= new ArrayList<>();
+    public static List<List> data= new ArrayList<>();
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -66,41 +67,7 @@ public class FragmentDayTrip extends Fragment {
                     adapter.notifyDataSetChanged();
                     refreshLayout.finishLoadMore();
                     break;
-                case 10:
-                    if(msg.obj != null){
-                        String json = (String) msg.obj;
-                        try {
-                            JSONArray jsonArray = new JSONArray(json);
-                            for (int i = 0;i<jsonArray.length();i++){
-                                JSONObject object = jsonArray.getJSONObject(i);
-                                DriverOrder order = new DriverOrder();
-                                order.setId(object.getInt("order_id"));
-                                order.setAddress(object.getString("address"));
-                                order.setFrom(object.getString("from"));
-                                order.setTo(object.getString("to"));
-                                order.setDate(object.getString("date"));
-                                order.setTime(object.getString("time"));
-                                order.setEndTime(object.getString("timeend"));
-                                order.setPrice(object.getDouble("price"));
 
-                                ConfigUtil.trip.add(order);
-                            }
-                            if (ConfigUtil.trip.size() == 0){
-                                ConfigUtil.initTrips();
-                            }
-                            //给recycleview设置内容
-                            data.add(ConfigUtil.trip);
-                            adapter = new RecycleAdapterDayTrip(data);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                            recyclerView.setAdapter(adapter);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }else {
-                        ConfigUtil.initTrip();
-                    }
-
-                    break;
             }
         }
     };
@@ -108,8 +75,6 @@ public class FragmentDayTrip extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_day_trip, container, false);
-        //请求服务端获取数据
-        getAllTravel(ConfigUtil.xt+"ShowWalletServlet?id="+ConfigUtil.parent.getId());
         findViews();
         //设置刷新头和加载更多的样式
         refreshLayout.setRefreshHeader(new ClassicsHeader(getActivity()));
@@ -126,6 +91,13 @@ public class FragmentDayTrip extends Fragment {
         List<RecycleviewTitle> title = new ArrayList<>();
         title.add(new RecycleviewTitle("今日行程"));
         data.add(title);
+        if(ConfigUtil.trip.size() != 0){
+            LinearLayout linearLayout = view.findViewById(R.id.rjx);
+            linearLayout.setVisibility(View.GONE);
+        }
+        adapter = new RecycleAdapterDayTrip(data);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adapter);
     }
 
     private void setListener(){
@@ -173,38 +145,5 @@ public class FragmentDayTrip extends Fragment {
                 }.start();
             }
         });
-    }
-
-    private void getAllTravel(String s){
-        new Thread(){
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL(s);
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    //设置http请求方式，get、post、put、...(默认get请求)
-                    connection.setRequestMethod("POST");//设置请求方式
-
-                    //从服务器段获取响应
-                    InputStream is = connection.getInputStream();
-                    byte[] bytes = new byte[512];
-                    int len = is.read(bytes);//将数据保存在bytes中，长度保存在len中
-                    String resp = new String(bytes,0,len);
-                    Log.e("所有行程",resp);
-
-                    //借助Message传递数据
-                    Message message = new Message();
-                    //设置Message对象的参数
-                    message.what = 10;
-                    message.obj = resp;
-                    //发送Message
-                    handler.sendMessage(message);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
     }
 }
