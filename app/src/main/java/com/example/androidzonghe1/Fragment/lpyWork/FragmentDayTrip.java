@@ -95,6 +95,7 @@ public class FragmentDayTrip extends Fragment {
             LinearLayout linearLayout = view.findViewById(R.id.rjx);
             linearLayout.setVisibility(View.GONE);
         }
+        data.add(ConfigUtil.trip);
         adapter = new RecycleAdapterDayTrip(data);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);

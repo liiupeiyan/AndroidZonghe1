@@ -115,7 +115,7 @@ public class FragmentHomePage extends Fragment {
                                 ConfigUtil.trip.add(order);
                             }
                             //给recycleview设置内容
-                            FragmentDayTrip.data.add(ConfigUtil.trip);
+//                            FragmentDayTrip.data.add(ConfigUtil.trip);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
