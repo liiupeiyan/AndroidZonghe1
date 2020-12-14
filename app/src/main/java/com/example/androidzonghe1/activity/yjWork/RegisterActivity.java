@@ -120,6 +120,8 @@ public class RegisterActivity extends AppCompatActivity {
                 ConfigUtil.phone = phoneNum;
                 ConfigUtil.pwd = pwd;
                 ConfigUtil.parent.setName(name);
+                ConfigUtil.parent.setRelat(ship);
+                ConfigUtil.parent.setPhone(phoneNum);
                 Intent intent = new Intent(getApplicationContext(), MyTheActivity.class);
                 startActivity(intent);
             }
