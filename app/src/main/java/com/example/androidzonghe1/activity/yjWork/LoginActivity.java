@@ -63,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                     String id = all[2];
                     ConfigUtil.parent.setId(Integer.parseInt(id));
                     ConfigUtil.pwd = all[1];
+                    ConfigUtil.parent.setRelat(all[3]);
                     countDownTimer.cancel();
                     break;
             }
