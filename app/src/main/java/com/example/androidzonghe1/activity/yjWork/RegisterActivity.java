@@ -114,12 +114,14 @@ public class RegisterActivity extends AppCompatActivity {
                 String s = "phoneNum="+phoneNum+"&name="+name+"&ship="+ship+"&school="+school+"&pwd="+pwd;
                 Log.e("yj",s);
                 ConfigUtil.userName = name+ship;
-                RegisterByPhone("http://192.168.43.232:8080/DingDong/RegisterServlet?"+s);
+                RegisterByPhone(ConfigUtil.xt+"RegisterServlet?"+s);
                 ConfigUtil.isLogin =true;
                 ConfigUtil.userName = name;
                 ConfigUtil.phone = phoneNum;
                 ConfigUtil.pwd = pwd;
                 ConfigUtil.parent.setName(name);
+                ConfigUtil.parent.setRelat(ship);
+                ConfigUtil.parent.setPhone(phoneNum);
                 Intent intent = new Intent(getApplicationContext(), MyTheActivity.class);
                 startActivity(intent);
             }
