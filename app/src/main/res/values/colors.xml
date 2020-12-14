@@ -64,4 +64,8 @@
 
     <!-- 对话框标题颜色 -->
     <color name="dialog_title">#323232</color>
+
+    <!-- 视频通话的 -->
+    <color name="localBackground">#827b92</color>
+    <color name="remoteBackground">#484258</color>
 </resources>

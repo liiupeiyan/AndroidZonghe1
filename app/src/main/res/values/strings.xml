@@ -234,4 +234,7 @@
 
 
     <!--    <string name="appbar_scrolling_view_behavior">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>-->
+    <!--    视频通话用的  -->
+    <string name="agora_app_id">bf5eaf6f799b46fb827ab68dae056af7</string>
+    <string name="agora_access_token">006bf5eaf6f799b46fb827ab68dae056af7IAD3v8sdqO/9t0dbNgwk5TOZuqeo6VSUt5tcgq67zTO4f+IVUyEAAAAAEADQTRPKER7YXwEAAQAQHthf</string>
 </resources>
