@@ -25,6 +25,7 @@
             android:layout_height="100dp"
             android:src="@drawable/null_content"/>
         <TextView
+            android:id="@+id/tv_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"

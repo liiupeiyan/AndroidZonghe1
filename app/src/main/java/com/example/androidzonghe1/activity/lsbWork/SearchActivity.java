@@ -9,6 +9,7 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,8 +30,8 @@ import com.baidu.mapapi.search.sug.SuggestionSearch;
 import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import com.example.androidzonghe1.Fragment.lsbWork.CityFragment;
 import com.example.androidzonghe1.Fragment.lsbWork.SiteFragment;
-import com.example.androidzonghe1.MyApplication;
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.Track.TrackApplication;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -80,7 +81,7 @@ public class SearchActivity extends AppCompatActivity {
         suggestionSearch = SuggestionSearch.newInstance();
         setContentView(R.layout.activity_search);
 
-        MyApplication myApplication = (MyApplication) getApplication();
+        TrackApplication myApplication = (TrackApplication) getApplication();
         myApplication.setHandler(handler);
 
         locationClient = new LocationClient(getApplicationContext());
@@ -111,7 +112,7 @@ public class SearchActivity extends AppCompatActivity {
 
 
         btnCancel.setOnClickListener(v -> {
-            cityFragment.onDestroy();
+//            cityFragment.onDestroy();
             Intent response = new Intent();
             this.setResult(-1, response);
             finish();
@@ -273,6 +274,19 @@ public class SearchActivity extends AppCompatActivity {
         super.onDestroy();
 //        cityFragment.onDestroy();
 //        siteFragment.onDestroy();
+    }
+    /**
+     * 屏蔽物理返回键
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            Intent response = new Intent();
+            this.setResult(-1, response);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

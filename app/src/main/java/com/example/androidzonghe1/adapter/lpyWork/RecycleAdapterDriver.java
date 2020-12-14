@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.yyWork.OrderDetailsActivity;
 import com.example.androidzonghe1.entity.lpyWork.Driver;
@@ -86,7 +87,7 @@ public class RecycleAdapterDriver extends RecyclerView.Adapter<RecyclerView.View
         if(holder instanceof Myholder){
             Glide.with(mContext)
 //                    .load(drivers.get(position-1).getImg())
-                    .load(R.drawable.driver_img)
+                    .load(ConfigUtil.Url+drivers.get(position).getImg())
                     .into(((Myholder)holder).img);
             ((Myholder) holder).name.setText(drivers.get(position-1).getName());
             ((Myholder) holder).age.setText(drivers.get(position-1).getAge()+"岁");

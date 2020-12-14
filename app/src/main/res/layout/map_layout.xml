@@ -102,7 +102,7 @@
             android:layout_below="@id/lin_order"/>
     </LinearLayout>
 
-    <com.baidu.mapapi.map.MapView
+    <com.baidu.mapapi.map.TextureMapView
         android:id="@+id/map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

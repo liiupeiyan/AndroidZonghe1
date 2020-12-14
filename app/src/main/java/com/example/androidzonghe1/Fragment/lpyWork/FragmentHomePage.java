@@ -114,8 +114,14 @@ public class FragmentHomePage extends Fragment {
         ivMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ActivityMyMessage.class);
-                startActivity(intent);
+//                if (ConfigUtil.isLogin){
+//
+                    Intent intent = new Intent(getActivity(), ActivityMyMessage.class);
+                    startActivity(intent);
+//                }else {
+                    //先登录
+//                }
+
             }
         });
         et_search.setOnClickListener(new View.OnClickListener() {
@@ -215,12 +221,14 @@ public class FragmentHomePage extends Fragment {
             tvSchoolName.setText("选择学校");
             tvSchoolName.setTextSize(16);
             FragmentSameSchoolRoute.top.setVisibility(View.VISIBLE);
-        } else {
-            if(requestCode == REQUEST_SEARCH_CODE && resultCode == 0){
+        } else if (resultCode == 0){
+            if(requestCode == REQUEST_SEARCH_CODE){
                 SuggestionResult.SuggestionInfo info = data.getExtras().getParcelable("suggestionInfo");
                 Log.e("suggestionInfo",info.toString());
                 String schoolName =  info.key;
                 ConfigUtil.school = schoolName;
+                ConfigUtil.latitude = info.getPt().latitude;
+                ConfigUtil.longitude = info.getPt().longitude;
                 //获取同校路线
                 getSameSchoolRoute(ConfigUtil.Url+"GetSameRouteServlet?school="+schoolName);
                 FragmentSameSchoolParents fragmentSameSchoolParents = new FragmentSameSchoolParents();
@@ -231,8 +239,9 @@ public class FragmentHomePage extends Fragment {
                 tvSchoolName.setText(schoolName);
                 tvSchoolName.setTextSize(18);
             }
-        }
+        } else{
 
+        }
     }
 
     //网络操作 获取同校路线

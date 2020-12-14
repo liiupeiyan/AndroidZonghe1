@@ -18,7 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.yyWork.OrderDetailsActivity;
+import com.example.androidzonghe1.adapter.lsbWork.KidsAdapter;
 import com.example.androidzonghe1.entity.lpyWork.Driver;
+import com.example.androidzonghe1.entity.xtWork.Child;
 
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class RvAdapterNoTitleDriver extends RecyclerView.Adapter<RecyclerView.Vi
 
     private View view;
     private Context mContext;
+    private OnItemClickListener onItemClickListener;
 
     private int myPosition;
     private LayoutInflater layoutInflater;
@@ -49,6 +52,9 @@ public class RvAdapterNoTitleDriver extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Log.e("BindView","true");
+        Log.e("flag",drivers.get(position).getFlag()+"");
+        ((Myholder) holder).itemD.setBackgroundResource(drivers.get(position).getFlag()>0 ? R.drawable.shape_red_frame : R.drawable.radius_lpy);
         Glide.with(mContext)
                     .load(drivers.get(position).getImg())
                 .load(R.drawable.driver_img)
@@ -80,18 +86,15 @@ public class RvAdapterNoTitleDriver extends RecyclerView.Adapter<RecyclerView.Vi
 //                Intent intent = new Intent(mContext, OrderDetailsActivity.class);
 //                mContext.startActivity(intent);
                 myPosition = position;
-                ((Myholder) holder).itemD.setBackgroundResource(R.drawable.shape_red_frame);
-            }
-        });
-        holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (!b){
-                    Log.e("没有焦点","123");
-                    ((Myholder) holder).itemD.setBackgroundResource(R.color.white);
+//                ((Myholder) holder).itemD.setBackgroundResource(R.drawable.shape_red_frame);
+                for (int i = 0; i < drivers.size() ;i++){
+                    drivers.get(i).setFlag(0);
                 }
+                drivers.get(position).setFlag(1);
+                notifyDataSetChanged();
             }
         });
+
 
 
     }
@@ -129,6 +132,16 @@ public class RvAdapterNoTitleDriver extends RecyclerView.Adapter<RecyclerView.Vi
             driverCall = itemView.findViewById(R.id.btn_call_driver);
             itemD = itemView.findViewById(R.id.rl_driver_item);
         }
+    }
+
+
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(RecyclerView parent, View view, int position, Child data);
     }
 
 }

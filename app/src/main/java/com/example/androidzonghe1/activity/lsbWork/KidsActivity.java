@@ -68,7 +68,7 @@ public class KidsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.e("KidsActivity", "btnInsert onClick");
-                kidsAdapter.insertData();
+//                kidsAdapter.insertData();
             }
         });
 
@@ -89,7 +89,6 @@ public class KidsActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case 1:
-
                 break;
         }
     }

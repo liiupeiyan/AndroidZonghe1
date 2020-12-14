@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                     String str = (String) msg.obj;
                     String[] all = str.split(":");
                     Intent intent = new Intent(getApplicationContext(), MyTheActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     ConfigUtil.isLogin = true;
                     ConfigUtil.phone = phoneNum;
@@ -99,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
-                                GetParentId("http://192.168.43.232:8080/DingDong/LoginServlet?tel="+phoneNum);
+                                //GetParentId("http://192.168.43.232:8080/DingDong/LoginServlet?tel="+phoneNum);
                             }
                         });
                     }else if (event == SMSSDK.EVENT_GET_VOICE_VERIFICATION_CODE){
@@ -145,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
                 SMSSDK.submitVerificationCode("86", phoneNum, verifyCodeView.getEditContent());
                 InputMethodManager manager = ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE));
                 manager.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
-                GetParentId("http://192.168.43.232:8080/DingDong/LoginServlet?tel="+phoneNum);
+                GetParentId(ConfigUtil.xt+"LoginServlet?tel="+phoneNum);
             }
 
             @Override
