@@ -25,27 +25,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Boolean flag = sharedPreferences.getBoolean("flag", false);
-        Log.e("StartActivity", "flag:" + flag);
-        if (flag == false){
-            flag = true;
-            Log.e("StartActivity", "flag:" + flag);
+        if (!flag){
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("flag", flag);
+            editor.putBoolean("flag", true);
             editor.apply();
             startActivity(new Intent(getApplicationContext(), MyAppIntro2.class));
             finish();
+        } else {
+            handler.postDelayed(() -> {
+                Intent intent = new Intent(getApplicationContext(), MyTheActivity.class);
+                startActivity(intent);
+                finish();
+            }, 2000);
         }
-
-        Log.e("StartActivity", "time1:" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()).toString().trim());
-
 
     }
 
-    /**
-     * 屏蔽物理返回键
-     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK)
@@ -57,28 +55,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (handler != null){
-            //删除handler所有消息和回调函数
-            //当参数为null时,删除所有回调函数和message
-            //这样做的好处是在Acticity退出的时候，可以避免内存泄露
             handler.removeCallbacksAndMessages(null);
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Log.e("MainActivity", "time2:" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()).toString().trim());
-                Intent intent = new Intent(getApplicationContext(), MyTheActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        }, 0);
-        /**
-         * 先设置为0，---> 2000
-         */
     }
 
 }

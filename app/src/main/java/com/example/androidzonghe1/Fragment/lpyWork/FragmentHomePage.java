@@ -35,14 +35,20 @@ import com.example.androidzonghe1.activity.lpyWork.ActivityMyMessage;
 import com.example.androidzonghe1.activity.lsbWork.SearchActivity;
 import com.example.androidzonghe1.adapter.lpyWork.ImageAdapter;
 import com.example.androidzonghe1.adapter.lpyWork.MyViewPagerAdapter;
+import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterDayTrip;
 import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterSameSchoolRoute;
 import com.example.androidzonghe1.entity.lpyWork.DataBean;
 import com.example.androidzonghe1.entity.lpyWork.SameSchoolRoute;
+import com.example.androidzonghe1.entity.yyWork.DriverOrder;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.youth.banner.Banner;
 import com.youth.banner.indicator.CircleIndicator;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -89,6 +95,36 @@ public class FragmentHomePage extends Fragment {
                     //为ViewPager绑定Adapter
                     myViewPager.setAdapter(adapter);
                     break;
+                case 11:
+                    if(msg.obj != null){
+                        String json = (String) msg.obj;
+                        try {
+                            JSONArray jsonArray = new JSONArray(json);
+                            for (int i = 0;i<jsonArray.length();i++){
+                                JSONObject object = jsonArray.getJSONObject(i);
+                                DriverOrder order = new DriverOrder();
+                                order.setId(object.getInt("order_id"));
+                                order.setAddress(object.getString("address"));
+                                order.setFrom(object.getString("from"));
+                                order.setTo(object.getString("to"));
+                                order.setDate(object.getString("date"));
+                                order.setTime(object.getString("time"));
+                                order.setEndTime(object.getString("timeend"));
+                                order.setPrice(object.getDouble("price"));
+
+                                ConfigUtil.trip.add(order);
+                            }
+                            //给recycleview设置内容
+                            FragmentDayTrip.data.add(ConfigUtil.trip);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+
+                    }
+
+                    break;
             }
         }
     };
@@ -97,6 +133,9 @@ public class FragmentHomePage extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home_page ,container, false);
+        //请求服务端获取数据
+        getAllTravel(ConfigUtil.xt+"ShowWalletServlet?id="+ConfigUtil.parent.getId());
+
         findViews();
         InitUiAndDatas();
         useBanner();
@@ -242,6 +281,40 @@ public class FragmentHomePage extends Fragment {
         } else{
 
         }
+    }
+
+    //网络请求 获取今日行程
+    private void getAllTravel(String s){
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(s);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    //设置http请求方式，get、post、put、...(默认get请求)
+                    connection.setRequestMethod("POST");//设置请求方式
+
+                    //从服务器段获取响应
+                    InputStream is = connection.getInputStream();
+                    byte[] bytes = new byte[512];
+                    int len = is.read(bytes);//将数据保存在bytes中，长度保存在len中
+                    String resp = new String(bytes,0,len);
+                    Log.e("所有行程",resp);
+
+                    //借助Message传递数据
+                    Message message = new Message();
+                    //设置Message对象的参数
+                    message.what = 10;
+                    message.obj = resp;
+                    //发送Message
+                    handler.sendMessage(message);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 
     //网络操作 获取同校路线

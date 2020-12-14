@@ -3,16 +3,18 @@ package com.example.androidzonghe1.entity.rjxWork;
 public class Locate {
     private int id;
     private int userId;
-    private String name;//地名
+    private String name;//school
+    private String key; //homeAddress
     private String relationship;
     private double latitude;
     private double longitude;
     private int img;
 
-    public Locate(int id, int userId, String name, String relationship, double latitude, double longitude, int img) {
+    public Locate(int id, int userId, String name, String key, String relationship, double latitude, double longitude, int img) {
         this.id = id;
         this.userId = userId;
         this.name = name;
+        this.key = key;
         this.relationship = relationship;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -59,6 +61,12 @@ public class Locate {
         this.longitude = longitude;
     }
 
+    public String getKey() {
+        return key;
+    }
+    public void setKey(String key) {
+        this.key = key;
+    }
     public int getImg() {
         return img;
     }
@@ -73,6 +81,7 @@ public class Locate {
                 "id=" + id +
                 ", userId=" + userId +
                 ", name='" + name + '\'' +
+                ", key='" + key + '\'' +
                 ", relationship='" + relationship + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +

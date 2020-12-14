@@ -47,7 +47,7 @@ public class RecycleAdapterDayTrip extends RecyclerView.Adapter<RecyclerView.Vie
         if(o instanceof RecycleviewTitle){
             return TITLE;
         }
-        if(o instanceof DayTrip){
+        if(o instanceof DriverOrder){
             return CONTENT;
         }
         return super.getItemViewType(position);
@@ -65,17 +65,12 @@ public class RecycleAdapterDayTrip extends RecyclerView.Adapter<RecyclerView.Vie
         switch (viewType){
             case TITLE:
                 view = layoutInflater.inflate(R.layout.item_recycleview_title,parent,false);
-                RecycleAdapterDayTrip.TitleViewHolder titleViewHolder = new RecycleAdapterDayTrip.TitleViewHolder(view);
+                TitleViewHolder titleViewHolder = new TitleViewHolder(view);
                 return titleViewHolder;
             case CONTENT:
-                if (trips.size() == 0){
-                    view = layoutInflater.inflate(R.layout.fragment_nodata_day_trip,parent,false);
-                } else {
-                    view = layoutInflater.inflate(R.layout.item_recycleview_day_trip,parent,false);
-                    RecycleAdapterDayTrip.Myholder myholder = new RecycleAdapterDayTrip.Myholder(view);
-                    return myholder;
-                }
-
+                view = layoutInflater.inflate(R.layout.item_recycleview_day_trip,parent,false);
+                Myholder myholder = new Myholder(view);
+                return myholder;
         }
         return null;
     }
