@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.yjWork.ViedoActivity;
 import com.example.androidzonghe1.entity.lpyWork.Driver;
 import com.example.androidzonghe1.entity.yyWork.DriverOrder;
 import com.google.gson.Gson;
@@ -150,7 +151,8 @@ public class TravelDetailActivity extends AppCompatActivity {
         driverVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getApplicationContext(), ViedoActivity.class);
+                startActivity(intent);
             }
         });
 //        //鹰眼轨迹

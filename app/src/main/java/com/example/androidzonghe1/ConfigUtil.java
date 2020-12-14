@@ -21,6 +21,8 @@ public class ConfigUtil {
     public static String userName = "";
     //当前手机号
     public static String phone="";
+    //当前用户与孩子的关系
+    public static String relationship = "";
 
     //当前搜索学校
     public static String school="";
@@ -36,6 +38,8 @@ public class ConfigUtil {
     public static final String xt = "http://10.7.90.141:8080/Dingdongg/";
     //任佳旭连接服务器
     public static final String Url = "http://192.168.43.52:8080/DingDong/";
+
+    public static final String url = "http://10.7.90.67:8080/DingDong/";
 
     public static final String URL = "http://59.110.228.91:8080/DingDong/";
 

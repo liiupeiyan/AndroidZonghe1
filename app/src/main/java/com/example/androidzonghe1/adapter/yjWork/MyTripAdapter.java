@@ -56,17 +56,10 @@ public class MyTripAdapter extends BaseAdapter {
         final TextView tv_state = view.findViewById(R.id.my_trip_state);
         TextView tv_begin = view.findViewById(R.id.my_trip_place_begin);
         TextView tv_end = view.findViewById(R.id.my_trip_place_end);
-        Button btn = view.findViewById(R.id.item_my_trip_btn_info);
         tv_date.setText(trips.get(i).getDate());
         tv_state.setText(trips.get(i).getTripState());
         tv_begin.setText(trips.get(i).getPlaceBegin());
         tv_end.setText(trips.get(i).getPlaceEnd());
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
         return view;
     }
 }
