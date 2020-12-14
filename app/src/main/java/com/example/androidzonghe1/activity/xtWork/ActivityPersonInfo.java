@@ -30,16 +30,22 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.lsbWork.SearchActivity;
+import com.example.androidzonghe1.entity.rjxWork.History;
+import com.example.androidzonghe1.entity.rjxWork.Locate;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -70,6 +76,7 @@ public class ActivityPersonInfo extends AppCompatActivity {
     private String schoolName;
     private StringBuffer stringBuffer;
     private String homeName;
+    private SuggestionResult.SuggestionInfo infoHome;
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -289,9 +296,10 @@ public class ActivityPersonInfo extends AppCompatActivity {
                 break;
             case CHILD_ADDRESS_REQUEST_CODD:
                 if (resultCode == 0){
-                    SuggestionResult.SuggestionInfo info = data.getExtras().getParcelable("suggestionInfo");
-                    Log.e("suggestionInfo",info.toString());
-                    homeName =  info.key;
+                    infoHome = data.getExtras().getParcelable("suggestionInfo");
+                    Log.e("suggestionInfo",infoHome.toString());
+                    homeName =  infoHome.key;
+                    uploadHomeAddress(ConfigUtil.Url+"AddLocateServlet");
                     //修改数据库
                     updateHome();
 //                    btnAddressChild.setText(schoolName);
@@ -441,6 +449,47 @@ public class ActivityPersonInfo extends AppCompatActivity {
                     handler.sendMessage(msg);
                     is.close();
                 } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    //将用户的homeAddress信息上传到服务器
+    private void uploadHomeAddress(final String str){
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                //获取用户homeAddress详情
+                Locate locate = new Locate();
+                locate.setUserId(ConfigUtil.parent.getId());
+                locate.setName(infoHome.key);
+                locate.setLatitude(infoHome.getPt().latitude);
+                locate.setLongitude(infoHome.getPt().longitude);
+                locate.setRelationship(ConfigUtil.relationship);
+                try {
+                    Gson gson = new Gson();
+                    String jsonObject = gson.toJson(locate);
+                    URL url = new URL(str);
+                    //获取网络连接对象URLConnection
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    OutputStream os = connection.getOutputStream();
+                    os.write(jsonObject.getBytes());
+                    os.flush();
+                    //获取网络输入流
+                    InputStream is = connection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is,"UTF-8"));
+                    String addFlag = reader.readLine();
+                    System.out.println(addFlag);
+                    is.close();
+                    os.close();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (ProtocolException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
