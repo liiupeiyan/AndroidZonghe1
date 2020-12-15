@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -25,6 +27,7 @@ import android.widget.Toast;
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.Utils.yjWork.Utils;
+import com.example.androidzonghe1.activity.lpyWork.MyTheActivity;
 import com.example.androidzonghe1.entity.yjWork.EditTextClearTools;
 import com.mob.MobSDK;
 import com.mob.OperationCallback;
@@ -78,6 +81,29 @@ public class ActivityLoginPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Boolean isLogin = sharedPreferences.getBoolean("isLogin", false);
+        if (isLogin) {
+            String phone = sharedPreferences.getString("phone", "");
+            String userName = sharedPreferences.getString("userName", "");
+            String parentName = sharedPreferences.getString("parentName", "");
+            int parentId = sharedPreferences.getInt("parentId", -1);
+            String pwd = sharedPreferences.getString("pwd", "");
+            String parentRelat = sharedPreferences.getString("parentRelat", "");
+            ConfigUtil.isLogin = isLogin;
+            ConfigUtil.phone = phone;
+            ConfigUtil.userName = userName;
+            ConfigUtil.parent.setName(parentName);
+            ConfigUtil.parent.setId(parentId);
+            ConfigUtil.pwd = pwd;
+            ConfigUtil.parent.setRelat(parentRelat);
+            Intent intent = new Intent(getApplicationContext(), MyTheActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+
+
         editTextPhoneNum = findViewById(R.id.editTextPhoneNum);
         i = findViewById(R.id.del_phonenumber);
         close = findViewById(R.id.login_close);
