@@ -30,8 +30,8 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.example.androidzonghe1.Bind;
 import com.example.androidzonghe1.ConfigUtil;
-import com.example.androidzonghe1.MyApplication;
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.Track.TrackApplication;
 import com.example.androidzonghe1.entity.lsbWork.CityEntity;
 import com.example.androidzonghe1.Utils.lsbWork.JsonReadUtil;
 import com.example.androidzonghe1.View.lsbWork.ViewBinder;
@@ -153,7 +153,7 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
             public void onClick(View view) {
                 hotCityList.clear();
                 //清除数据库所有数据
-                clearHistorys(ConfigUtil.Url+"DeleteHistoryServlet");
+                clearHistorys(ConfigUtil.xt+"DeleteHistoryServlet");
             }
         });
 
@@ -192,7 +192,7 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
     public void setUsePosition(){
         hotCityList.clear();
         //获取所有的
-        getHistorys(ConfigUtil.Url+"GetHistoryServlet");
+        getHistorys(ConfigUtil.xt+"GetHistoryServlet");
 //        SuggestionResult.SuggestionInfo suggestionInfo = new SuggestionResult.SuggestionInfo();
 //        suggestionInfo.setKey("河北师范大学");
 //        suggestionInfo.setCity("石家庄市");
@@ -497,7 +497,7 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
         Message msg = new Message();
         msg.what = 1;
         msg.obj = curCity;
-        MyApplication myApplication = (MyApplication) getActivity().getApplication();
+        TrackApplication myApplication = (TrackApplication) getActivity().getApplication();
         myApplication.getHandler().sendMessage(msg);
     }
 

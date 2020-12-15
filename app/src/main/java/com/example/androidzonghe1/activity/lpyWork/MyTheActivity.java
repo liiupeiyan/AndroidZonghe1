@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -24,19 +23,20 @@ import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.Fragment.lpyWork.FragmentHomePage;
 import com.example.androidzonghe1.Fragment.lpyWork.FragmentLaunchRoute;
 import com.example.androidzonghe1.Fragment.lpyWork.FragmentMy;
+import com.example.androidzonghe1.Fragment.lpyWork.FragmentTrack;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.yjWork.ActivityLoginPage;
-import com.example.androidzonghe1.activity.yjWork.RegisterActivity;
 import com.example.androidzonghe1.entity.lpyWork.Driver;
-import com.example.androidzonghe1.entity.rjxWork.History;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lanren.easydialog.AnimatorHelper;
 import com.lanren.easydialog.DialogViewHolder;
 import com.lanren.easydialog.EasyDialog;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -49,16 +49,18 @@ public class MyTheActivity extends AppCompatActivity {
     private Fragment currentFragment = new Fragment();
     private FragmentHomePage fragmentHomePage;
     private FragmentLaunchRoute fragmentLaunchRoute;
+    private FragmentTrack fragmentTrack;
     private FragmentMy fragmentMy;
     private Button btnHomePage;
     private Button btnLaunchRoute;
     private Button btnMy;
+    private Button btnTrack;
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what){
                 case 1:
-                    String str = (String) msg.obj;
+                    String str =  msg.obj.toString();
                     Gson gson = new Gson();
                     Type collection = new TypeToken<List<Driver>>() {}.getType();
                     ConfigUtil.drivers = gson.fromJson(str,collection);
@@ -74,11 +76,13 @@ public class MyTheActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_the);
+        getAllDrivers(ConfigUtil.xt+"");
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         findViews();
         fragmentHomePage = new FragmentHomePage();
         fragmentLaunchRoute = new FragmentLaunchRoute();
         fragmentMy = new FragmentMy();
+        fragmentTrack = new FragmentTrack();
         Log.e("是否登录",ConfigUtil.isLogin+"");
         if(ConfigUtil.isLogin){
             //判断用户是否领券
@@ -130,6 +134,7 @@ public class MyTheActivity extends AppCompatActivity {
         btnHomePage = findViewById(R.id.home_page);
         btnLaunchRoute = findViewById(R.id.launch_route);
         btnMy = findViewById(R.id.my);
+        btnTrack = findViewById(R.id.track);
     }
 
     private void changeTab(Fragment fragment){
@@ -169,12 +174,15 @@ public class MyTheActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
                 break;
+            case R.id.track:
+                changeTab(fragmentTrack);
+                btnTrackClicked();
+                break;
         }
     }
 
     private void tabInt(){
         btnHomePage.setTextColor(Color.BLACK);
-
         Drawable drawableHomePage = getResources().getDrawable(R.drawable.home_page_clicked);
         drawableHomePage.setBounds(0, 0, drawableHomePage.getMinimumWidth(), drawableHomePage.getMinimumHeight());
         btnHomePage.setCompoundDrawables(null,drawableHomePage,null,null);
@@ -194,14 +202,21 @@ public class MyTheActivity extends AppCompatActivity {
         Drawable drawableHomePage = getResources().getDrawable(R.drawable.home_page_clicked);
         drawableHomePage.setBounds(0, 0, drawableHomePage.getMinimumWidth(), drawableHomePage.getMinimumHeight());
         btnHomePage.setCompoundDrawables(null,drawableHomePage,null,null);
+
         btnLaunchRoute.setTextColor(getResources().getColor(R.color.dark_gray));
         Drawable drawableLaunch = getResources().getDrawable(R.drawable.launch_route);
         drawableLaunch.setBounds(0, 0, drawableLaunch.getMinimumWidth(), drawableLaunch.getMinimumHeight());
         btnLaunchRoute.setCompoundDrawables(null,drawableLaunch,null,null);
+
         btnMy.setTextColor(getResources().getColor(R.color.dark_gray));
         Drawable drawableMy1 = getResources().getDrawable(R.drawable.my);
         drawableMy1.setBounds(0, 0, drawableMy1.getMinimumWidth(), drawableMy1.getMinimumHeight());
         btnMy.setCompoundDrawables(null,drawableMy1,null,null);
+
+        btnTrack.setTextColor(getResources().getColor(R.color.dark_gray));
+        Drawable drawableTrack1 = getResources().getDrawable(R.drawable.track);
+        drawableTrack1.setBounds(0,0,drawableTrack1.getMinimumWidth(),drawableTrack1.getMinimumHeight());
+        btnTrack.setCompoundDrawables(null,drawableTrack1,null,null);
     }
 
     private void btnLaunchRouteClicked(){
@@ -209,14 +224,21 @@ public class MyTheActivity extends AppCompatActivity {
         Drawable drawableLaunch = getResources().getDrawable(R.drawable.launch_route_clicked);
         drawableLaunch.setBounds(0, 0, drawableLaunch.getMinimumWidth(), drawableLaunch.getMinimumHeight());
         btnLaunchRoute.setCompoundDrawables(null,drawableLaunch,null,null);
+
         btnHomePage.setTextColor(getResources().getColor(R.color.dark_gray));
         Drawable drawableHomePage = getResources().getDrawable(R.drawable.home_page);
         drawableHomePage.setBounds(0, 0, drawableHomePage.getMinimumWidth(), drawableHomePage.getMinimumHeight());
         btnHomePage.setCompoundDrawables(null,drawableHomePage,null,null);
+
         btnMy.setTextColor(getResources().getColor(R.color.dark_gray));
         Drawable drawableMy2 = getResources().getDrawable(R.drawable.my);
         drawableMy2.setBounds(0, 0, drawableMy2.getMinimumWidth(), drawableMy2.getMinimumHeight());
         btnMy.setCompoundDrawables(null,drawableMy2,null,null);
+
+        btnTrack.setTextColor(getResources().getColor(R.color.dark_gray));
+        Drawable drawableTrack1 = getResources().getDrawable(R.drawable.track);
+        drawableTrack1.setBounds(0,0,drawableTrack1.getMinimumWidth(),drawableTrack1.getMinimumHeight());
+        btnTrack.setCompoundDrawables(null,drawableTrack1,null,null);
     }
 
     private void btnMyClicked(){
@@ -224,14 +246,43 @@ public class MyTheActivity extends AppCompatActivity {
         Drawable drawableMy = getResources().getDrawable(R.drawable.my_clicked);
         drawableMy.setBounds(0, 0, drawableMy.getMinimumWidth(), drawableMy.getMinimumHeight());
         btnMy.setCompoundDrawables(null,drawableMy,null,null);
+
         btnLaunchRoute.setTextColor(getResources().getColor(R.color.dark_gray));
         Drawable drawableLaunch = getResources().getDrawable(R.drawable.launch_route);
         drawableLaunch.setBounds(0, 0, drawableLaunch.getMinimumWidth(), drawableLaunch.getMinimumHeight());
         btnLaunchRoute.setCompoundDrawables(null,drawableLaunch,null,null);
+
         btnHomePage.setTextColor(getResources().getColor(R.color.dark_gray));
         Drawable drawableHomePage = getResources().getDrawable(R.drawable.home_page);
         drawableHomePage.setBounds(0, 0, drawableHomePage.getMinimumWidth(), drawableHomePage.getMinimumHeight());
         btnHomePage.setCompoundDrawables(null,drawableHomePage,null,null);
+
+        btnTrack.setTextColor(getResources().getColor(R.color.dark_gray));
+        Drawable drawableTrack1 = getResources().getDrawable(R.drawable.track);
+        drawableTrack1.setBounds(0,0,drawableTrack1.getMinimumWidth(),drawableTrack1.getMinimumHeight());
+        btnTrack.setCompoundDrawables(null,drawableTrack1,null,null);
+    }
+
+    private void btnTrackClicked(){
+        btnTrack.setTextColor(Color.BLACK);
+        Drawable drawableTrack = getResources().getDrawable(R.drawable.track_clicked);
+        drawableTrack.setBounds(0,0,drawableTrack.getMinimumWidth(),drawableTrack.getMinimumHeight());
+        btnTrack.setCompoundDrawables(null,drawableTrack,null,null);
+
+        btnLaunchRoute.setTextColor(getResources().getColor(R.color.dark_gray));
+        Drawable drawableLaunch = getResources().getDrawable(R.drawable.launch_route);
+        drawableLaunch.setBounds(0, 0, drawableLaunch.getMinimumWidth(), drawableLaunch.getMinimumHeight());
+        btnLaunchRoute.setCompoundDrawables(null,drawableLaunch,null,null);
+
+        btnHomePage.setTextColor(getResources().getColor(R.color.dark_gray));
+        Drawable drawableHomePage = getResources().getDrawable(R.drawable.home_page);
+        drawableHomePage.setBounds(0, 0, drawableHomePage.getMinimumWidth(), drawableHomePage.getMinimumHeight());
+        btnHomePage.setCompoundDrawables(null,drawableHomePage,null,null);
+
+        btnMy.setTextColor(getResources().getColor(R.color.dark_gray));
+        Drawable drawableMy2 = getResources().getDrawable(R.drawable.my);
+        drawableMy2.setBounds(0, 0, drawableMy2.getMinimumWidth(), drawableMy2.getMinimumHeight());
+        btnMy.setCompoundDrawables(null,drawableMy2,null,null);
     }
 
     public void getAllDrivers(String s){
@@ -246,9 +297,11 @@ public class MyTheActivity extends AppCompatActivity {
 
                     //从服务器段获取响应
                     InputStream is = connection.getInputStream();
-                    byte[] bytes = new byte[512];
-                    int len = is.read(bytes);//将数据保存在bytes中，长度保存在len中
-                    String resp = new String(bytes,0,len);
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                    String resp = reader.readLine();
+                    //                    byte[] bytes = new byte[512];
+//                    int len = is.read(bytes);//将数据保存在bytes中，长度保存在len中
+//                    String resp = new String(bytes,0,len);
                     Log.e("所有司机",resp);
 
                     is.close();

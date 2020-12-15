@@ -2,6 +2,8 @@ package com.example.androidzonghe1.activity.yjWork;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +24,10 @@ import com.example.androidzonghe1.adapter.lsbWork.ContactorAdapter;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.zyyoona7.wheel.WheelView;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -35,6 +41,17 @@ public class RegisterActivity extends AppCompatActivity {
     private String name,school,ship,phoneNum,pwd;
     private Button btn;
     private WheelView wheel_view;
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            switch (msg.what){
+                case 1:
+                    String id = (String) msg.obj;
+                    ConfigUtil.parent.setId(Integer.parseInt(id));
+                    break;
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,12 +131,14 @@ public class RegisterActivity extends AppCompatActivity {
                 String s = "phoneNum="+phoneNum+"&name="+name+"&ship="+ship+"&school="+school+"&pwd="+pwd;
                 Log.e("yj",s);
                 ConfigUtil.userName = name+ship;
-                RegisterByPhone("http://192.168.43.232:8080/DingDong/RegisterServlet?"+s);
+                RegisterByPhone(ConfigUtil.xt+"RegisterServlet?"+s);
                 ConfigUtil.isLogin =true;
                 ConfigUtil.userName = name;
                 ConfigUtil.phone = phoneNum;
                 ConfigUtil.pwd = pwd;
                 ConfigUtil.parent.setName(name);
+                ConfigUtil.parent.setRelat(ship);
+                ConfigUtil.parent.setPhone(phoneNum);
                 Intent intent = new Intent(getApplicationContext(), MyTheActivity.class);
                 startActivity(intent);
             }
@@ -132,7 +151,16 @@ public class RegisterActivity extends AppCompatActivity {
             public void run() {
                 try {
                     URL url = new URL(s);
-                    url.openStream();
+                    URLConnection connection = url.openConnection();
+                    InputStream inputStream = connection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream,"utf-8"));
+                    String str=reader.readLine();
+                    reader.close();
+                    inputStream.close();
+                    Message msg = new Message();
+                    msg.what=1;
+                    msg.obj=str;
+                    handler.sendMessage(msg);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (IOException e) {

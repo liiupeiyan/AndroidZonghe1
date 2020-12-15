@@ -2,10 +2,12 @@ package com.example.androidzonghe1.activity.yjWork;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -54,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                     String str = (String) msg.obj;
                     String[] all = str.split(":");
                     Intent intent = new Intent(getApplicationContext(), MyTheActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     ConfigUtil.isLogin = true;
                     ConfigUtil.phone = phoneNum;
@@ -62,6 +65,17 @@ public class LoginActivity extends AppCompatActivity {
                     String id = all[2];
                     ConfigUtil.parent.setId(Integer.parseInt(id));
                     ConfigUtil.pwd = all[1];
+                    ConfigUtil.parent.setRelat(all[3]);
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("isLogin", ConfigUtil.isLogin);
+                    editor.putString("phone", ConfigUtil.phone);
+                    editor.putString("userName", ConfigUtil.userName);
+                    editor.putString("parentName", ConfigUtil.parent.getName());
+                    editor.putInt("parentId", ConfigUtil.parent.getId());
+                    editor.putString("pwd", ConfigUtil.pwd);
+                    editor.putString("parentRelat", ConfigUtil.parent.getRelat());
+                    editor.apply();
                     countDownTimer.cancel();
                     break;
             }
@@ -71,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         phoneNum = getIntent().getStringExtra("phoneNum");
         verifyCodeView = findViewById(R.id.verify_code_view);
         img_back = findViewById(R.id.back_login);
@@ -99,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
-                                GetParentId("http://192.168.43.232:8080/DingDong/LoginServlet?tel="+phoneNum);
+                                //GetParentId("http://192.168.43.232:8080/DingDong/LoginServlet?tel="+phoneNum);
                             }
                         });
                     }else if (event == SMSSDK.EVENT_GET_VOICE_VERIFICATION_CODE){
@@ -145,7 +160,7 @@ public class LoginActivity extends AppCompatActivity {
                 SMSSDK.submitVerificationCode("86", phoneNum, verifyCodeView.getEditContent());
                 InputMethodManager manager = ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE));
                 manager.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
-                GetParentId("http://192.168.43.232:8080/DingDong/LoginServlet?tel="+phoneNum);
+                GetParentId(ConfigUtil.xt+"LoginServlet?tel="+phoneNum);
             }
 
             @Override

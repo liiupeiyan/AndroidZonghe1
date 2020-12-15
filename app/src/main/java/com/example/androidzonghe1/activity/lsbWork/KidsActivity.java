@@ -80,7 +80,7 @@ public class KidsActivity extends AppCompatActivity {
             }
         });
         //网络连接
-        getChildInfo(ConfigUtil.Url+"GetChildServlet?id="+ConfigUtil.parent.getId() );
+        getChildInfo(ConfigUtil.xt+"GetChildServlet?id="+ConfigUtil.parent.getId() );
 
     }
 
@@ -89,7 +89,6 @@ public class KidsActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case 1:
-
                 break;
         }
     }

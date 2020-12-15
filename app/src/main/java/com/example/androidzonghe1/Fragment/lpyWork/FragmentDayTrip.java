@@ -3,9 +3,11 @@ package com.example.androidzonghe1.Fragment.lpyWork;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterDayTrip;
+import com.example.androidzonghe1.entity.lpyWork.Order;
 import com.example.androidzonghe1.entity.lpyWork.RecycleviewTitle;
+import com.example.androidzonghe1.entity.yyWork.DriverOrder;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -24,6 +31,16 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +51,7 @@ public class FragmentDayTrip extends Fragment {
     private RecycleAdapterDayTrip adapter;
     private final int REFRESH = 0;
     private final int LOADMORE = 1;
+    public static List<List> data= new ArrayList<>();
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -49,6 +67,7 @@ public class FragmentDayTrip extends Fragment {
                     adapter.notifyDataSetChanged();
                     refreshLayout.finishLoadMore();
                     break;
+
             }
         }
     };
@@ -68,15 +87,15 @@ public class FragmentDayTrip extends Fragment {
     private void findViews(){
         recyclerView = view.findViewById(R.id.rv_first);
         refreshLayout = view.findViewById(R.id.first_refreshLayout);
-        if (ConfigUtil.trips.size() == 0){
-            ConfigUtil.initTrips();
-        }
         //给recycleview设置标题
         List<RecycleviewTitle> title = new ArrayList<>();
         title.add(new RecycleviewTitle("今日行程"));
-        List<List> data = new ArrayList<>();
         data.add(title);
-        data.add(ConfigUtil.trips);
+        if(ConfigUtil.trip.size() != 0){
+            LinearLayout linearLayout = view.findViewById(R.id.rjx);
+            linearLayout.setVisibility(View.GONE);
+        }
+        data.add(ConfigUtil.trip);
         adapter = new RecycleAdapterDayTrip(data);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);

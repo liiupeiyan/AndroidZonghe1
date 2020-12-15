@@ -7,6 +7,7 @@ import com.example.androidzonghe1.entity.lpyWork.Order;
 import com.example.androidzonghe1.entity.lpyWork.SameSchoolRoute;
 import com.example.androidzonghe1.entity.xtWork.RvFragmentMy;
 import com.example.androidzonghe1.entity.yjWork.Parent;
+import com.example.androidzonghe1.entity.yyWork.DriverOrder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,8 @@ public class ConfigUtil {
     public static String userName = "";
     //当前手机号
     public static String phone="";
+    //当前用户与孩子的关系
+    public static String relationship = "";
 
     //当前搜索学校
     public static String school="";
@@ -27,12 +30,19 @@ public class ConfigUtil {
     public static double latitude = 0;
     public static double longitude = 0;
     public static Parent parent = new Parent();
+
+    //选定司机的手机号
+    public static String driverPhone = "";
+
     //徐婷连接到服务器
     public static final String xt = "http://10.7.90.141:8080/Dingdongg/";
     //任佳旭连接服务器
-    public static final String Url = "http://192.168.43.52:8080/DingDong/";
-
-    public static final String URL = "http://59.110.228.91:8080/DingDong/";
+//    public static final String Url = "http://192.168.43.52:8080/DingDong/";
+//    public static final String Url = "http://10.7.90.67:8080/DingDong/";
+//
+//    public static final String url = "http://10.7.90.67:8080/DingDong/";
+//
+//    public static final String URL = "http://59.110.228.91:8080/DingDong/";
 
     public static boolean adapterFlag =  true;
 
@@ -98,6 +108,20 @@ public class ConfigUtil {
             dayTrip.setPlaceBegin("徐汇区实验小学");
             dayTrip.setPlaceEnd("望春园西门");
             ConfigUtil.trips.add(dayTrip);
+        }
+    }
+    public static List<DriverOrder> trip = new ArrayList<>();
+    public static void initTrip(){
+        for(int i = 0; i < 10 ; i++){
+            DriverOrder dayTrip = new DriverOrder();
+            dayTrip.setAddress("放学"+i);
+            dayTrip.setDate("2020-12-11");
+            dayTrip.setTime("16:40");
+            dayTrip.setState("运行中");
+            dayTrip.setEndTime("17:00");
+            dayTrip.setFrom("徐汇区实验小学");
+            dayTrip.setTo("望春园西门");
+            ConfigUtil.trip.add(dayTrip);
         }
     }
 

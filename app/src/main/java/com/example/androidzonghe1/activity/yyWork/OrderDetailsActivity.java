@@ -19,19 +19,14 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.androidzonghe1.ConfigUtil;
-import com.example.androidzonghe1.Fragment.lpyWork.FragmentDriver;
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.Track.TrackApplication;
 import com.example.androidzonghe1.activity.lpyWork.MyTheActivity;
-import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterDriver;
 import com.example.androidzonghe1.adapter.lpyWork.RvAdapterNoTitleDriver;
-import com.example.androidzonghe1.adapter.rjxWork.DriverAdapter;
-import com.example.androidzonghe1.entity.lpyWork.Driver;
 import com.example.androidzonghe1.entity.lpyWork.Messages;
 import com.example.androidzonghe1.entity.yyWork.DriverOrder;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -51,13 +46,9 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class OrderDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 //    private Button btnDriver;
@@ -66,7 +57,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
     private TextView chooseState;
     private Button chooseDriver;
     private Button driverInfo;
-    private DriverOrder order=new DriverOrder();
+    private DriverOrder order = new DriverOrder();
     private ImageView inF;
     private ImageView outS;
     private TextView from;
@@ -161,8 +152,12 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                         getIvChooseDrivedrLine.setImageResource(R.drawable.hline2);
                         tvChooseD.setTextColor(getResources().getColor(R.color.red));
                         driverName.setText(ConfigUtil.drivers.get(myPosition).getName());
-                        order.setDriver(driverName.getText()+"");
+                        order.setDriver(ConfigUtil.drivers.get(myPosition).getPhone());
                         chooseState.setText("已选择");
+                        ConfigUtil.driverPhone = ConfigUtil.drivers.get(myPosition).getPhone();
+                        TrackApplication.entityName = ConfigUtil.driverPhone;
+                        Log.e("orderDertailsActivity",ConfigUtil.driverPhone);
+                        Log.e("entityName", TrackApplication.entityName);
                         bottomSheetDialog.dismiss();
 
                     }
@@ -283,7 +278,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                                 //将数据传递给服务端
                                 commitOrder();
                                 //添加一条消息
-                                addMessage(ConfigUtil.Url+"AddMessageSerlvet");
+                                addMessage(ConfigUtil.xt+"AddMessageSerlvet");
                                 Log.e("订单",order.toString());
                                 Log.e("输入密码为：",password);
                             }else {
@@ -369,7 +364,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                     messages.setDate(date);
 
                     Gson gson = new Gson();
-                    String jsonStr = gson.toJson(Messages.class);
+                    String jsonStr = gson.toJson(messages);
                     //获取输出流对象
                     OutputStream os = connection.getOutputStream();
                     os.write(jsonStr.getBytes());
