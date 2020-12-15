@@ -120,14 +120,17 @@ public class MyTheActivity extends AppCompatActivity {
                 sharedPreferences.edit().putBoolean("ticket",true);
                 sharedPreferences.edit().commit();
             }
-            changeTab(fragmentMy);
-            tabMyInit();
-            currentFragment = fragmentMy;
+//            changeTab(fragmentMy);
+//            tabMyInit();
+//            currentFragment = fragmentMy;
         }else {
-            changeTab(fragmentHomePage);
-            tabInt();
-            currentFragment = fragmentHomePage;
+//            changeTab(fragmentHomePage);
+//            tabInt();
+//            currentFragment = fragmentHomePage;
         }
+        changeTab(fragmentHomePage);
+        tabInt();
+        currentFragment = fragmentHomePage;
     }
 
     private void findViews(){

@@ -23,8 +23,10 @@ import com.example.androidzonghe1.entity.lpyWork.Driver;
 import com.example.androidzonghe1.entity.yyWork.DriverOrder;
 import com.google.gson.Gson;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -117,7 +119,7 @@ public class TravelDetailActivity extends AppCompatActivity {
         from.setText(bundle.get("from").toString());
         to.setText(bundle.get("to").toString());
         tvGo.setText(bundle.get("time").toString());
-        tvBack.setText(bundle.get("endTime").toString());
+//        tvBack.setText(bundle.get("endTime").toString());
         tvHope.setText(bundle.get("date").toString());
         if (bundle.get("state").equals("已完成")){
             over_line.setImageResource(R.drawable.hline2);
@@ -126,12 +128,12 @@ public class TravelDetailActivity extends AppCompatActivity {
             over.setText("订单已结束");
             over.setBackground(null);
         }
-        if (bundle.get("state").equals("入校")){
+        if (bundle.get("goOrCome").equals("入校")){
             inF.setImageResource(R.drawable.yes);
             inF0.setTextColor(getResources().getColor(R.color.myColor));
         }else {
-            outS.setImageResource(R.drawable.yes1);
-            outS0.setTextColor(getResources().getColor(R.color.gray));
+            outS.setImageResource(R.drawable.yes);
+            outS0.setTextColor(getResources().getColor(R.color.myColor));
         }
 
 
@@ -156,14 +158,14 @@ public class TravelDetailActivity extends AppCompatActivity {
             }
         });
 //        //鹰眼轨迹
-        if (!bundle.get("state").equals("已完成")){
-            over.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-        }
+//        if (!bundle.get("state").equals("已完成")){
+//            over.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                }
+//            });
+//        }
 
     }
 
@@ -180,9 +182,11 @@ public class TravelDetailActivity extends AppCompatActivity {
 
                     //从服务器段获取响应
                     InputStream is = connection.getInputStream();
-                    byte[] bytes = new byte[256];
-                    int len = is.read(bytes);//将数据保存在bytes中，长度保存在len中
-                    String resp = new String(bytes,0,len);
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                    String resp = reader.readLine();
+//                    byte[] bytes = new byte[256];
+//                    int len = is.read(bytes);//将数据保存在bytes中，长度保存在len中
+//                    String resp = new String(bytes,0,len);
 
                     //借助Message传递数据
                     Message message = new Message();

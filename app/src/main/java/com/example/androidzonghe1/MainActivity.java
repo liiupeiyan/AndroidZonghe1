@@ -27,6 +27,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Boolean isLogin = sharedPreferences.getBoolean("isLogin", false);
+        if (isLogin) {
+            String phone = sharedPreferences.getString("phone", "");
+            String userName = sharedPreferences.getString("userName", "");
+            String parentName = sharedPreferences.getString("parentName", "");
+            int parentId = sharedPreferences.getInt("parentId", -1);
+            String pwd = sharedPreferences.getString("pwd", "");
+            String parentRelat = sharedPreferences.getString("parentRelat", "");
+            ConfigUtil.isLogin = isLogin;
+            ConfigUtil.phone = phone;
+            ConfigUtil.userName = userName;
+            ConfigUtil.parent.setName(parentName);
+            ConfigUtil.parent.setId(parentId);
+            ConfigUtil.pwd = pwd;
+            ConfigUtil.parent.setRelat(parentRelat);
+        }
+
         Boolean flag = sharedPreferences.getBoolean("flag", false);
         if (!flag){
             SharedPreferences.Editor editor = sharedPreferences.edit();

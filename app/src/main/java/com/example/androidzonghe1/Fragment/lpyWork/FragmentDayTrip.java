@@ -48,10 +48,10 @@ public class FragmentDayTrip extends Fragment {
     private RecyclerView recyclerView;
     private SmartRefreshLayout refreshLayout;
     private View view;
+    public static LinearLayout top;
     private RecycleAdapterDayTrip adapter;
     private final int REFRESH = 0;
     private final int LOADMORE = 1;
-    public static List<List> data= new ArrayList<>();
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -85,16 +85,17 @@ public class FragmentDayTrip extends Fragment {
     }
 
     private void findViews(){
+        top = view.findViewById(R.id.rjx);
         recyclerView = view.findViewById(R.id.rv_first);
         refreshLayout = view.findViewById(R.id.first_refreshLayout);
+        if(ConfigUtil.trip.size() != 0){
+            top.setVisibility(View.GONE);
+        }
         //给recycleview设置标题
         List<RecycleviewTitle> title = new ArrayList<>();
         title.add(new RecycleviewTitle("今日行程"));
+        List<List> data= new ArrayList<>();
         data.add(title);
-        if(ConfigUtil.trip.size() != 0){
-            LinearLayout linearLayout = view.findViewById(R.id.rjx);
-            linearLayout.setVisibility(View.GONE);
-        }
         data.add(ConfigUtil.trip);
         adapter = new RecycleAdapterDayTrip(data);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

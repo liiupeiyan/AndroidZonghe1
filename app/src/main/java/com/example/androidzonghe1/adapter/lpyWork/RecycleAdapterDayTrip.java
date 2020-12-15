@@ -38,7 +38,7 @@ public class RecycleAdapterDayTrip extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public int getItemViewType(int position) {
         Object o ;
-        if (position >= 2){
+        if (position >= 1){
             o = data.get(1).get(position-1);
         } else {
             o = data.get(position).get(0);
@@ -109,10 +109,11 @@ public class RecycleAdapterDayTrip extends RecyclerView.Adapter<RecyclerView.Vie
                         bundle.putString("date",date);
                         bundle.putString("time",time);
                         bundle.putString("state",state);
-                        bundle.putString("endTime",endTime);
+//                        bundle.putString("endTime",endTime);
                         bundle.putString("from",from);
                         bundle.putString("to",to);
                         bundle.putString("id",trips.get(position-1).getId()+"");
+                        Log.e("结果果","hhh"+bundle.toString());
                         intent.putExtra("bundle",bundle);
                         mContext.startActivity(intent);
                     }
