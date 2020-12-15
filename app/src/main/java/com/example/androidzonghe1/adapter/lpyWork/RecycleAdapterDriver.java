@@ -87,7 +87,7 @@ public class RecycleAdapterDriver extends RecyclerView.Adapter<RecyclerView.View
         if(holder instanceof Myholder){
             Glide.with(mContext)
 //                    .load(drivers.get(position-1).getImg())
-                    .load(ConfigUtil.Url+drivers.get(position).getImg())
+                    .load(ConfigUtil.xt+drivers.get(position).getImg())
                     .into(((Myholder)holder).img);
             ((Myholder) holder).name.setText(drivers.get(position-1).getName());
             ((Myholder) holder).age.setText(drivers.get(position-1).getAge()+"岁");

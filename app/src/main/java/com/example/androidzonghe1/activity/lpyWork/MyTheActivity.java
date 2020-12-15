@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -27,17 +26,17 @@ import com.example.androidzonghe1.Fragment.lpyWork.FragmentMy;
 import com.example.androidzonghe1.Fragment.lpyWork.FragmentTrack;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.yjWork.ActivityLoginPage;
-import com.example.androidzonghe1.activity.yjWork.RegisterActivity;
 import com.example.androidzonghe1.entity.lpyWork.Driver;
-import com.example.androidzonghe1.entity.rjxWork.History;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lanren.easydialog.AnimatorHelper;
 import com.lanren.easydialog.DialogViewHolder;
 import com.lanren.easydialog.EasyDialog;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -61,7 +60,7 @@ public class MyTheActivity extends AppCompatActivity {
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what){
                 case 1:
-                    String str = (String) msg.obj;
+                    String str =  msg.obj.toString();
                     Gson gson = new Gson();
                     Type collection = new TypeToken<List<Driver>>() {}.getType();
                     ConfigUtil.drivers = gson.fromJson(str,collection);
@@ -77,6 +76,7 @@ public class MyTheActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_the);
+        getAllDrivers(ConfigUtil.xt+"");
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         findViews();
         fragmentHomePage = new FragmentHomePage();
@@ -166,7 +166,7 @@ public class MyTheActivity extends AppCompatActivity {
                 break;
             case R.id.my:
 //                fragmentMy = new FragmentMy();
-                if(!ConfigUtil.isLogin){
+                if(ConfigUtil.isLogin){
                     changeTab(fragmentMy);
                     btnMyClicked();
                 } else {
@@ -183,7 +183,6 @@ public class MyTheActivity extends AppCompatActivity {
 
     private void tabInt(){
         btnHomePage.setTextColor(Color.BLACK);
-
         Drawable drawableHomePage = getResources().getDrawable(R.drawable.home_page_clicked);
         drawableHomePage.setBounds(0, 0, drawableHomePage.getMinimumWidth(), drawableHomePage.getMinimumHeight());
         btnHomePage.setCompoundDrawables(null,drawableHomePage,null,null);
@@ -298,9 +297,11 @@ public class MyTheActivity extends AppCompatActivity {
 
                     //从服务器段获取响应
                     InputStream is = connection.getInputStream();
-                    byte[] bytes = new byte[512];
-                    int len = is.read(bytes);//将数据保存在bytes中，长度保存在len中
-                    String resp = new String(bytes,0,len);
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                    String resp = reader.readLine();
+                    //                    byte[] bytes = new byte[512];
+//                    int len = is.read(bytes);//将数据保存在bytes中，长度保存在len中
+//                    String resp = new String(bytes,0,len);
                     Log.e("所有司机",resp);
 
                     is.close();

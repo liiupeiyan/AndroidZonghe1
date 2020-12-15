@@ -299,7 +299,7 @@ public class ActivityPersonInfo extends AppCompatActivity {
                     infoHome = data.getExtras().getParcelable("suggestionInfo");
                     Log.e("suggestionInfo",infoHome.toString());
                     homeName =  infoHome.key;
-                    uploadHomeAddress(ConfigUtil.url+"AddLocateServlet");
+                    uploadHomeAddress(ConfigUtil.xt+"AddLocateServlet");
                     //修改数据库
                     updateHome();
 //                    btnAddressChild.setText(schoolName);
@@ -470,9 +470,7 @@ public class ActivityPersonInfo extends AppCompatActivity {
                 locate.setLatitude(infoHome.getPt().latitude);
                 locate.setLongitude(infoHome.getPt().longitude);
                 locate.setKey(infoHome.key);
-//                locate.setRelationship(ConfigUtil.parent.);
-
-                locate.setRelationship("爸爸");
+                locate.setRelationship(ConfigUtil.parent.getRelat());
                 try {
                     Gson gson = new Gson();
                     String jsonObject = gson.toJson(locate);

@@ -68,7 +68,7 @@ public class ActivityMyMessage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_message);
         //网络请求
-        showAllMessages(ConfigUtil.Url+"GetAllMessageServlet?userId=" + ConfigUtil.parent.getId());
+        showAllMessages(ConfigUtil.xt+"GetAllMessageServlet?userId=" + ConfigUtil.parent.getId());
         findViews();
         //设置刷新头和加载更多的样式
         refreshLayout.setRefreshHeader(new ClassicsHeader(this));
