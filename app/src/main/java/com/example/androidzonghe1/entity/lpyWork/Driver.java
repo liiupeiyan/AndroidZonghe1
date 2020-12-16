@@ -8,7 +8,7 @@ public class Driver {
     private String car;
     private String style;
     private String experience;
-    private int img;
+    private String img;
     private String status;
     private int flag;
 
@@ -20,7 +20,7 @@ public class Driver {
         this.flag = flag;
     }
 
-    public Driver(int id, String name, String phone, int age, String car, String style, String experience, int img, String status) {
+    public Driver(int id, String name, String phone, int age, String car, String style, String experience, String img, String status) {
         this.id = id;
         this.name = name;
         this.phone = phone;
@@ -93,11 +93,11 @@ public class Driver {
         this.experience = experience;
     }
 
-    public int getImg() {
+    public String getImg() {
         return img;
     }
 
-    public void setImg(int img) {
+    public void setImg(String img) {
         this.img = img;
     }
 

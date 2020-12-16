@@ -22,10 +22,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.Track.TrackApplication;
 import com.example.androidzonghe1.activity.lpyWork.MyTheActivity;
+import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterDriver;
 import com.example.androidzonghe1.adapter.lpyWork.RvAdapterNoTitleDriver;
 import com.example.androidzonghe1.entity.lpyWork.Messages;
 import com.example.androidzonghe1.entity.yyWork.DriverOrder;
@@ -146,7 +149,14 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                     @Override
                     public void onClick(View v) {
                         driverInfo.setVisibility(View.VISIBLE);
-                        driverImg.setImageResource(ConfigUtil.drivers.get(myPosition).getImg());
+                        RequestOptions options = new RequestOptions()
+                                .placeholder(R.drawable.loading);
+                        Glide.with(getApplicationContext())
+//                    .load(drivers.get(position-1).getImg())
+                                .load(ConfigUtil.xt+ConfigUtil.drivers.get(myPosition).getImg())
+                                .apply(options)
+                                .into(driverImg);
+//                        driverImg.setImageResource(ConfigUtil.drivers.get(myPosition).getImg());
                         chooseDriver.setText("更换司机");
                         ivChooseDrivedr.setImageResource(R.drawable.spot1);
                         getIvChooseDrivedrLine.setImageResource(R.drawable.hline2);
@@ -360,7 +370,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                     messages.setTitle("您有一条新的订单");
                     messages.setType("叮咚科技");
                     messages.setUserId(ConfigUtil.parent.getId());
-                    String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
+                    String date = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date(System.currentTimeMillis()));
                     messages.setDate(date);
 
                     Gson gson = new Gson();
