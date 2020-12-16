@@ -288,7 +288,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                                 //将数据传递给服务端
                                 commitOrder();
                                 //添加一条消息
-                                addMessage(ConfigUtil.Url+"AddMessageSerlvet");
+                                addMessage(ConfigUtil.xt+"AddMessageServlet");
                                 Log.e("订单",order.toString());
                                 Log.e("输入密码为：",password);
                             }else {
@@ -370,11 +370,11 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                     messages.setTitle("您有一条新的订单");
                     messages.setType("叮咚科技");
                     messages.setUserId(ConfigUtil.parent.getId());
-                    String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
+                    String date = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date(System.currentTimeMillis()));
                     messages.setDate(date);
 
                     Gson gson = new Gson();
-                    String jsonStr = gson.toJson(Messages.class);
+                    String jsonStr = gson.toJson(messages);
                     //获取输出流对象
                     OutputStream os = connection.getOutputStream();
                     os.write(jsonStr.getBytes());

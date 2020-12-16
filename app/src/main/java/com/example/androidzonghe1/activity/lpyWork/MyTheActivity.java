@@ -78,6 +78,7 @@ public class MyTheActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_the);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        getAllDrivers(ConfigUtil.xt+"GetDriverServlet");
         findViews();
         fragmentHomePage = new FragmentHomePage();
         fragmentLaunchRoute = new FragmentLaunchRoute();

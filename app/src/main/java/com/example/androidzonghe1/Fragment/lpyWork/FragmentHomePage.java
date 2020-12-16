@@ -114,16 +114,10 @@ public class FragmentHomePage extends Fragment {
 
                                 ConfigUtil.trip.add(order);
                             }
-                            //给recycleview设置内容
-                            FragmentDayTrip.data.add(ConfigUtil.trip);
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else {
-
                     }
-
                     break;
             }
         }
@@ -269,7 +263,7 @@ public class FragmentHomePage extends Fragment {
                 ConfigUtil.latitude = info.getPt().latitude;
                 ConfigUtil.longitude = info.getPt().longitude;
                 //获取同校路线
-                getSameSchoolRoute(ConfigUtil.Url+"GetSameRouteServlet?school="+schoolName);
+                getSameSchoolRoute(ConfigUtil.xt+"GetSameRouteServlet?school="+schoolName);
                 FragmentSameSchoolParents fragmentSameSchoolParents = new FragmentSameSchoolParents();
 //                adapter.changeId(1);
 //                adapter.notifyDataSetChanged();
