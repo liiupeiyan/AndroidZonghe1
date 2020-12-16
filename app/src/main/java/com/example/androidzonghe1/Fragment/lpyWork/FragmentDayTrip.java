@@ -96,6 +96,7 @@ public class FragmentDayTrip extends Fragment {
         refreshLayout = view.findViewById(R.id.first_refreshLayout);
         LocalDate date = LocalDate.now();
         String date_now = date.toString();
+        trips.clear();
         for (DriverOrder order : ConfigUtil.trip){
             if (order.getDate().equals(date_now)){
                 trips.add(order);
