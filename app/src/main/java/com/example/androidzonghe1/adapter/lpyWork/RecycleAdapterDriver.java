@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.yyWork.OrderDetailsActivity;
@@ -85,9 +86,12 @@ public class RecycleAdapterDriver extends RecyclerView.Adapter<RecyclerView.View
             ((TitleViewHolder) holder).title.setText(titles.get(position).getTitle());
         }
         if(holder instanceof Myholder){
+            RequestOptions options = new RequestOptions()
+                    .placeholder(R.drawable.loading);
             Glide.with(mContext)
 //                    .load(drivers.get(position-1).getImg())
-                    .load(ConfigUtil.xt+drivers.get(position).getImg())
+                    .load(ConfigUtil.xt+drivers.get(position-1).getImg())
+                    .apply(options)
                     .into(((Myholder)holder).img);
             ((Myholder) holder).name.setText(drivers.get(position-1).getName());
             ((Myholder) holder).age.setText(drivers.get(position-1).getAge()+"岁");
