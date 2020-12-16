@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.adapter.yjWork.MyTripAdapter;
+import com.example.androidzonghe1.entity.lpyWork.DayTrip;
+import com.example.androidzonghe1.entity.yyWork.DriverOrder;
 
 public class MyTripActivity extends AppCompatActivity {
     private ImageView back,calendar;
@@ -26,8 +28,17 @@ public class MyTripActivity extends AppCompatActivity {
         calendar = findViewById(R.id.calendar);
         none = findViewById(R.id.trip_none);
         listView = findViewById(R.id.my_trip_view);
-        if (ConfigUtil.trips!=null&&ConfigUtil.trips.size()!=0){
+        if (ConfigUtil.trip!=null&&ConfigUtil.trip.size()!=0){
             none.setVisibility(View.GONE);
+            ConfigUtil.trips.clear();
+            for(DriverOrder order :ConfigUtil.trip){
+                DayTrip trip = new DayTrip();
+                trip.setDate(order.getDate());
+                trip.setTripState(order.getState());
+                trip.setPlaceBegin(order.getFrom());
+                trip.setPlaceEnd(order.getTo());
+                ConfigUtil.trips.add(trip);
+            }
         }else {
             none.setVisibility(View.VISIBLE);
         }
