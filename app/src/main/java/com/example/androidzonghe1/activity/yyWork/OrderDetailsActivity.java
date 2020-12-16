@@ -370,7 +370,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                     messages.setTitle("您有一条新的订单");
                     messages.setType("叮咚科技");
                     messages.setUserId(ConfigUtil.parent.getId());
-                    String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
+                    String date = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date(System.currentTimeMillis()));
                     messages.setDate(date);
 
                     Gson gson = new Gson();
