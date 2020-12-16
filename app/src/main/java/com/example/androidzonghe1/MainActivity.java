@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.example.androidzonghe1.activity.Track.TrackApplication;
 import com.example.androidzonghe1.activity.lpyWork.MyTheActivity;
 import com.example.androidzonghe1.others.lsbWork.MyAppIntro2;
 
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
             ConfigUtil.parent.setId(parentId);
             ConfigUtil.pwd = pwd;
             ConfigUtil.parent.setRelat(parentRelat);
+            TrackApplication.entityName = ConfigUtil.phone;
         }
 
         Boolean flag = sharedPreferences.getBoolean("flag", false);

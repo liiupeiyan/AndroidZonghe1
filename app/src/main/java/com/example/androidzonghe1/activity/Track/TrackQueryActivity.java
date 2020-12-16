@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -290,6 +291,13 @@ public class TrackQueryActivity extends BaseActivity implements CompoundButton.O
             endTime = data.getLongExtra("endTime", CommonUtil.getCurrentTime());
         }
 
+//        if (data.hasExtra("entityName")) {
+//            Log.e("entityName", TrackApplication.entityName);
+//            TrackApplication.entityName = data.getStringExtra("entityName");
+//            Log.e("entityName", TrackApplication.entityName);
+//            TrackApplication.initTrace();
+//        }
+
         ProcessOption processOption = new ProcessOption();
         if (data.hasExtra("radius")) {
             processOption.setRadiusThreshold(data.getIntExtra("radius", Constants.DEFAULT_RADIUS_THRESHOLD));
@@ -326,22 +334,22 @@ public class TrackQueryActivity extends BaseActivity implements CompoundButton.O
             historyTrackRequest.setProcessed(data.getBooleanExtra("processed", true));
         }
 
-        // 设置需要纠偏
-        historyTrackRequest.setProcessed(true);
-// 创建纠偏选项实例
-//        ProcessOption processOption = new ProcessOption();
-// 设置需要去噪
-        processOption.setNeedDenoise(true);
-// 设置需要抽稀
-        processOption.setNeedVacuate(true);
-// 设置需要绑路
-        processOption.setNeedMapMatch(true);
-// 设置精度过滤值(定位精度大于100米的过滤掉)
-        processOption.setRadiusThreshold(100);
-// 设置交通方式为驾车
-        processOption.setTransportMode(TransportMode.walking);
-// 设置纠偏选项
-        historyTrackRequest.setProcessOption(processOption);
+//        // 设置需要纠偏
+//        historyTrackRequest.setProcessed(true);
+//// 创建纠偏选项实例
+////        ProcessOption processOption = new ProcessOption();
+//// 设置需要去噪
+//        processOption.setNeedDenoise(true);
+//// 设置需要抽稀
+//        processOption.setNeedVacuate(true);
+//// 设置需要绑路
+//        processOption.setNeedMapMatch(true);
+//// 设置精度过滤值(定位精度大于100米的过滤掉)
+//        processOption.setRadiusThreshold(100);
+//// 设置交通方式为驾车
+//        processOption.setTransportMode(TransportMode.walking);
+//// 设置纠偏选项
+//        historyTrackRequest.setProcessOption(processOption);
         queryHistoryTrack();
     }
 
@@ -350,6 +358,7 @@ public class TrackQueryActivity extends BaseActivity implements CompoundButton.O
      */
     private void queryHistoryTrack() {
         trackApp.initRequest(historyTrackRequest);
+//        Log.e("entityName", trackApp.entityName);
         historyTrackRequest.setEntityName(trackApp.entityName);
         historyTrackRequest.setStartTime(startTime);
         historyTrackRequest.setEndTime(endTime);

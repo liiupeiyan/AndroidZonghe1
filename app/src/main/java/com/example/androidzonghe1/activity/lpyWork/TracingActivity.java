@@ -32,6 +32,7 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.trace.Trace;
 import com.baidu.trace.api.entity.OnEntityListener;
 import com.baidu.trace.api.fence.FenceAlarmPushInfo;
 import com.baidu.trace.api.fence.MonitoredAction;
@@ -43,6 +44,7 @@ import com.baidu.trace.model.OnTraceListener;
 import com.baidu.trace.model.PushMessage;
 import com.baidu.trace.model.StatusCodes;
 import com.baidu.trace.model.TraceLocation;
+import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.Track.BitmapUtil;
 import com.example.androidzonghe1.activity.Track.CommonUtil;
@@ -134,6 +136,8 @@ public class TracingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void init() {
+        TrackApplication.entityName = ConfigUtil.phone;
+        TrackApplication.initTrace();
         bitmapUtil = new BitmapUtil();
         BitmapUtil.init();
         initListener();

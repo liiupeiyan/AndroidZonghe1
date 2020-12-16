@@ -140,6 +140,7 @@ public class FragmentHomePage extends Fragment {
                     String strDriver =  msg.obj.toString();
                     Gson gsonDriver = new Gson();
                     Type collection = new TypeToken<List<Driver>>() {}.getType();
+                    ConfigUtil.drivers.clear();
                     ConfigUtil.drivers = gsonDriver.fromJson(strDriver,collection);
 //                    adapter.notifyDataSetChanged();
 //                    //为ViewPager绑定Adapter
@@ -210,7 +211,7 @@ public class FragmentHomePage extends Fragment {
         //今日行程
         getAllTravel(ConfigUtil.xt+"ShowWalletServlet?id="+ConfigUtil.parent.getId());
         //司机信息
-        getAllDrivers(ConfigUtil.xt+"");
+        getAllDrivers(ConfigUtil.xt+"GetDriverServlet");
         //
     }
 
@@ -319,6 +320,7 @@ public class FragmentHomePage extends Fragment {
     public void onResume() {
         super.onResume();
         getDatas();
+        Log.e("ConfigUtil.phone",ConfigUtil.phone);
     }
 
     //网络请求 获取今日行程

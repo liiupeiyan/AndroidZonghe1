@@ -35,6 +35,7 @@ public class TrackQueryOptionsActivity extends BaseActivity
     private CheckBox vacuateCBx = null;
     private CheckBox mapmatchCBx = null;
     private EditText radiusText = null;
+    private EditText etEntityName;
     private EditText mLowSpeedThreshold = null;
     private DateDialog.Callback startTimeCallback = null;
     private DateDialog.Callback endTimeCallback = null;
@@ -64,6 +65,8 @@ public class TrackQueryOptionsActivity extends BaseActivity
         mapmatchCBx = (CheckBox) findViewById(R.id.mapmatch);
         radiusText = (EditText) findViewById(R.id.radius_threshold);
         mLowSpeedThreshold = (EditText) findViewById(R.id.low_speed_threshold);
+        etEntityName = (EditText) findViewById(R.id.track_query_option_entity_name);
+        etEntityName.setText(TrackApplication.entityName);
 
         StringBuilder startTimeBuilder = new StringBuilder();
         startTimeBuilder.append(getResources().getString(R.string.start_time));
@@ -135,6 +138,7 @@ public class TrackQueryOptionsActivity extends BaseActivity
         result.putExtra("denoise", isDenoise);
         result.putExtra("vacuate", isVacuate);
         result.putExtra("mapmatch", isMapmatch);
+        result.putExtra("entityName", etEntityName.getText());
 
         String radiusStr = radiusText.getText().toString();
         if (!TextUtils.isEmpty(radiusStr)) {
