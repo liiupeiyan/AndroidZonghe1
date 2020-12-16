@@ -1,7 +1,9 @@
 package com.example.androidzonghe1.activity.xtWork;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
+import com.example.androidzonghe1.activity.lpyWork.MyTheActivity;
 import com.example.androidzonghe1.activity.yjWork.ActivityLoginPage;
 import com.example.androidzonghe1.activity.yjWork.LoginActivity;
 import com.example.androidzonghe1.activity.yjWork.PolicyActivity;
@@ -73,9 +76,14 @@ public class AcitivySetting extends AppCompatActivity implements View.OnClickLis
             case R.id.btn_log_off://退出登录
                 Log.e("ActivitySetting", "btnLogOff onClicked");
                 if(ConfigUtil.isLogin){
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
                     ConfigUtil.isLogin = false;
+                    editor.putBoolean("isLogin", ConfigUtil.isLogin);
+                    editor.apply();
                     //跳转到登录页面
-                    Intent intent = new Intent(AcitivySetting.this, ActivityLoginPage.class);
+                    Intent intent = new Intent(AcitivySetting.this, MyTheActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
 //                    finish();
                 }else {

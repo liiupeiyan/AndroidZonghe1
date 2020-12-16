@@ -118,7 +118,7 @@ public class FragmentSameSchoolParents extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_same_school_parents, container, false);
-        getHomeAddresses(ConfigUtil.url+"GetLocateServlet");
+        getHomeAddresses(ConfigUtil.xt+"GetLocateServlet");
         //获取引用
         findViews();
         //自定义百度地图

@@ -56,47 +56,28 @@
                 android:textColor="@color/orange"/>
         </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout android:layout_width="match_parent"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/first_refreshLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="8dp"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/first_refreshLayout"
+        app:srlEnableFooterFollowWhenLoadFinished="true"
+        app:srlEnableScrollContentWhenLoaded="true"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+        <com.scwang.smartrefresh.layout.header.BezierRadarHeader
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:srlEnableFooterFollowWhenLoadFinished="true"
-            app:srlEnableScrollContentWhenLoaded="true"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto">
-            <com.scwang.smartrefresh.layout.header.BezierRadarHeader
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
-                <TextView
-                    android:text="今日行程"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"/>
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_first"
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </androidx.recyclerview.widget.RecyclerView>
-            <!--        <com.scwang.smartrefresh.layout.footer.ClassicsFooter-->
-            <!--            android:layout_width="match_parent"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            app:srlClassicsSpinnerStyle="Translate"/>-->
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-    </LinearLayout>
+            android:layout_height="wrap_content"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_first"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </androidx.recyclerview.widget.RecyclerView>
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlClassicsSpinnerStyle="Translate"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>
 

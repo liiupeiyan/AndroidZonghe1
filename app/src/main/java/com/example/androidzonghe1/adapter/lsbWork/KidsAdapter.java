@@ -89,7 +89,7 @@ public class KidsAdapter extends RecyclerView.Adapter<KidsAdapter.ViewHolder> im
                 Log.e("KidsAdapter", "btnDelete onClick position:" + position);
                 //网络流删除数据
                 int id = data.get(position).getId();
-                deleteChildById(ConfigUtil.Url+"deleteChildServlet?cId="+id);
+                deleteChildById(ConfigUtil.xt+"deleteChildServlet?cId="+id);
                 data.remove(position);
                 notifyDataSetChanged();
             }

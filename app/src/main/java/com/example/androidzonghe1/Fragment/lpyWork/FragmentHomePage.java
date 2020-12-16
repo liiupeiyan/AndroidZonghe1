@@ -38,6 +38,7 @@ import com.example.androidzonghe1.adapter.lpyWork.MyViewPagerAdapter;
 import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterDayTrip;
 import com.example.androidzonghe1.adapter.lpyWork.RecycleAdapterSameSchoolRoute;
 import com.example.androidzonghe1.entity.lpyWork.DataBean;
+import com.example.androidzonghe1.entity.lpyWork.Driver;
 import com.example.androidzonghe1.entity.lpyWork.SameSchoolRoute;
 import com.example.androidzonghe1.entity.yyWork.DriverOrder;
 import com.google.android.material.tabs.TabLayout;
@@ -50,13 +51,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FragmentHomePage extends Fragment {
     private CoordinatorLayout coordinatorLayout;
@@ -70,10 +75,12 @@ public class FragmentHomePage extends Fragment {
     private View view;
     private MyViewPagerAdapter adapter;
     private Handler handler = new Handler(){
+        @SuppressLint("HandlerLeak")
         @Override
         public void handleMessage(@NonNull Message msg) {
+            Log.e("handlMessage","true");
             switch (msg.what){
-                case 10://接收到数据
+                case 10://接收到同校路线数据
                     String resp = (String) msg.obj;
                     Gson gson = new Gson();
                     Type collectionType = new TypeToken<ArrayList<SameSchoolRoute>>() {}.getType();
@@ -90,36 +97,59 @@ public class FragmentHomePage extends Fragment {
 //                    }
 //                    adapter.addFragment(new FragmentSameSchoolParents(),"同校家长");
 //                    adapter.addFragment(new FragmentDriver(),"接送员");
-                    adapter.changeId(1);
-                    adapter.notifyDataSetChanged();
-                    //为ViewPager绑定Adapter
-                    myViewPager.setAdapter(adapter);
+//                    adapter.changeId(1);
+//                    adapter.notifyDataSetChanged();
+//                    //为ViewPager绑定Adapter
+//                    myViewPager.setAdapter(adapter);
                     break;
-                case 11:
-                    if(msg.obj != null){
-                        String json = (String) msg.obj;
-                        try {
-                            JSONArray jsonArray = new JSONArray(json);
-                            for (int i = 0;i<jsonArray.length();i++){
-                                JSONObject object = jsonArray.getJSONObject(i);
-                                DriverOrder order = new DriverOrder();
-                                order.setId(object.getInt("order_id"));
-                                order.setAddress(object.getString("address"));
-                                order.setFrom(object.getString("from"));
-                                order.setTo(object.getString("to"));
-                                order.setDate(object.getString("date"));
-                                order.setTime(object.getString("time"));
-                                order.setEndTime(object.getString("timeend"));
-                                order.setPrice(object.getDouble("price"));
-
-                                ConfigUtil.trip.add(order);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                case 12://接收到今日行程数据
+                    Log.e("tripHandleMessage","true"+msg.obj.toString());
+                    String json = msg.obj.toString();
+                    try {
+                        ConfigUtil.trip.clear();
+                        JSONArray jsonArray = new JSONArray(json);
+                        for (int i = 0;i<jsonArray.length();i++){
+                            JSONObject object = jsonArray.getJSONObject(i);
+                            Log.e("jsonObject",object.toString());
+                            DriverOrder order = new DriverOrder();
+                            order.setId(object.getInt("order_id"));
+                            order.setAddress(object.getString("address"));
+                            order.setFrom(object.getString("from"));
+                            order.setTo(object.getString("to"));
+                            order.setDate(object.getString("date"));
+                            order.setTime(object.getString("time"));
+                            order.setState(object.getString("status"));
+//                            order.setEndTime(object.getString("timeend"));
+                            order.setPrice(object.getDouble("price"));
+                            Log.e("jsonObjec...",order.toString());
+                            ConfigUtil.trip.add(order);
                         }
+                        Log.e("ConfigUtil.trip-----",ConfigUtil.trip.toString());
+                        //给recycleview设置内容
+//                            FragmentDayTrip.data.add(ConfigUtil.trip);
+//                            adapter.changeId(2);
+//                            adapter.notifyDataSetChanged();
+//                            //为ViewPager绑定Adapter
+//                            myViewPager.setAdapter(adapter);
+                    } catch (JSONException e) {
+                        Log.e("catch Exception","true");
+                        e.printStackTrace();
                     }
                     break;
+                case 1://司机信息
+                    String strDriver =  msg.obj.toString();
+                    Gson gsonDriver = new Gson();
+                    Type collection = new TypeToken<List<Driver>>() {}.getType();
+                    ConfigUtil.drivers = gsonDriver.fromJson(strDriver,collection);
+//                    adapter.notifyDataSetChanged();
+//                    //为ViewPager绑定Adapter
+//                    myViewPager.setAdapter(adapter);
+                    break;
             }
+//            adapter.changeId(1);
+            adapter.notifyDataSetChanged();
+            //为ViewPager绑定Adapter
+            myViewPager.setAdapter(adapter);
         }
     };
 
@@ -127,8 +157,7 @@ public class FragmentHomePage extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home_page ,container, false);
-        //请求服务端获取数据
-        getAllTravel(ConfigUtil.xt+"ShowWalletServlet?id="+ConfigUtil.parent.getId());
+
 
         findViews();
         InitUiAndDatas();
@@ -174,6 +203,15 @@ public class FragmentHomePage extends Fragment {
         if (requestCode == 100 && grantResults[0] == 0){
             Log.e("定权限已开启","MainActivity");
         }
+    }
+
+    public void getDatas(){
+        //请求服务端获取数据
+        //今日行程
+        getAllTravel(ConfigUtil.xt+"ShowWalletServlet?id="+ConfigUtil.parent.getId());
+        //司机信息
+        getAllDrivers(ConfigUtil.xt+"");
+        //
     }
 
     private void findViews(){
@@ -277,6 +315,12 @@ public class FragmentHomePage extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getDatas();
+    }
+
     //网络请求 获取今日行程
     private void getAllTravel(String s){
         new Thread(){
@@ -290,18 +334,18 @@ public class FragmentHomePage extends Fragment {
 
                     //从服务器段获取响应
                     InputStream is = connection.getInputStream();
-                    byte[] bytes = new byte[512];
-                    int len = is.read(bytes);//将数据保存在bytes中，长度保存在len中
-                    String resp = new String(bytes,0,len);
-                    Log.e("所有行程",resp);
-
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                    String resp = reader.readLine();
+                    Log.e("所有行程1",resp);
+                    is.close();
                     //借助Message传递数据
                     Message message = new Message();
                     //设置Message对象的参数
-                    message.what = 10;
+                    message.what = 12;
                     message.obj = resp;
                     //发送Message
                     handler.sendMessage(message);
+                    Log.e("所有行程2",resp);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -324,9 +368,11 @@ public class FragmentHomePage extends Fragment {
 
                     //从服务器段获取响应
                     InputStream is = connection.getInputStream();
-                    byte[] bytes = new byte[1024];
-                    int len = is.read(bytes);//将数据保存在bytes中，长度保存在len中
-                    String resp = new String(bytes,0,len);
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                    String resp = reader.readLine();
+//                    byte[] bytes = new byte[1024];
+//                    int len = is.read(bytes);//将数据保存在bytes中，长度保存在len中
+//                    String resp = new String(bytes,0,len);
                     Log.e("搜索结果",resp);
 
                     is.close();
@@ -344,6 +390,45 @@ public class FragmentHomePage extends Fragment {
                     e.printStackTrace();
                 }
 
+            }
+        }.start();
+    }
+
+
+    public void getAllDrivers(String s){
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(s);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    //设置http请求方式，get、post、put、...(默认get请求)
+                    connection.setRequestMethod("POST");//设置请求方式
+
+                    //从服务器段获取响应
+                    InputStream is = connection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                    String resp = reader.readLine();
+                    //                    byte[] bytes = new byte[512];
+//                    int len = is.read(bytes);//将数据保存在bytes中，长度保存在len中
+//                    String resp = new String(bytes,0,len);
+                    Log.e("所有司机",resp);
+                    //                    借助Message传递数据
+                    Message message = new Message();
+//                    设置Message对象的参数
+                    message.what = 1;
+                    message.obj = resp;
+//                    发送Message
+                    handler.sendMessage(message);
+
+                    is.close();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }.start();
     }

@@ -67,7 +67,7 @@ public class RecycleAdapterMyMessage extends RecyclerView.Adapter<RecyclerView.V
             @Override
             public void onClick(View v) {
 //                deleteMessage(ConfigUtil.Url + "DeleteMessageServlet?userId=" + ConfigUtil.parent.getId());
-                deleteMessage(ConfigUtil.Url + "DeleteMessageServlet?userId=1");
+                deleteMessage(ConfigUtil.xt + "DeleteMessageServlet?userId=1");
                 messages.remove(position);
                 notifyDataSetChanged();
             }

@@ -153,7 +153,7 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
             public void onClick(View view) {
                 hotCityList.clear();
                 //清除数据库所有数据
-                clearHistorys(ConfigUtil.url+"DeleteHistoryServlet");
+                clearHistorys(ConfigUtil.xt+"DeleteHistoryServlet");
             }
         });
 
@@ -192,7 +192,7 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
     public void setUsePosition(){
         hotCityList.clear();
         //获取所有的
-        getHistorys(ConfigUtil.url+"GetHistoryServlet");
+        getHistorys(ConfigUtil.xt+"GetHistoryServlet");
 //        SuggestionResult.SuggestionInfo suggestionInfo = new SuggestionResult.SuggestionInfo();
 //        suggestionInfo.setKey("河北师范大学");
 //        suggestionInfo.setCity("石家庄市");
