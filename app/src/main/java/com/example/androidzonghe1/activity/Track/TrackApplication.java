@@ -54,7 +54,7 @@ public class TrackApplication extends Application {
 
     private LocRequest locRequest = null;
 
-    private Notification notification = null;
+    private static Notification notification = null;
 
     public Context mContext = null;
 
@@ -65,27 +65,28 @@ public class TrackApplication extends Application {
     /**
      * 轨迹客户端
      */
-    public LBSTraceClient mClient = null;
+    public static LBSTraceClient mClient = null;
 
     /**
      * 轨迹服务
      */
-    public Trace mTrace = null;
+    public static Trace mTrace = null;
 
     /**
      * 轨迹服务ID
      * 225228
      */
-    public long serviceId = 225208;
+    public static long serviceId = 225208;
 //    public long serviceId = 225228;
     /**
      * Entity标识
      */
-    public static String entityName = "lpy";
+    public static String entityName = "init";
+
 
     public boolean isRegisterReceiver = false;
 
-    boolean isNeedObjectStorage = false;
+    public static boolean isNeedObjectStorage = false;
 
     /**
      * 服务是否开启标识
@@ -166,6 +167,11 @@ public class TrackApplication extends Application {
         });
 
         clearTraceStatus();
+    }
+
+    public static void initTrace(){
+        mTrace = new Trace(serviceId, entityName,isNeedObjectStorage);
+        mTrace.setNotification(notification);
     }
 
     /**

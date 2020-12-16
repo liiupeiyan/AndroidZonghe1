@@ -155,7 +155,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                         order.setDriver(ConfigUtil.drivers.get(myPosition).getPhone());
                         chooseState.setText("已选择");
                         ConfigUtil.driverPhone = ConfigUtil.drivers.get(myPosition).getPhone();
-                        TrackApplication.entityName = ConfigUtil.driverPhone;
+//                        TrackApplication.entityName = ConfigUtil.driverPhone;
                         Log.e("orderDertailsActivity",ConfigUtil.driverPhone);
                         Log.e("entityName", TrackApplication.entityName);
                         bottomSheetDialog.dismiss();
