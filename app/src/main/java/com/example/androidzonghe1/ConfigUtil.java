@@ -1,5 +1,8 @@
 package com.example.androidzonghe1;
 
+import android.app.Application;
+
+import com.example.androidzonghe1.activity.Track.TrackApplication;
 import com.example.androidzonghe1.entity.lpyWork.DayTrip;
 import com.example.androidzonghe1.entity.lpyWork.Driver;
 import com.example.androidzonghe1.entity.lpyWork.Messages;
@@ -35,7 +38,8 @@ public class ConfigUtil {
     public static String driverPhone = "";
 
     //徐婷连接到服务器
-    public static final String xt = "http://10.7.90.141:8080/Dingdongg/";
+//    public static final String xt = "http://10.7.90.141:8080/Dingdongg/";
+    public static final String xt = "http://10.7.90.227:8080/Dingdongg/";
     //任佳旭连接服务器
 //    public static final String Url = "http://192.168.43.52:8080/DingDong/";
 //    public static final String Url = "http://10.7.90.67:8080/DingDong/";
@@ -45,6 +49,7 @@ public class ConfigUtil {
 //    public static final String URL = "http://59.110.228.91:8080/DingDong/";
 
     public static boolean adapterFlag =  true;
+
 
     ///是否下单
     public static boolean flagOrder = false;
@@ -65,7 +70,7 @@ public class ConfigUtil {
     public static void initDrivers(){
         for(int i = 0 ; i < 10; i++){
             Driver driver = new Driver();
-            driver.setImg(R.drawable.driver_img);
+//            driver.setImg(R.drawable.driver_img);
             driver.setName("刘培焱");
             driver.setAge(18);
             if (i%3 != 0){
