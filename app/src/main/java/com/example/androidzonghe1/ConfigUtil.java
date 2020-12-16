@@ -38,8 +38,8 @@ public class ConfigUtil {
     public static String driverPhone = "";
 
     //徐婷连接到服务器
-//    public static final String xt = "http://10.7.90.141:8080/Dingdongg/";
-    public static final String xt = "http://10.7.90.227:8080/Dingdongg/";
+    public static final String xt = "http://10.7.90.141:8080/Dingdongg/";
+//    public static final String xt = "http://10.7.90.227:8080/Dingdongg/";
     //任佳旭连接服务器
 //    public static final String Url = "http://192.168.43.52:8080/DingDong/";
 //    public static final String Url = "http://10.7.90.67:8080/DingDong/";

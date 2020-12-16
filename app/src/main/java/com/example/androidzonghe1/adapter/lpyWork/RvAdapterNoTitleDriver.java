@@ -54,7 +54,7 @@ public class RvAdapterNoTitleDriver extends RecyclerView.Adapter<RecyclerView.Vi
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Log.e("BindView","true");
         Log.e("flag",drivers.get(position).getFlag()+"");
-        ((Myholder) holder).itemD.setBackgroundResource(drivers.get(position).getFlag()>0 ? R.drawable.shape_red_frame : R.drawable.radius_lpy);
+        ((Myholder) holder).itemD.setBackgroundResource(drivers.get(position).getFlag()>0 ? R.drawable.shape_blue_frame : R.drawable.radius_lpy);
         Glide.with(mContext)
                     .load(drivers.get(position).getImg())
                 .load(R.drawable.driver_img)
