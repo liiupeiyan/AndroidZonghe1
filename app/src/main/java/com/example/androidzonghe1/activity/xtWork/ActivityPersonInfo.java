@@ -98,8 +98,8 @@ public class ActivityPersonInfo extends AppCompatActivity {
                     if(!stringBuffer.toString().equals("false")){
                         try {
                             JSONObject object = new JSONObject(stringBuffer.toString());
-                            btnAddressUsual.setText(object.getString("address"));
-                            btnAddressChild.setText(object.getString("destinction"));
+                            btnAddressUsual.setText(object.getString("destinction"));
+                            btnAddressChild.setText(object.getString("address"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
