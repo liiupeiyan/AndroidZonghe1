@@ -60,7 +60,7 @@ public class FragmentMy extends Fragment {
             super.handleMessage(msg);
             switch (msg.what){
                 case 1:
-                    RequestOptions options = new RequestOptions().circleCrop();
+                    RequestOptions options = new RequestOptions().circleCrop().placeholder(R.drawable.loading);
                     Glide.with(getContext())
                             .load(msg.obj)
                             .apply(options)

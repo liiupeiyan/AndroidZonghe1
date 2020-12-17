@@ -2,6 +2,51 @@ package com.example.androidzonghe1.entity.yjWork;
 
 public class Parent {
     private int id;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     private String name;
     private String child_name;//孩子名字
     private String phone;//电话号码

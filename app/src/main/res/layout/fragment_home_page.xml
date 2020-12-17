@@ -89,7 +89,7 @@
                 app:tabGravity="center"
                 app:tabMode="fixed"
                 app:tabSelectedTextColor="@color/black"
-                app:tabTextColor="#ff0000">
+                app:tabTextColor="@color/dark_gray">
             </com.google.android.material.tabs.TabLayout>
         </com.google.android.material.appbar.AppBarLayout>
 <!--        <androidx.fragment.app.FragmentTabHost-->

@@ -83,7 +83,7 @@ public class ActivityPersonInfo extends AppCompatActivity {
             super.handleMessage(msg);
             switch (msg.what){
                 case 1:
-                    RequestOptions options = new RequestOptions().circleCrop();
+                    RequestOptions options = new RequestOptions().circleCrop().placeholder(R.drawable.loading);
                     Glide.with(ActivityPersonInfo.this)
                             .load(msg.obj)
                             .apply(options)
@@ -98,8 +98,8 @@ public class ActivityPersonInfo extends AppCompatActivity {
                     if(!stringBuffer.toString().equals("false")){
                         try {
                             JSONObject object = new JSONObject(stringBuffer.toString());
-                            btnAddressUsual.setText(object.getString("address"));
-                            btnAddressChild.setText(object.getString("destinction"));
+                            btnAddressUsual.setText(object.getString("destinction"));
+                            btnAddressChild.setText(object.getString("address"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -298,6 +298,7 @@ public class ActivityPersonInfo extends AppCompatActivity {
                 if (resultCode == 0){
                     infoHome = data.getExtras().getParcelable("suggestionInfo");
                     Log.e("suggestionInfo",infoHome.toString());
+                    ConfigUtil.homeAddress = infoHome;
                     homeName =  infoHome.key;
                     uploadHomeAddress(ConfigUtil.xt+"AddLocateServlet");
                     //修改数据库

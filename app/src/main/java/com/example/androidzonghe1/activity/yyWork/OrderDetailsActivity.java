@@ -122,11 +122,11 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                     ConfigUtil.initDrivers();
                 }
 
-                Log.e("",ConfigUtil.drivers.toString());
+                Log.e("OrderDetails--drivers",ConfigUtil.drivers.toString());
                 adapter = new RvAdapterNoTitleDriver(ConfigUtil.drivers);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 recyclerView.setAdapter(adapter);
-                myPosition = adapter.getMyPosition();
+                Log.e("OrderDetial--position",myPosition+"");
 //                listView.setAdapter(driverAdapter);
                 //取消按钮
                 btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -151,12 +151,13 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
                         driverInfo.setVisibility(View.VISIBLE);
                         RequestOptions options = new RequestOptions()
                                 .placeholder(R.drawable.loading);
-                        Glide.with(getApplicationContext())
+                        Glide.with(OrderDetailsActivity.this)
 //                    .load(drivers.get(position-1).getImg())
                                 .load(ConfigUtil.xt+ConfigUtil.drivers.get(myPosition).getImg())
                                 .apply(options)
                                 .into(driverImg);
 //                        driverImg.setImageResource(ConfigUtil.drivers.get(myPosition).getImg());
+                        myPosition = RvAdapterNoTitleDriver.myPosition;
                         chooseDriver.setText("更换司机");
                         ivChooseDrivedr.setImageResource(R.drawable.spot1);
                         getIvChooseDrivedrLine.setImageResource(R.drawable.hline2);

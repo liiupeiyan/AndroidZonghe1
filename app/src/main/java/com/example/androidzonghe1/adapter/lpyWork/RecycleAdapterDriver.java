@@ -89,7 +89,6 @@ public class RecycleAdapterDriver extends RecyclerView.Adapter<RecyclerView.View
             RequestOptions options = new RequestOptions()
                     .placeholder(R.drawable.loading);
             Glide.with(mContext)
-//                    .load(drivers.get(position-1).getImg())
                     .load(ConfigUtil.xt+drivers.get(position-1).getImg())
                     .apply(options)
                     .into(((Myholder)holder).img);

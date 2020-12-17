@@ -2,6 +2,7 @@ package com.example.androidzonghe1;
 
 import android.app.Application;
 
+import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.example.androidzonghe1.activity.Track.TrackApplication;
 import com.example.androidzonghe1.entity.lpyWork.DayTrip;
 import com.example.androidzonghe1.entity.lpyWork.Driver;
@@ -24,11 +25,11 @@ public class ConfigUtil {
     public static String userName = "";
     //当前手机号
     public static String phone="";
-    //当前用户与孩子的关系
-    public static String relationship = "";
 
     //当前搜索学校
     public static String school="";
+    //当前选定的家庭地址
+    public static SuggestionResult.SuggestionInfo homeAddress;
     //搜索学校的经纬度
     public static double latitude = 0;
     public static double longitude = 0;
@@ -38,8 +39,8 @@ public class ConfigUtil {
     public static String driverPhone = "";
 
     //徐婷连接到服务器
-//    public static final String xt = "http://10.7.90.141:8080/Dingdongg/";
-    public static final String xt = "http://10.7.90.227:8080/Dingdongg/";
+    public static final String xt = "http://10.7.90.141:8080/Dingdongg/";
+//    public static final String xt = "http://10.7.90.227:8080/Dingdongg/";
     //任佳旭连接服务器
 //    public static final String Url = "http://192.168.43.52:8080/DingDong/";
 //    public static final String Url = "http://10.7.90.67:8080/DingDong/";
@@ -49,7 +50,6 @@ public class ConfigUtil {
 //    public static final String URL = "http://59.110.228.91:8080/DingDong/";
 
     public static boolean adapterFlag =  true;
-
 
     ///是否下单
     public static boolean flagOrder = false;

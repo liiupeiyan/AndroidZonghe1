@@ -106,6 +106,12 @@ public class FragmentSameSchoolParents extends Fragment {
                             case "姐姐":
                                 locate.setImg(R.drawable.overlay_m);
                                 break;
+                            case "外婆":
+                                locate.setImg(R.drawable.overlay_g_m);
+                                break;
+                            case "外公":
+                                locate.setImg(R.drawable.overlay_g_f);
+                                break;
                         }
                     };
                     //添加覆盖物
@@ -152,12 +158,9 @@ public class FragmentSameSchoolParents extends Fragment {
     }
 
     private void mapCustom(){
-        //比例尺
-        Log.e("默认的比例尺大小",mapView.getMapLevel()+"");
         //修改比例尺
-        MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(16.0f);
+        MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(15.0f);
         baiduMap.setMapStatus(msu);
-        baiduMap.setMaxAndMinZoomLevel(19,13);
         //隐藏百度图标
         View logo = mapView.getChildAt(1);
         if (logo != null && (logo instanceof ImageView || logo instanceof ZoomControls)){
@@ -190,7 +193,9 @@ public class FragmentSameSchoolParents extends Fragment {
         //设置坐标系类型
         option.setCoorType("bd09ll");
         //设置定位模式，使用低功耗定位模式
-        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+        //设置地址信息
+        option.setIsNeedAddress(true);
         //4.将定位参数应用到定位客户端
         locationClient.setLocOption(option);
         //5.设置定位成功的监听器（实现异步定位操作，定位成功后会自动回调抽象方法）
@@ -250,8 +255,10 @@ public class FragmentSameSchoolParents extends Fragment {
         option.setOpenGps(true);
         //设置坐标系类型
         option.setCoorType("bd09ll");
+        //设置地址信息
+        option.setIsNeedAddress(true);
         //设置定位模式，使用低功耗定位模式
-        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         //4.将定位参数应用到定位客户端
         locationClient.setLocOption(option);
         //5.设置定位成功的监听器（实现异步定位操作，定位成功后会自动回调抽象方法）
@@ -277,7 +284,7 @@ public class FragmentSameSchoolParents extends Fragment {
                 MyLocationConfiguration configuration = new MyLocationConfiguration(
                         MyLocationConfiguration.LocationMode.COMPASS,//定位图层
                         true,
-                        BitmapDescriptorFactory.fromResource(R.drawable.position_lpy));//默认小图标
+                        BitmapDescriptorFactory.fromResource(R.drawable.school_marker));//默认小图标
                 //在地图显示定位图层
                 baiduMap.setMyLocationConfiguration(configuration);
                 baiduMap.setMyLocationEnabled(true);
@@ -297,6 +304,21 @@ public class FragmentSameSchoolParents extends Fragment {
 
     //添加标注覆盖物（在地图界面某个坐标点显示小图标）
     public void addMarkerOverLay(){
+        //添加之前先删除所有覆盖物
+        baiduMap.clear();
+        if (ConfigUtil.homeAddress!=null){
+            BitmapDescriptor icon1 = BitmapDescriptorFactory.fromResource(R.drawable.home_marker);
+            LatLng point1 = new LatLng(ConfigUtil.homeAddress.getPt().latitude,ConfigUtil.homeAddress.getPt().longitude);
+            OverlayOptions option1 = new MarkerOptions()
+                    .position(point1)
+                    .icon(icon1);
+            options.add(option1);
+            //修改比例尺
+            MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(14.0f);
+            baiduMap.setMapStatus(msu);
+        }
+        Log.e("addMarker","true");
+        Log.e("locates",locates.toString());
         for (Locate locate: locates) {
             BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(locate.getImg());
             LatLng point = new LatLng(locate.getLatitude(),locate.getLongitude());
@@ -390,7 +412,6 @@ public class FragmentSameSchoolParents extends Fragment {
             @Override
             public void run() {
                 super.run();
-
                 try {
                     URL url = new URL(str+"?name="+ConfigUtil.school+"");
                     //获取网络连接对象URLConnection

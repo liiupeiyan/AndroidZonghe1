@@ -109,6 +109,9 @@ public class RecycleAdapterDayTrip extends RecyclerView.Adapter<RecyclerView.Vie
                         bundle.putString("date",date);
                         bundle.putString("time",time);
                         bundle.putString("state",state);
+                        if(state.equals("已完成")){
+                            bundle.putString("endTime",endTime);
+                        }
 //                        bundle.putString("endTime",endTime);
                         bundle.putString("from",from);
                         bundle.putString("to",to);

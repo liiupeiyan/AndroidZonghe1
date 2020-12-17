@@ -106,7 +106,7 @@ public class FragmentHomePage extends Fragment {
                     Log.e("tripHandleMessage","true"+msg.obj.toString());
                     String json = msg.obj.toString();
                     try {
-                        ConfigUtil.trip.clear();
+                        ConfigUtil.trip=new ArrayList<>();
                         JSONArray jsonArray = new JSONArray(json);
                         for (int i = 0;i<jsonArray.length();i++){
                             JSONObject object = jsonArray.getJSONObject(i);
@@ -119,7 +119,9 @@ public class FragmentHomePage extends Fragment {
                             order.setDate(object.getString("date"));
                             order.setTime(object.getString("time"));
                             order.setState(object.getString("status"));
-//                            order.setEndTime(object.getString("timeend"));
+                            if(order.getState().equals("已完成")){
+                                order.setEndTime(object.getString("timeend"));
+                            }
                             order.setPrice(object.getDouble("price"));
                             Log.e("jsonObjec...",order.toString());
                             ConfigUtil.trip.add(order);

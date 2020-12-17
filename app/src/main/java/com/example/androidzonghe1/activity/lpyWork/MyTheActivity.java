@@ -76,7 +76,7 @@ public class MyTheActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_the);
-        getAllDrivers(ConfigUtil.xt+"");
+//        getAllDrivers(ConfigUtil.xt+"");
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         getAllDrivers(ConfigUtil.xt+"GetDriverServlet");
         findViews();

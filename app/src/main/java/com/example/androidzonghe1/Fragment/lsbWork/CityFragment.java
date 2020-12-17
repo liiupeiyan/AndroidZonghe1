@@ -83,6 +83,7 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
     protected List<CityEntity> searchCityList = new ArrayList<>();
     public static List<SuggestionResult.SuggestionInfo> hotCityList = new ArrayList<>();
     protected CityListAdapter cityListAdapter;
+    private SuggestionResult.SuggestionInfo info;
     protected SearchCityListAdapter searchCityListAdapter;
     private Handler handler = new Handler(){
         @Override
@@ -90,39 +91,51 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
             super.handleMessage(msg);
             switch (msg.what){
                 case 1:
-                    String jsonList = msg.obj.toString();
-                    Gson gson = new Gson();
-                    Type collectionType = new TypeToken<List<History>>() {}.getType();
-                    List<History> histories = gson.fromJson(jsonList, collectionType);
-                    for (History history: histories) {
-                        SuggestionResult.SuggestionInfo suggestionInfo = new SuggestionResult.SuggestionInfo();
-                        suggestionInfo.setKey(history.getKey());
-                        suggestionInfo.setCity(history.getCity());
+                    if (!msg.obj.equals("")){
+                        hotCityList.clear();
+                        String jsonList = msg.obj.toString();
+                        Log.e("hotCityList",jsonList);
+                        Gson gson = new Gson();
+                        Type collectionType = new TypeToken<List<History>>() {}.getType();
+                        List<History> histories = gson.fromJson(jsonList, collectionType);
+                        for (History history: histories) {
+                            SuggestionResult.SuggestionInfo suggestionInfo = new SuggestionResult.SuggestionInfo();
+                            suggestionInfo.setKey(history.getKey());
+                            suggestionInfo.setCity(history.getCity());
 //                        suggestionInfo.setDistrict("裕华区");
-                        suggestionInfo.setPt(new LatLng(history.getLatitude(), history.getLongitude()));
+                            suggestionInfo.setPt(new LatLng(history.getLatitude(), history.getLongitude()));
 //                        suggestionInfo.setUid("42362707d679c71f5cbe86c3");
 //                        suggestionInfo.setTag("高校");
 //                        suggestionInfo.setAddress("石家庄市-裕华区-南二环东路20号");
                         hotCityList.add(suggestionInfo);
-                    };
-                    adapter = new HotCityListAdapter(getContext(), hotCityList);
-                    Log.e("size",hotCityList.size()+"");
-//        adapter.notifyDataSetChanged();
-                    hotCityGv.setAdapter(adapter);
-                    hotCityGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent response = new Intent();
-                            Bundle b = new Bundle();
-                            Log.e("info",hotCityList.get(position).toString());
-                            b.putParcelable("suggestionInfo", hotCityList.get(position));
-                            response.putExtras(b);
-                            getActivity().setResult(0, response);
-                            getActivity().finish();
-                        }
-                    });
+                        };
+                        adapter = new HotCityListAdapter(getContext(), hotCityList);
+                        Log.e("size",hotCityList.size()+"");
+//                        hotCityGv.setAdapter(adapter);
+                        hotCityGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Intent response = new Intent();
+                                Bundle b = new Bundle();
+                                Log.e("info",hotCityList.get(position).toString());
+                                b.putParcelable("suggestionInfo", hotCityList.get(position));
+                                info = hotCityList.get(position);
+                                addUsePosition();
+                                uploadHistory(ConfigUtil.xt+"AddHistoryServlet");
+                                Log.e("CityGrid-suggestinfo",info.toString());
+                                response.putExtras(b);
+                                getActivity().setResult(0, response);
+                                getActivity().finish();
+                            }
+                        });
+                    }
+                    break;
+                case 2:
+
                     break;
             }
+            hotCityGv.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
     };
 
@@ -154,6 +167,7 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
                 hotCityList.clear();
                 //清除数据库所有数据
                 clearHistorys(ConfigUtil.xt+"DeleteHistoryServlet");
+                searchCityListAdapter.notifyDataSetChanged();
             }
         });
 
@@ -193,16 +207,6 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
         hotCityList.clear();
         //获取所有的
         getHistorys(ConfigUtil.xt+"GetHistoryServlet");
-//        SuggestionResult.SuggestionInfo suggestionInfo = new SuggestionResult.SuggestionInfo();
-//        suggestionInfo.setKey("河北师范大学");
-//        suggestionInfo.setCity("石家庄市");
-//        suggestionInfo.setDistrict("裕华区");
-//        suggestionInfo.setPt(new LatLng(38.003617, 114.526421));
-//        suggestionInfo.setUid("42362707d679c71f5cbe86c3");
-//        suggestionInfo.setTag("高校");
-//        suggestionInfo.setAddress("石家庄市-裕华区-南二环东路20号");
-//        suggestionInfo.setPoiChildrenInfoList(null);
-//        hotCityList.add(suggestionInfo);
     }
 
 
@@ -530,6 +534,9 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
                     System.out.println(deleteFlag);
                     is.close();
                     os.close();
+                    Message message = new Message();
+                    message.what = 2;
+                    handler.sendMessage(message);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (MalformedURLException e) {
@@ -551,7 +558,7 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
                 super.run();
                 //获取搜索地址名和城市名和当前用户名手机号
                 try {
-                    URL url = new URL(str+"?phone=123456");
+                    URL url = new URL(str+"?phone="+ConfigUtil.phone);
                     //获取网络连接对象URLConnection
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 //                    OutputStream os = connection.getOutputStream();
@@ -580,5 +587,61 @@ public class CityFragment extends Fragment implements AbsListView.OnScrollListen
                 }
             }
         }.start();
+    }
+
+    //增加历史搜索记录提交到服务端
+    private void uploadHistory(final String str){
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                //获取搜索地址名和城市名和当前用户名手机号
+                History history = new History();
+                history.setUserPhone(ConfigUtil.phone);//假数据
+                history.setCity(info.city);
+                history.setKey(info.key);
+                history.setLatitude(info.getPt().latitude);
+                history.setLongitude(info.getPt().longitude);
+                try {
+                    Gson gson = new Gson();
+                    String jsonObject = gson.toJson(history);
+                    URL url = new URL(str);
+                    //获取网络连接对象URLConnection
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    OutputStream os = connection.getOutputStream();
+                    os.write(jsonObject.getBytes());
+                    os.flush();
+                    //获取网络输入流
+                    InputStream is = connection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is,"UTF-8"));
+                    String addFlag = reader.readLine();
+                    System.out.println(addFlag);
+                    is.close();
+                    os.close();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    //增加搜索数据
+    public void addUsePosition(){
+        //获取所有的
+        SuggestionResult.SuggestionInfo suggestionInfo = new SuggestionResult.SuggestionInfo();
+        suggestionInfo.setKey(info.key);
+        suggestionInfo.setCity(info.city);
+//        suggestionInfo.setDistrict("裕华区");
+        suggestionInfo.setPt(new LatLng(info.pt.latitude, info.getPt().longitude));
+//        suggestionInfo.setUid("42362707d679c71f5cbe86c3");
+//        suggestionInfo.setTag("高校");
+//        suggestionInfo.setAddress("石家庄市-裕华区-南二环东路20号");
+        suggestionInfo.setPoiChildrenInfoList(null);
+        CityFragment.hotCityList.add(suggestionInfo);
     }
 }

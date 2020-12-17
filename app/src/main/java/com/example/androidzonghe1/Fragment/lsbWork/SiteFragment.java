@@ -82,7 +82,7 @@ public class SiteFragment extends Fragment {
                 super.run();
                 //获取搜索地址名和城市名和当前用户名手机号
                 History history = new History();
-                history.setUserPhone("123456");//假数据
+                history.setUserPhone(ConfigUtil.phone);//假数据
                 history.setCity(info.city);
                 history.setKey(info.key);
                 history.setLatitude(info.getPt().latitude);
