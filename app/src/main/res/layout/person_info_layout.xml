@@ -98,8 +98,8 @@
                 android:src="@drawable/dingwei"/>
             <TextView
                 android:layout_marginLeft="10dp"
-                android:gravity="center"
                 android:textSize="15sp"
+                android:gravity="left|center"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:text="常用地址"/>
@@ -110,6 +110,7 @@
             android:id="@+id/et_gerenxinxi_address_usually"
             android:layout_marginLeft="30dp"
             android:text="河北师范大学"
+            android:gravity="left|center"
             android:background="@drawable/none_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -124,6 +125,7 @@
             android:id="@+id/et_gerenxinxi_child_adress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="left|center"
             android:layout_marginLeft="30dp"
             android:background="@drawable/none_style"
             android:hint="@string/child_address" />

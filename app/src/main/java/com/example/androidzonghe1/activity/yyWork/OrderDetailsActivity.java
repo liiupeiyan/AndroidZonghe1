@@ -194,7 +194,7 @@ public class OrderDetailsActivity extends AppCompatActivity implements View.OnCl
         }
         tvSpend.setText(gl+"");
         //计算价格，每公里15元写入tvPrice中
-        tvPrice.setText(gl*15+"");
+        tvPrice.setText(gl*3+"");
         tvHope.setOnClickListener(this);
         tvGo.setOnClickListener(this);
         tvBack.setOnClickListener(this);

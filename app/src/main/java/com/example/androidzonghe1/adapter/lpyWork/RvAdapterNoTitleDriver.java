@@ -16,8 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.example.androidzonghe1.ConfigUtil;
 import com.example.androidzonghe1.R;
 import com.example.androidzonghe1.activity.yyWork.OrderDetailsActivity;
 import com.example.androidzonghe1.adapter.lsbWork.KidsAdapter;
@@ -33,7 +31,7 @@ public class RvAdapterNoTitleDriver extends RecyclerView.Adapter<RecyclerView.Vi
     private Context mContext;
     private OnItemClickListener onItemClickListener;
 
-    public static int myPosition;
+    private int myPosition;
     private LayoutInflater layoutInflater;
     public RvAdapterNoTitleDriver(List<Driver> data) {
         this.drivers = data;
@@ -57,11 +55,9 @@ public class RvAdapterNoTitleDriver extends RecyclerView.Adapter<RecyclerView.Vi
         Log.e("BindView","true");
         Log.e("flag",drivers.get(position).getFlag()+"");
         ((Myholder) holder).itemD.setBackgroundResource(drivers.get(position).getFlag()>0 ? R.drawable.shape_red_frame : R.drawable.radius_lpy);
-        RequestOptions options = new RequestOptions()
-                .placeholder(R.drawable.loading);
         Glide.with(mContext)
-                .load(ConfigUtil.xt+drivers.get(position).getImg())
-                .apply(options)
+                    .load(drivers.get(position).getImg())
+                .load(R.drawable.driver_img)
                 .into(((Myholder)holder).img);
         ((Myholder) holder).name.setText(drivers.get(position).getName());
         ((Myholder) holder).age.setText(drivers.get(position).getAge()+"岁");
@@ -90,7 +86,6 @@ public class RvAdapterNoTitleDriver extends RecyclerView.Adapter<RecyclerView.Vi
 //                Intent intent = new Intent(mContext, OrderDetailsActivity.class);
 //                mContext.startActivity(intent);
                 myPosition = position;
-                Log.e("myPostion--DriverAter",myPosition+"");
 //                ((Myholder) holder).itemD.setBackgroundResource(R.drawable.shape_red_frame);
                 for (int i = 0; i < drivers.size() ;i++){
                     drivers.get(i).setFlag(0);
@@ -100,6 +95,12 @@ public class RvAdapterNoTitleDriver extends RecyclerView.Adapter<RecyclerView.Vi
             }
         });
 
+
+
+    }
+
+    public int getMyPosition() {
+        return myPosition;
     }
 
     @Override
