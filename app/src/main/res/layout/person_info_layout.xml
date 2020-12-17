@@ -110,6 +110,7 @@
             android:id="@+id/et_gerenxinxi_address_usually"
             android:layout_marginLeft="30dp"
             android:text="河北师范大学"
+            android:gravity="left|center"
             android:background="@drawable/none_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
